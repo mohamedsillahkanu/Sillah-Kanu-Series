@@ -289,7 +289,29 @@
     
     @media (max-width: 1100px) { .flipbook-page { width: 380px; height: 510px; } .page-flip-container { width: 380px; height: 510px; } .page-flip-container.flip-forward { left: calc(380px + 17px); } }
     @media (max-width: 950px) { .flipbook-page { width: 320px; height: 430px; } .page-flip-container { width: 320px; height: 430px; } .page-flip-container.flip-forward { left: calc(320px + 17px); } .header { padding: 12px 15px; } .main { padding: 15px; } .shelf-row { min-height: 260px; gap: 25px; padding: 30px 30px 50px; } }
-    @media (max-width: 780px) { .flipbook-page-left, .book-spine-center, .page-stack-left, .page-stack-right { display: none; } .flip-backward { display: none !important; } .flipbook-page { width: 90vw; max-width: 360px; height: auto; aspect-ratio: 3/4; } .page-flip-container.flip-forward { left: 0; width: 90vw; max-width: 360px; } .header-text p { display: none; } .header-text h1 { font-size: 1.1rem; } .search-container { order: 3; flex: 100%; max-width: 100%; margin-top: 10px; } .shelf-row { gap: 20px; min-height: 220px; padding: 25px 20px 45px; } .book-front { width: 100px !important; height: 150px !important; } }
+    @media (max-width: 780px) { 
+      .flipbook-page-left, .book-spine-center, .page-stack-left, .page-stack-right { display: none; } 
+      .flip-backward { display: none !important; } 
+      .flipbook-page { width: 90vw; max-width: 400px; height: auto; aspect-ratio: 3/4; border-radius: 8px; }
+      .flipbook-page-right { border-radius: 8px; box-shadow: 0 10px 40px rgba(0,0,0,0.5); }
+      .flipbook-page-right canvas { border-radius: 8px; }
+      .page-flip-container.flip-forward { left: 0; width: 90vw; max-width: 400px; height: auto; aspect-ratio: 3/4; }
+      .page-flip-container .flip-page-front, .page-flip-container .flip-page-back { border-radius: 8px; }
+      .header-text p { display: none; } 
+      .header-text h1 { font-size: 1.1rem; } 
+      .search-container { order: 3; flex: 100%; max-width: 100%; margin-top: 10px; } 
+      .shelf-row { gap: 20px; min-height: 220px; padding: 25px 20px 45px; } 
+      .book-front { width: 100px !important; height: 150px !important; }
+      .nav-arrow { width: 50px; height: 50px; }
+      .nav-prev { left: 10px; }
+      .nav-next { right: 10px; }
+      .page-indicator { padding: 10px 15px; font-size: 0.85rem; }
+      .flipbook-container { padding: 15px 10px; }
+      .reader-header { padding: 10px 15px; flex-wrap: wrap; gap: 10px; }
+      .reader-title { font-size: 0.95rem; flex: 100%; }
+      .reader-controls { width: 100%; justify-content: space-between; }
+      .btn { padding: 8px 12px; font-size: 0.8rem; }
+    }
   </style>
 </head>
 <body>
@@ -465,6 +487,24 @@
           if (e.key === 'Escape') closeReader();
         }
       });
+      
+      // Touch swipe support for mobile
+      let touchStartX = 0;
+      let touchEndX = 0;
+      const flipbook = document.getElementById('flipbook');
+      
+      flipbook.addEventListener('touchstart', e => {
+        touchStartX = e.changedTouches[0].screenX;
+      }, { passive: true });
+      
+      flipbook.addEventListener('touchend', e => {
+        touchEndX = e.changedTouches[0].screenX;
+        const diff = touchStartX - touchEndX;
+        if (Math.abs(diff) > 50) { // minimum swipe distance
+          if (diff > 0) nextPage(); // swipe left = next
+          else prevPage(); // swipe right = prev
+        }
+      }, { passive: true });
     });
     
     function renderTabs() {
@@ -508,22 +548,86 @@
     function goToSection(i) { document.getElementById('searchResults').classList.remove('active'); document.getElementById('searchInput').value = ''; loadSection(i); }
     async function goToBook(si, bi) { document.getElementById('searchResults').classList.remove('active'); document.getElementById('searchInput').value = ''; await loadSection(si); setTimeout(() => openBook(bi), 300); }
     
-    // CORS proxy to fetch GitHub files
-    function proxyUrl(url) {
-      return 'https://corsproxy.io/?' + encodeURIComponent(url);
+    // Convert GitHub URL to jsdelivr CDN URL (has proper CORS)
+    function githubToJsdelivr(url) {
+      // Decode first to handle already-encoded URLs, then we'll re-encode properly
+      let decodedUrl = url;
+      try { decodedUrl = decodeURIComponent(url); } catch(e) {}
+      
+      // https://raw.githubusercontent.com/user/repo/branch/path
+      let match = decodedUrl.match(/raw\.githubusercontent\.com\/([^\/]+)\/([^\/]+)\/([^\/]+)\/(.+)/);
+      if (match) {
+        const [, user, repo, branch, path] = match;
+        // Encode path components but keep slashes
+        const encodedPath = path.split('/').map(p => encodeURIComponent(p)).join('/');
+        return `https://cdn.jsdelivr.net/gh/${user}/${repo}@${branch}/${encodedPath}`;
+      }
+      
+      // https://github.com/user/repo/raw/branch/path
+      match = decodedUrl.match(/github\.com\/([^\/]+)\/([^\/]+)\/raw\/([^\/]+)\/(.+)/);
+      if (match) {
+        const [, user, repo, branch, path] = match;
+        const encodedPath = path.split('/').map(p => encodeURIComponent(p)).join('/');
+        return `https://cdn.jsdelivr.net/gh/${user}/${repo}@${branch}/${encodedPath}`;
+      }
+      
+      return null;
     }
     
+    // CORS proxy to fetch GitHub files - multiple fallbacks
     async function fetchPdf(url) {
-      // Try direct fetch first, then proxy
-      try {
-        const res = await fetch(url);
-        if (res.ok) return await res.arrayBuffer();
-      } catch (e) {}
+      let lastError;
       
-      // Use CORS proxy
-      const proxyRes = await fetch(proxyUrl(url));
-      if (!proxyRes.ok) throw new Error('Failed to fetch PDF');
-      return await proxyRes.arrayBuffer();
+      // Try jsdelivr first (best for GitHub files)
+      const jsdelivrUrl = githubToJsdelivr(url);
+      if (jsdelivrUrl) {
+        try {
+          console.log('Trying jsdelivr:', jsdelivrUrl);
+          const res = await fetch(jsdelivrUrl);
+          if (res.ok) {
+            const arr = await res.arrayBuffer();
+            if (arr.byteLength > 1000) {
+              console.log('Success with jsdelivr');
+              return arr;
+            }
+          }
+        } catch (e) { 
+          console.log('jsdelivr failed:', e.message);
+          lastError = e; 
+        }
+      }
+      
+      // Fallback to CORS proxies
+      const corsProxies = [
+        u => 'https://api.codetabs.com/v1/proxy?quest=' + encodeURIComponent(u),
+        u => 'https://corsproxy.io/?' + encodeURIComponent(u),
+        u => 'https://api.allorigins.win/raw?url=' + encodeURIComponent(u)
+      ];
+      
+      for (const proxy of corsProxies) {
+        try {
+          const proxyUrl = proxy(url);
+          console.log('Trying proxy:', proxyUrl);
+          const res = await fetch(proxyUrl);
+          if (res.ok) {
+            const arr = await res.arrayBuffer();
+            if (arr.byteLength > 1000) {
+              console.log('Success with proxy');
+              return arr;
+            }
+          }
+        } catch (e) { 
+          console.log('Proxy failed:', e.message);
+          lastError = e; 
+        }
+      }
+      
+      throw lastError || new Error('All methods failed. Try renaming the file without spaces.');
+    }
+    
+    // Check if mobile
+    function isMobile() {
+      return window.innerWidth <= 780;
     }
     
     async function renderShelf() {
@@ -558,7 +662,7 @@
       try {
         const arr = await fetchPdf(book.url);
         currentPdf = await pdfjsLib.getDocument({data: arr.slice(0)}).promise;
-        totalPages = currentPdf.numPages; currentSpread = 0; currentPages = []; currentBook = book;
+        totalPages = currentPdf.numPages; currentSpread = 0; mobilePageIndex = 0; currentPages = []; currentBook = book;
         for (let p = 1; p <= totalPages; p++) currentPages.push(await currentPdf.getPage(p));
         document.getElementById('readerTitle').innerHTML = `${book.title} <span>${totalPages} pages</span>`;
         document.getElementById('totalPagesDisplay').textContent = totalPages;
@@ -578,9 +682,33 @@
     async function renderPage(page, canvas) { const vp = page.getViewport({scale: 1.5}); canvas.width = vp.width; canvas.height = vp.height; await page.render({canvasContext: canvas.getContext('2d'), viewport: vp}).promise; }
     function renderBlank(canvas) { canvas.width = 480; canvas.height = 640; canvas.getContext('2d').fillStyle = '#f8f8f8'; canvas.getContext('2d').fillRect(0, 0, 480, 640); }
     
+    // Mobile uses single page view (currentSpread = page index directly)
+    let mobilePageIndex = 0;
+    
     async function renderSpread() {
       const lc = document.getElementById('leftCanvas'), rc = document.getElementById('rightCanvas');
       const ln = document.getElementById('leftPageNum'), rn = document.getElementById('rightPageNum');
+      
+      if (isMobile()) {
+        // Mobile: single page view - show one page at a time
+        const pageIdx = mobilePageIndex;
+        if (pageIdx >= 0 && pageIdx < totalPages) {
+          await renderPage(currentPages[pageIdx], rc);
+          rn.textContent = pageIdx + 1;
+          rn.style.display = 'block';
+        } else {
+          renderBlank(rc);
+          rn.style.display = 'none';
+        }
+        document.getElementById('currentPageDisplay').textContent = pageIdx === 0 ? 'Cover' : pageIdx + 1;
+        document.getElementById('progressFill').style.width = `${((pageIdx + 1) / totalPages) * 100}%`;
+        document.getElementById('prevBtn').disabled = mobilePageIndex === 0;
+        document.getElementById('nextBtn').disabled = mobilePageIndex >= totalPages - 1;
+        updateActiveThumbnail();
+        return;
+      }
+      
+      // Desktop: spread view
       const li = v2a(currentSpread * 2), ri = v2a(currentSpread * 2 + 1);
       if (li >= 0 && li < totalPages) { await renderPage(currentPages[li], lc); ln.textContent = li + 1; ln.style.display = 'block'; } else { renderBlank(lc); ln.style.display = 'none'; }
       if (ri >= 0 && ri < totalPages) { await renderPage(currentPages[ri], rc); rn.textContent = ri + 1; rn.style.display = 'block'; } else { renderBlank(rc); rn.style.display = 'none'; }
@@ -603,7 +731,22 @@
     }
     
     async function nextPage() {
-      if (isFlipping || currentSpread >= getMS()) return;
+      if (isFlipping) return;
+      
+      if (isMobile()) {
+        // Mobile: single page navigation
+        if (mobilePageIndex >= totalPages - 1) return;
+        isFlipping = true; audioEngine.play();
+        const fc = document.getElementById('flipForwardContainer'), ff = document.getElementById('flipForwardFront'), fb = document.getElementById('flipForwardBack');
+        await renderPage(currentPages[mobilePageIndex], ff);
+        if (mobilePageIndex + 1 < totalPages) await renderPage(currentPages[mobilePageIndex + 1], fb); else renderBlank(fb);
+        fc.classList.add('flipping-forward');
+        setTimeout(async () => { fc.classList.remove('flipping-forward'); mobilePageIndex++; await renderSpread(); isFlipping = false; }, 600);
+        return;
+      }
+      
+      // Desktop: spread navigation
+      if (currentSpread >= getMS()) return;
       isFlipping = true; audioEngine.play();
       const fc = document.getElementById('flipForwardContainer'), ff = document.getElementById('flipForwardFront'), fb = document.getElementById('flipForwardBack');
       const ri = v2a(currentSpread * 2 + 1), nli = v2a((currentSpread + 1) * 2);
@@ -614,7 +757,35 @@
     }
     
     async function prevPage() {
-      if (isFlipping || currentSpread === 0) return;
+      if (isFlipping) return;
+      
+      if (isMobile()) {
+        // Mobile: single page navigation
+        if (mobilePageIndex <= 0) return;
+        isFlipping = true; audioEngine.play();
+        const fc = document.getElementById('flipForwardContainer'), ff = document.getElementById('flipForwardFront'), fb = document.getElementById('flipForwardBack');
+        await renderPage(currentPages[mobilePageIndex], ff);
+        await renderPage(currentPages[mobilePageIndex - 1], fb);
+        fc.style.transform = 'rotateY(-180deg)';
+        fc.style.display = 'block';
+        fc.style.animation = 'none';
+        setTimeout(() => {
+          fc.style.transition = 'transform 0.6s cubic-bezier(0.4, 0.0, 0.2, 1)';
+          fc.style.transform = 'rotateY(0deg)';
+        }, 10);
+        setTimeout(async () => { 
+          fc.style.display = 'none';
+          fc.style.transition = '';
+          fc.style.transform = '';
+          mobilePageIndex--; 
+          await renderSpread(); 
+          isFlipping = false; 
+        }, 610);
+        return;
+      }
+      
+      // Desktop: spread navigation
+      if (currentSpread === 0) return;
       isFlipping = true; audioEngine.play();
       const fc = document.getElementById('flipBackwardContainer'), ff = document.getElementById('flipBackwardFront'), fb = document.getElementById('flipBackwardBack');
       const li = v2a(currentSpread * 2), pri = v2a((currentSpread - 1) * 2 + 1);
@@ -626,7 +797,13 @@
     
     async function goToPage(pi) {
       if (isFlipping) return;
-      for (let s = 0; s <= getMS(); s++) { if (v2a(s * 2) === pi || v2a(s * 2 + 1) === pi) { audioEngine.play(); currentSpread = s; await renderSpread(); break; } }
+      audioEngine.play();
+      if (isMobile()) {
+        mobilePageIndex = pi;
+        await renderSpread();
+      } else {
+        for (let s = 0; s <= getMS(); s++) { if (v2a(s * 2) === pi || v2a(s * 2 + 1) === pi) { currentSpread = s; await renderSpread(); break; } }
+      }
       toggleThumbnails();
     }
     
@@ -642,7 +819,13 @@
       }
     }
     
-    function updateActiveThumbnail() { document.querySelectorAll('.thumbnail').forEach((t, i) => t.classList.toggle('active', i === v2a(currentSpread * 2) || i === v2a(currentSpread * 2 + 1))); }
+    function updateActiveThumbnail() { 
+      if (isMobile()) {
+        document.querySelectorAll('.thumbnail').forEach((t, i) => t.classList.toggle('active', i === mobilePageIndex));
+      } else {
+        document.querySelectorAll('.thumbnail').forEach((t, i) => t.classList.toggle('active', i === v2a(currentSpread * 2) || i === v2a(currentSpread * 2 + 1))); 
+      }
+    }
     function closeReader() { document.getElementById('readerView').classList.remove('active'); document.getElementById('thumbnailsSidebar').classList.remove('open'); thumbnailsOpen = false; }
     function toggleThumbnails() { thumbnailsOpen = !thumbnailsOpen; document.getElementById('thumbnailsSidebar').classList.toggle('open', thumbnailsOpen); }
     function toggleSound() { soundEnabled = !soundEnabled; document.getElementById('soundLabel').textContent = soundEnabled ? 'Sound' : 'Muted'; }
