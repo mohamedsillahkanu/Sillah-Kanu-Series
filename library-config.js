@@ -61,11 +61,54 @@ const libraryConfig = {
           title: 'Colouring Book for Kids',
           url: 'https://raw.githubusercontent.com/mohamedsillahkanu/book-shelf/c8b67ee6bd33025f8a9575008947d1ab97b12930/COLOURING%20BOOK%20FOR%20KIDS%20(2).pdf'
         },
-        // ADD MORE ENGLISH BOOKS BELOW:
-        // {
-        //   title: 'Writing Practice Volume One',
-        //   url: 'https://raw.githubusercontent/mohamedsillahkanu/book-shelf-v2/05b215cf8bcef9c03e0464fb0f2cbd1ad5bd3acd/Writing%20Practice%20Volume%20_1.pdf'
-        // },
+        {
+          title: 'Writing Practice Volume 1',
+          url: 'https://raw.githubusercontent.com/mohamedsillahkanu/book-shelf-v2/05b215cf8bcef9c03e0464fb0f2cbd1ad5bd3acd/Writing%20Practice%20Volume%20_1.pdf'
+        },
+        {
+          title: 'Writing Practice Volume 2',
+          url: 'https://raw.githubusercontent.com/mohamedsillahkanu/book-shelf-v2/05b215cf8bcef9c03e0464fb0f2cbd1ad5bd3acd/Writing%20Practice%20Volume%20_2.pdf'
+        },
+        {
+          title: 'Writing Practice Volume 3',
+          url: 'https://raw.githubusercontent.com/mohamedsillahkanu/book-shelf-v2/05b215cf8bcef9c03e0464fb0f2cbd1ad5bd3acd/Writing%20Practice%20Volume%20_3.pdf'
+        },
+        {
+          title: 'Writing Practice Volume 4',
+          url: 'https://raw.githubusercontent.com/mohamedsillahkanu/book-shelf-v2/05b215cf8bcef9c03e0464fb0f2cbd1ad5bd3acd/Writing%20Practice%20Volume%20_4.pdf'
+        },
+        {
+          title: 'Writing Practice Volume 5',
+          url: 'https://raw.githubusercontent.com/mohamedsillahkanu/book-shelf-v2/05b215cf8bcef9c03e0464fb0f2cbd1ad5bd3acd/Writing%20Practice%20Volume%20_5.pdf'
+        },
+        {
+          title: 'Writing Practice Volume 6',
+          url: 'https://raw.githubusercontent.com/mohamedsillahkanu/book-shelf-v2/05b215cf8bcef9c03e0464fb0f2cbd1ad5bd3acd/Writing%20Practice%20Volume%20_6.pdf'
+        },
+        {
+          title: 'Writing Practice Volume 7',
+          url: 'https://raw.githubusercontent.com/mohamedsillahkanu/book-shelf-v2/05b215cf8bcef9c03e0464fb0f2cbd1ad5bd3acd/Writing%20Practice%20Volume%20_7.pdf'
+        },
+        {
+          title: 'Writing Practice Volume 8',
+          url: 'https://raw.githubusercontent.com/mohamedsillahkanu/book-shelf-v2/05b215cf8bcef9c03e0464fb0f2cbd1ad5bd3acd/Writing%20Practice%20Volume%20_8.pdf'
+        },
+        {
+          title: 'Writing Practice Volume 9',
+          url: 'https://raw.githubusercontent.com/mohamedsillahkanu/book-shelf-v2/05b215cf8bcef9c03e0464fb0f2cbd1ad5bd3acd/Writing%20Practice%20Volume%20_9.pdf'
+        },
+        {
+          title: 'Writing Practice Volume 10',
+          url: 'https://raw.githubusercontent.com/mohamedsillahkanu/book-shelf-v2/05b215cf8bcef9c03e0464fb0f2cbd1ad5bd3acd/Writing%20Practice%20Volume%20_10.pdf'
+        },
+        {
+          title: 'Writing Practice Volume 11',
+          url: 'https://raw.githubusercontent.com/mohamedsillahkanu/book-shelf-v2/05b215cf8bcef9c03e0464fb0f2cbd1ad5bd3acd/Writing%20Practice%20Volume%20_11.pdf'
+        },
+        {
+          title: 'Writing Practice Volume 12',
+          url: 'https://raw.githubusercontent.com/mohamedsillahkanu/book-shelf-v2/05b215cf8bcef9c03e0464fb0f2cbd1ad5bd3acd/Writing%20Practice%20Volume%20_12.pdf'
+        }
       ]
     },
     
