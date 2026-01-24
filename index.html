@@ -464,32 +464,30 @@
   <div class="loading-overlay" id="loadingOverlay"><div class="loading-spinner"></div><div class="loading-text" id="loadingText">Loading...</div></div>
   <div class="notification" id="notification"></div>
 
+  <!-- LOAD EXTERNAL CONFIG FILE -->
+  <script src="library-config.js"></script>
+  
   <script>
     // ============================================
-    // LIBRARY CONFIGURATION - ADD YOUR BOOKS HERE
+    // LIBRARY DATA - Uses external config if available
     // ============================================
     
-    const libraryData = {
+    let libraryData = {
       sections: [
         { id: 'all', name: 'All Books', icon: '📚', description: 'Browse all publications' },
-        {
-          id: 'english',
-          name: 'English',
-          icon: '📖',
-          description: 'Language and literacy resources',
-          books: [
-            {
-              title: 'Colouring Book for Kids',
-              url: 'https://raw.githubusercontent.com/mohamedsillahkanu/book-shelf/c8b67ee6bd33025f8a9575008947d1ab97b12930/COLOURING%20BOOK%20FOR%20KIDS%20(2).pdf'
-            }
-          ]
-        },
+        { id: 'english', name: 'English', icon: '📖', description: 'Language and literacy resources', books: [] },
         { id: 'mathematics', name: 'Mathematics', icon: '📐', description: 'Math concepts and exercises', books: [] },
         { id: 'science', name: 'Science', icon: '🔬', description: 'Science and experiments', books: [] },
         { id: 'health', name: 'Health', icon: '🏥', description: 'Health education resources', books: [] },
         { id: 'technology', name: 'Technology', icon: '💻', description: 'IT and digital skills', books: [] }
       ]
     };
+    
+    // Use external config if loaded
+    if (typeof libraryConfig !== 'undefined') {
+      libraryData = libraryConfig;
+      console.log('Loaded external library configuration');
+    }
     
     // STATE
     let currentSectionIndex = 0, currentBooks = [], bookCovers = {}, currentBook = null, currentPdf = null;
@@ -510,7 +508,6 @@
         const noiseBuffer = this.ctx.createBuffer(1, bufferSize, this.ctx.sampleRate);
         const output = noiseBuffer.getChannelData(0);
         
-        // Create paper rustling sound with flap effect
         for (let i = 0; i < bufferSize; i++) {
           let noise = Math.random() * 2 - 1;
           const t = i / bufferSize;
@@ -542,7 +539,6 @@
         noiseSource.start(now);
         noiseSource.stop(now + duration);
         
-        // Page landing thump
         setTimeout(() => {
           const osc = this.ctx.createOscillator();
           const gain = this.ctx.createGain();
@@ -570,7 +566,6 @@
         }
       });
       
-      // Touch swipe support for mobile
       let touchStartX = 0;
       let touchEndX = 0;
       const flipbook = document.getElementById('flipbook');
@@ -582,9 +577,9 @@
       flipbook.addEventListener('touchend', e => {
         touchEndX = e.changedTouches[0].screenX;
         const diff = touchStartX - touchEndX;
-        if (Math.abs(diff) > 50) { // minimum swipe distance
-          if (diff > 0) nextPage(); // swipe left = next
-          else prevPage(); // swipe right = prev
+        if (Math.abs(diff) > 50) {
+          if (diff > 0) nextPage();
+          else prevPage();
         }
       }, { passive: true });
     });
@@ -630,14 +625,12 @@
     function goToSection(i) { document.getElementById('searchResults').classList.remove('active'); document.getElementById('searchInput').value = ''; loadSection(i); }
     async function goToBook(si, bi) { document.getElementById('searchResults').classList.remove('active'); document.getElementById('searchInput').value = ''; await loadSection(si); setTimeout(() => openBook(bi), 300); }
     
-    // Generate a nice blue cover with book title
     function generateCover(title, sectionIcon) {
       const canvas = document.createElement('canvas');
       canvas.width = 260;
       canvas.height = 380;
       const ctx = canvas.getContext('2d');
       
-      // Blue gradient background
       const gradient = ctx.createLinearGradient(0, 0, 260, 380);
       gradient.addColorStop(0, '#004080');
       gradient.addColorStop(0.5, '#003366');
@@ -645,14 +638,10 @@
       ctx.fillStyle = gradient;
       ctx.fillRect(0, 0, 260, 380);
       
-      // Decorative top bar
       ctx.fillStyle = '#ffc107';
       ctx.fillRect(0, 0, 260, 8);
-      
-      // Decorative bottom bar
       ctx.fillRect(0, 372, 260, 8);
       
-      // Decorative lines
       ctx.strokeStyle = 'rgba(255,255,255,0.1)';
       ctx.lineWidth = 1;
       for (let i = 0; i < 12; i++) {
@@ -662,18 +651,15 @@
         ctx.stroke();
       }
       
-      // Book icon
       ctx.font = '50px Arial';
       ctx.textAlign = 'center';
       ctx.fillStyle = 'rgba(255,255,255,0.15)';
       ctx.fillText('📖', 130, 100);
       
-      // Title
       ctx.fillStyle = 'white';
       ctx.font = 'bold 22px Oswald, Arial, sans-serif';
       ctx.textAlign = 'center';
       
-      // Word wrap title
       const words = title.split(' ');
       const lines = [];
       let currentLine = '';
@@ -691,7 +677,6 @@
       }
       lines.push(currentLine);
       
-      // Draw title lines centered
       const lineHeight = 30;
       const startY = 190 - ((lines.length - 1) * lineHeight) / 2;
       
@@ -699,13 +684,11 @@
         ctx.fillText(line, 130, startY + i * lineHeight);
       });
       
-      // Section icon at bottom
       if (sectionIcon) {
         ctx.font = '28px Arial';
         ctx.fillText(sectionIcon, 130, 340);
       }
       
-      // ICF-SL text at very bottom
       ctx.font = '12px Oswald, Arial, sans-serif';
       ctx.fillStyle = 'rgba(255,255,255,0.6)';
       ctx.fillText('ICF-SL Digital Library', 130, 362);
@@ -720,7 +703,6 @@
         return; 
       }
       
-      // Generate covers for all books (no loading needed - instant!)
       for (const book of currentBooks) {
         if (!bookCovers[book.title]) {
           bookCovers[book.title] = generateCover(book.title, book.sectionIcon);
@@ -748,12 +730,10 @@
       }).join('')}</div>`).join('');
     }
     
-    // Check if mobile
     function isMobile() {
       return window.innerWidth <= 780;
     }
     
-    // CORS proxy to fetch PDF when opening book
     async function fetchPdf(url) {
       const corsProxies = [
         u => 'https://api.codetabs.com/v1/proxy?quest=' + encodeURIComponent(u),
@@ -761,7 +741,6 @@
         u => 'https://api.allorigins.win/raw?url=' + encodeURIComponent(u)
       ];
       
-      // Try direct first
       try {
         const res = await fetch(url);
         if (res.ok) {
@@ -770,7 +749,6 @@
         }
       } catch (e) {}
       
-      // Try proxies
       for (const proxy of corsProxies) {
         try {
           const res = await fetch(proxy(url));
@@ -793,14 +771,14 @@
         totalPages = currentPdf.numPages; 
         currentSpread = 0; 
         mobilePageIndex = 0; 
-        currentPages = new Array(totalPages).fill(null); // Placeholder array
+        currentPages = new Array(totalPages).fill(null);
         currentBook = book;
         
         document.getElementById('readerTitle').innerHTML = `${book.title} <span>${totalPages} pages</span>`;
         document.getElementById('totalPagesDisplay').textContent = totalPages;
         
-        genThumbs(); // Generate page number thumbnails (instant)
-        await renderSpread(); // Only loads needed pages
+        genThumbs();
+        await renderSpread();
         updateStacks();
         
         document.getElementById('readerView').classList.add('active'); 
@@ -808,7 +786,6 @@
       } catch (e) { console.error('Error:', e); hideLoading(); showNotification('Error loading book. Check the URL.', 'error'); }
     }
     
-    // Lazy load a page only when needed
     async function getPage(pageIndex) {
       if (pageIndex < 0 || pageIndex >= totalPages) return null;
       if (!currentPages[pageIndex]) {
@@ -817,17 +794,14 @@
       return currentPages[pageIndex];
     }
     
-    // Preload adjacent pages in background for smoother navigation
     function preloadAdjacentPages() {
       if (isMobile()) {
-        // Preload next 2 and prev 1 pages
         [mobilePageIndex - 1, mobilePageIndex + 1, mobilePageIndex + 2].forEach(idx => {
           if (idx >= 0 && idx < totalPages && !currentPages[idx]) {
-            getPage(idx); // Fire and forget
+            getPage(idx);
           }
         });
       } else {
-        // Preload next and previous spread
         const pagesToPreload = [];
         for (let offset = -2; offset <= 3; offset++) {
           const vIdx = currentSpread * 2 + offset;
@@ -837,23 +811,22 @@
           }
         }
         pagesToPreload.forEach(idx => {
-          if (!currentPages[idx]) getPage(idx); // Fire and forget
+          if (!currentPages[idx]) getPage(idx);
         });
       }
     }
     
     function getVT() { return totalPages + 2 + (totalPages % 2); }
     function v2a(v) {
-      if (v === 0) return -1; // blank before cover
-      if (v >= 1 && v <= totalPages) return v - 1; // actual pages (1 to N maps to 0 to N-1)
-      return -1; // blank padding at end
+      if (v === 0) return -1;
+      if (v >= 1 && v <= totalPages) return v - 1;
+      return -1;
     }
     function getMS() { return (getVT() / 2) - 1; }
     
     async function renderPage(pageIndex, canvas) { 
       const page = await getPage(pageIndex);
       if (!page) { renderBlank(canvas); return; }
-      // Render at higher resolution for crisp display
       const scale = 2.0;
       const viewport = page.getViewport({scale: scale}); 
       canvas.width = viewport.width; 
@@ -872,7 +845,6 @@
       ctx.fillRect(0, 0, canvas.width, canvas.height); 
     }
     
-    // Mobile uses single page view (currentSpread = page index directly)
     let mobilePageIndex = 0;
     
     async function renderSpread() {
@@ -880,7 +852,6 @@
       const ln = document.getElementById('leftPageNum'), rn = document.getElementById('rightPageNum');
       
       if (isMobile()) {
-        // Mobile: single page view - show one page at a time
         const pageIdx = mobilePageIndex;
         if (pageIdx >= 0 && pageIdx < totalPages) {
           await renderPage(pageIdx, rc);
@@ -899,12 +870,10 @@
         return;
       }
       
-      // Desktop: spread view
       const li = v2a(currentSpread * 2), ri = v2a(currentSpread * 2 + 1);
       if (li >= 0 && li < totalPages) { await renderPage(li, lc); ln.textContent = li + 1; ln.style.display = 'block'; } else { renderBlank(lc); ln.style.display = 'none'; }
       if (ri >= 0 && ri < totalPages) { await renderPage(ri, rc); rn.textContent = ri + 1; rn.style.display = 'block'; } else { renderBlank(rc); rn.style.display = 'none'; }
       
-      // Update page display
       let displayPage = '';
       if (currentSpread === 0) {
         displayPage = 'Cover';
@@ -938,7 +907,6 @@
       if (isFlipping) return;
       
       if (isMobile()) {
-        // Mobile: single page navigation
         if (mobilePageIndex >= totalPages - 1) return;
         isFlipping = true; audioEngine.play();
         const fc = document.getElementById('flipForwardContainer'), ff = document.getElementById('flipForwardFront'), fb = document.getElementById('flipForwardBack');
@@ -949,7 +917,6 @@
         return;
       }
       
-      // Desktop: spread navigation
       if (currentSpread >= getMS()) return;
       isFlipping = true; audioEngine.play();
       const fc = document.getElementById('flipForwardContainer'), ff = document.getElementById('flipForwardFront'), fb = document.getElementById('flipForwardBack');
@@ -964,7 +931,6 @@
       if (isFlipping) return;
       
       if (isMobile()) {
-        // Mobile: single page navigation
         if (mobilePageIndex <= 0) return;
         isFlipping = true; audioEngine.play();
         const fc = document.getElementById('flipForwardContainer'), ff = document.getElementById('flipForwardFront'), fb = document.getElementById('flipForwardBack');
@@ -988,7 +954,6 @@
         return;
       }
       
-      // Desktop: spread navigation
       if (currentSpread === 0) return;
       isFlipping = true; audioEngine.play();
       const fc = document.getElementById('flipBackwardContainer'), ff = document.getElementById('flipBackwardFront'), fb = document.getElementById('flipBackwardBack');
@@ -1013,7 +978,6 @@
           } 
         }
       }
-      // Sidebar stays open for quick page selection
     }
     
     function genThumbs() {
