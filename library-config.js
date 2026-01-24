@@ -63,8 +63,8 @@ const libraryConfig = {
         },
         // ADD MORE ENGLISH BOOKS BELOW:
         // {
-        //   title: 'Book Title Here',
-        //   url: 'https://example.com/path/to/book.pdf'
+        //   title: 'Writing Practice Volume One',
+        //   url: 'https://raw.githubusercontent/mohamedsillahkanu/book-shelf-v2/05b215cf8bcef9c03e0464fb0f2cbd1ad5bd3acd/Writing%20Practice%20Volume%20_1.pdf'
         // },
       ]
     },
