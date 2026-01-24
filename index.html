@@ -1,0 +1,1815 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>ICF-SL Digital Library</title>
+  <link href="https://fonts.googleapis.com/css2?family=Oswald:wght@400;500;600;700&display=swap" rel="stylesheet">
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/pdf.js/3.11.174/pdf.min.js"></script>
+  <style>
+    :root {
+      --primary: #004080;
+      --primary-dark: #003060;
+      --primary-light: #0060a0;
+      --accent: #ffc107;
+      --accent-dark: #e0a800;
+      --white: #ffffff;
+      --gray-50: #f8fafc;
+      --gray-100: #f0f4f8;
+      --gray-200: #e2e8f0;
+      --gray-300: #cbd5e1;
+      --gray-600: #475569;
+      --gray-800: #1e293b;
+      --success: #28a745;
+      --shelf-base: #0a0a12;
+      --shelf-dark: #000000;
+      --shelf-accent: #004080;
+      --shelf-highlight: #0060a0;
+    }
+    
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
+    
+    body {
+      font-family: 'Oswald', Arial, sans-serif;
+      background: linear-gradient(180deg, #1a1a2e 0%, #16213e 100%);
+      min-height: 100vh;
+      color: #000;
+      font-weight: 500;
+    }
+    
+    /* Header */
+    .header {
+      background: var(--primary);
+      padding: 20px 40px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      box-shadow: 0 4px 20px rgba(0,0,0,0.3);
+      position: sticky;
+      top: 0;
+      z-index: 100;
+    }
+    
+    .header-brand {
+      display: flex;
+      align-items: center;
+      gap: 20px;
+      color: white;
+    }
+    
+    .logo-box {
+      background: white;
+      border-radius: 8px;
+      padding: 8px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+    
+    .logo-box img {
+      width: 50px;
+      height: 50px;
+      border-radius: 6px;
+      object-fit: cover;
+    }
+    
+    .header-text h1 {
+      font-size: 1.6rem;
+      font-weight: 700;
+      letter-spacing: 1px;
+    }
+    
+    .header-text p {
+      font-size: 0.85rem;
+      font-weight: 400;
+      opacity: 0.9;
+      font-style: italic;
+    }
+    
+    .header-actions {
+      display: flex;
+      gap: 12px;
+      align-items: center;
+    }
+    
+    .btn {
+      padding: 12px 20px;
+      border-radius: 6px;
+      font-size: 0.9rem;
+      font-weight: 600;
+      cursor: pointer;
+      font-family: 'Oswald', Arial, sans-serif;
+      text-transform: uppercase;
+      letter-spacing: 0.5px;
+      transition: all 0.3s ease;
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      border: 2px solid transparent;
+    }
+    
+    .btn-outline {
+      background: transparent;
+      border: 2px solid rgba(255,255,255,0.5);
+      color: white;
+    }
+    
+    .btn-outline:hover {
+      background: rgba(255,255,255,0.15);
+      border-color: white;
+    }
+    
+    .btn-outline.active {
+      background: var(--accent);
+      border-color: var(--accent);
+      color: #000;
+    }
+    
+    .btn-gold {
+      background: var(--accent);
+      border-color: var(--accent);
+      color: #000;
+    }
+    
+    .btn-gold:hover {
+      background: var(--accent-dark);
+      border-color: var(--accent-dark);
+      transform: translateY(-2px);
+    }
+    
+    /* Main Content */
+    .main {
+      padding: 30px 40px;
+      min-height: calc(100vh - 100px);
+    }
+    
+    /* Section Header */
+    .section-header {
+      background: var(--primary);
+      color: white;
+      padding: 15px 25px;
+      border-radius: 8px;
+      display: flex;
+      align-items: center;
+      gap: 15px;
+      margin-bottom: 25px;
+    }
+    
+    .section-icon {
+      background: white;
+      color: var(--primary);
+      width: 45px;
+      height: 45px;
+      border-radius: 50%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-weight: 700;
+    }
+    
+    .section-title {
+      font-size: 1.3rem;
+      font-weight: 700;
+      letter-spacing: 1px;
+      text-transform: uppercase;
+    }
+    
+    .section-subtitle {
+      font-size: 0.85rem;
+      font-weight: 400;
+      opacity: 0.9;
+    }
+    
+    /* Upload Zone */
+    .upload-section {
+      background: white;
+      border: 4px double var(--primary);
+      border-radius: 12px;
+      padding: 25px;
+      margin-bottom: 30px;
+    }
+    
+    .upload-zone {
+      border: 3px dashed var(--primary);
+      border-radius: 8px;
+      padding: 50px;
+      text-align: center;
+      background: var(--gray-50);
+      cursor: pointer;
+      transition: all 0.3s ease;
+    }
+    
+    .upload-zone:hover {
+      background: #e7f3ff;
+      border-color: var(--primary-light);
+    }
+    
+    .upload-zone.dragover {
+      background: #d4edda;
+      border-color: var(--success);
+    }
+    
+    .upload-icon {
+      font-size: 60px;
+      margin-bottom: 15px;
+    }
+    
+    .upload-text {
+      font-size: 1.2rem;
+      color: var(--primary);
+      font-weight: 700;
+      text-transform: uppercase;
+      letter-spacing: 1px;
+    }
+    
+    .upload-hint {
+      font-size: 0.9rem;
+      color: var(--gray-600);
+      margin-top: 10px;
+    }
+    
+    /* Bookshelf */
+    .bookshelf-container {
+      perspective: 1500px;
+    }
+    
+    .bookshelf {
+      background: 
+        radial-gradient(circle at center, #3a4050 1.5px, transparent 1.5px);
+      background-size: 10px 10px;
+      background-color: #1e2028;
+      border-radius: 16px;
+      padding: 0;
+      position: relative;
+      box-shadow: 
+        0 30px 80px rgba(0,0,0,0.8),
+        inset 0 1px 0 rgba(255,255,255,0.05),
+        inset 0 -1px 0 rgba(0,0,0,0.5);
+      border: 1px solid #2a2d35;
+      overflow: hidden;
+    }
+    
+    .bookshelf::before {
+      content: '';
+      position: absolute;
+      top: 0;
+      left: 0;
+      right: 0;
+      bottom: 0;
+      background: radial-gradient(ellipse at 50% 0%, rgba(0,212,255,0.03) 0%, transparent 60%);
+      pointer-events: none;
+      z-index: 1;
+    }
+    
+    .shelf-row {
+      display: flex;
+      gap: 35px;
+      padding: 40px 50px 55px;
+      min-height: 300px;
+      align-items: flex-end;
+      justify-content: flex-start;
+      position: relative;
+      flex-wrap: wrap;
+      z-index: 2;
+    }
+    
+    /* Black shelf platform */
+    .shelf-row::before {
+      content: '';
+      position: absolute;
+      bottom: 0;
+      left: 0;
+      right: 0;
+      height: 40px;
+      background: linear-gradient(180deg, 
+        #35393f 0%,
+        #25282e 30%,
+        #1a1c20 70%,
+        #0f1012 100%
+      );
+      border-top: 1px solid #45494f;
+      box-shadow: 
+        inset 0 2px 4px rgba(255,255,255,0.08),
+        inset 0 -5px 15px rgba(0,0,0,0.5),
+        0 -15px 40px rgba(0,0,0,0.4);
+    }
+    
+    /* Cyan LED glow strip */
+    .shelf-row::after {
+      content: '';
+      position: absolute;
+      bottom: 2px;
+      left: 60px;
+      right: 60px;
+      height: 3px;
+      background: linear-gradient(90deg, 
+        transparent 0%,
+        #00ccff 10%,
+        #00ffff 30%,
+        #00ffff 70%,
+        #00ccff 90%,
+        transparent 100%
+      );
+      border-radius: 3px;
+      box-shadow: 
+        0 0 8px #00ddff,
+        0 0 15px #00ddff,
+        0 0 30px rgba(0,221,255,0.6),
+        0 0 60px rgba(0,221,255,0.4),
+        0 5px 20px rgba(0,221,255,0.3);
+      z-index: 10;
+    }
+    
+    .shelf-row:last-child {
+      margin-bottom: 0;
+    }
+    
+    .empty-shelf-message {
+      width: 100%;
+      text-align: center;
+      color: rgba(0,200,255,0.4);
+      font-size: 1.1rem;
+      padding: 80px 40px;
+      font-style: italic;
+    }
+    
+    /* Book on Shelf */
+    .book {
+      position: relative;
+      cursor: pointer;
+      transition: all 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+      transform-style: preserve-3d;
+      filter: drop-shadow(0 8px 15px rgba(0,0,0,0.6));
+    }
+    
+    .book:hover {
+      transform: translateY(-15px) scale(1.05);
+      z-index: 10;
+      filter: drop-shadow(0 20px 35px rgba(0,0,0,0.7));
+    }
+    
+    .book:hover .book-info {
+      opacity: 1;
+      transform: translateX(-50%) translateY(0);
+    }
+    
+    .book:hover .book-front {
+      box-shadow: 
+        0 0 20px rgba(0,200,255,0.3),
+        0 0 40px rgba(0,200,255,0.15),
+        4px 4px 15px rgba(0,0,0,0.5);
+    }
+    
+    /* 3D Book Structure */
+    .book-3d {
+      position: relative;
+      transform-style: preserve-3d;
+    }
+    
+    /* Front Cover */
+    .book-front {
+      position: relative;
+      border-radius: 2px 8px 8px 2px;
+      overflow: hidden;
+      box-shadow: 
+        4px 4px 15px rgba(0,0,0,0.5),
+        inset 0 0 0 1px rgba(255,255,255,0.1);
+      background: var(--primary);
+      transition: box-shadow 0.3s ease;
+    }
+    
+    .book-front img {
+      display: block;
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+    }
+    
+    .book-front-overlay {
+      position: absolute;
+      top: 0;
+      left: 0;
+      right: 0;
+      bottom: 0;
+      background: linear-gradient(90deg, 
+        rgba(0,0,0,0.3) 0%,
+        transparent 15%,
+        transparent 85%,
+        rgba(0,0,0,0.15) 100%
+      );
+      pointer-events: none;
+    }
+    
+    /* Book Pages Edge */
+    .book-pages-edge {
+      position: absolute;
+      top: 3px;
+      bottom: 3px;
+      right: -10px;
+      width: 10px;
+      background: linear-gradient(90deg,
+        #f5f5f0 0%,
+        #e8e8e3 30%,
+        #f0f0eb 50%,
+        #e5e5e0 80%,
+        #d8d8d3 100%
+      );
+      border-radius: 0 2px 2px 0;
+      box-shadow: 2px 0 4px rgba(0,0,0,0.2);
+    }
+    
+    .book-pages-edge::before {
+      content: '';
+      position: absolute;
+      top: 0;
+      left: 0;
+      right: 0;
+      bottom: 0;
+      background: repeating-linear-gradient(
+        0deg,
+        transparent 0px,
+        transparent 2px,
+        rgba(0,0,0,0.03) 2px,
+        rgba(0,0,0,0.03) 3px
+      );
+    }
+    
+    /* Book Info Tooltip - Floating above book like Publuu */
+    .book-info {
+      position: absolute;
+      top: -90px;
+      left: 50%;
+      transform: translateX(-50%) translateY(-10px);
+      background: #2a2d35;
+      color: white;
+      padding: 15px 18px;
+      border-radius: 8px;
+      width: 200px;
+      opacity: 0;
+      transition: all 0.3s ease;
+      pointer-events: none;
+      z-index: 20;
+      box-shadow: 0 8px 25px rgba(0,0,0,0.5);
+      border: 1px solid #3a3d45;
+    }
+    
+    .book-info h4 {
+      font-size: 0.9rem;
+      margin-bottom: 5px;
+      font-weight: 600;
+      letter-spacing: 0.3px;
+      color: #fff;
+      line-height: 1.3;
+    }
+    
+    .book-info p {
+      font-size: 0.75rem;
+      opacity: 0.7;
+      font-weight: 400;
+      color: #ccc;
+    }
+    
+    .book-info .book-meta {
+      margin-top: 8px;
+      padding-top: 8px;
+      border-top: 1px solid rgba(255,255,255,0.1);
+      font-size: 0.7rem;
+      color: rgba(0,200,255,0.8);
+      font-weight: 500;
+      display: flex;
+      align-items: center;
+      gap: 5px;
+    }
+    
+    .book-info::after {
+      content: '';
+      position: absolute;
+      bottom: -8px;
+      left: 50%;
+      transform: translateX(-50%);
+      border-left: 8px solid transparent;
+      border-right: 8px solid transparent;
+      border-top: 8px solid #2a2d35;
+    }
+    
+    .book-info::before {
+      content: '';
+      position: absolute;
+      bottom: -10px;
+      left: 50%;
+      transform: translateX(-50%);
+      border-left: 9px solid transparent;
+      border-right: 9px solid transparent;
+      border-top: 9px solid #3a3d45;
+    }
+    
+    /* Reader View */
+    .reader-view {
+      position: fixed;
+      top: 0;
+      left: 0;
+      right: 0;
+      bottom: 0;
+      background: linear-gradient(180deg, #1a1a2e 0%, #16213e 100%);
+      z-index: 200;
+      display: flex;
+      flex-direction: column;
+      opacity: 0;
+      pointer-events: none;
+      transition: opacity 0.4s ease;
+    }
+    
+    .reader-view.active {
+      opacity: 1;
+      pointer-events: all;
+    }
+    
+    .reader-header {
+      background: var(--primary);
+      padding: 15px 30px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      box-shadow: 0 4px 20px rgba(0,0,0,0.3);
+    }
+    
+    .reader-title {
+      color: white;
+      font-size: 1.2rem;
+      font-weight: 700;
+      letter-spacing: 0.5px;
+    }
+    
+    .reader-title span {
+      font-weight: 400;
+      opacity: 0.8;
+      margin-left: 10px;
+    }
+    
+    .reader-controls {
+      display: flex;
+      gap: 12px;
+    }
+    
+    /* Flipbook */
+    .flipbook-container {
+      flex: 1;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      padding: 30px;
+      position: relative;
+    }
+    
+    .book-3d-wrapper {
+      perspective: 2500px;
+    }
+    
+    .flipbook {
+      display: flex;
+      position: relative;
+      transform-style: preserve-3d;
+      transform: rotateX(3deg);
+    }
+    
+    /* Page Stacks */
+    .page-stack-left, .page-stack-right {
+      position: absolute;
+      top: 0;
+      bottom: 0;
+      transform-style: preserve-3d;
+      pointer-events: none;
+    }
+    
+    .page-stack-left {
+      right: 100%;
+      width: 0;
+    }
+    
+    .page-stack-right {
+      left: 100%;
+      width: 0;
+    }
+    
+    .stack-page {
+      position: absolute;
+      top: 0;
+      width: 420px;
+      height: 100%;
+      background: linear-gradient(90deg, #fafaf5 0%, #fff 50%, #f5f5f0 100%);
+      box-shadow: 0 1px 3px rgba(0,0,0,0.1);
+    }
+    
+    .page-stack-left .stack-page {
+      right: 0;
+      border-radius: 8px 0 0 8px;
+    }
+    
+    .page-stack-right .stack-page {
+      left: 0;
+      border-radius: 0 8px 8px 0;
+    }
+    
+    .flipbook-page {
+      width: 420px;
+      height: 560px;
+      background: white;
+      position: relative;
+      overflow: hidden;
+    }
+    
+    .flipbook-page-left {
+      border-radius: 8px 0 0 8px;
+      box-shadow: 
+        inset -25px 0 50px rgba(0,0,0,0.1),
+        -8px 12px 40px rgba(0,0,0,0.35);
+    }
+    
+    .flipbook-page-right {
+      border-radius: 0 8px 8px 0;
+      box-shadow: 
+        inset 25px 0 50px rgba(0,0,0,0.05),
+        8px 12px 40px rgba(0,0,0,0.35);
+    }
+    
+    .flipbook-page canvas {
+      width: 100%;
+      height: 100%;
+      object-fit: contain;
+      background: white;
+    }
+    
+    .book-spine-center {
+      width: 35px;
+      background: linear-gradient(90deg, 
+        rgba(0,0,0,0.25) 0%,
+        rgba(0,0,0,0.08) 20%,
+        rgba(255,255,255,0.08) 50%,
+        rgba(0,0,0,0.08) 80%,
+        rgba(0,0,0,0.25) 100%
+      );
+      box-shadow: inset 0 0 20px rgba(0,0,0,0.2);
+      position: relative;
+      z-index: 5;
+    }
+    
+    .page-number {
+      position: absolute;
+      bottom: 20px;
+      font-size: 0.9rem;
+      color: var(--gray-600);
+      font-weight: 500;
+    }
+    
+    .flipbook-page-left .page-number { left: 25px; }
+    .flipbook-page-right .page-number { right: 25px; }
+    
+    /* Page Flip Animation */
+    .page-flip-container {
+      position: absolute;
+      left: 50%;
+      top: 0;
+      width: 420px;
+      height: 560px;
+      transform-style: preserve-3d;
+      transform-origin: left center;
+      z-index: 50;
+      pointer-events: none;
+      display: none;
+    }
+    
+    .page-flip-container.flipping-forward {
+      display: block;
+      animation: flipForward 0.5s ease-in-out forwards;
+    }
+    
+    .page-flip-container.flipping-backward {
+      display: block;
+      animation: flipBackward 0.5s ease-in-out forwards;
+    }
+    
+    @keyframes flipForward {
+      0% { transform: rotateY(0deg); }
+      100% { transform: rotateY(-180deg); }
+    }
+    
+    @keyframes flipBackward {
+      0% { transform: rotateY(-180deg); }
+      100% { transform: rotateY(0deg); }
+    }
+    
+    .flip-page-front, .flip-page-back {
+      position: absolute;
+      width: 100%;
+      height: 100%;
+      backface-visibility: hidden;
+      background: white;
+      overflow: hidden;
+    }
+    
+    .flip-page-front {
+      border-radius: 0 8px 8px 0;
+      box-shadow: -5px 0 20px rgba(0,0,0,0.15);
+    }
+    
+    .flip-page-back {
+      transform: rotateY(180deg);
+      border-radius: 8px 0 0 8px;
+      box-shadow: 5px 0 20px rgba(0,0,0,0.15);
+    }
+    
+    .flip-page-front canvas, .flip-page-back canvas {
+      width: 100%;
+      height: 100%;
+      object-fit: contain;
+    }
+    
+    /* Navigation */
+    .nav-arrow {
+      position: absolute;
+      top: 50%;
+      transform: translateY(-50%);
+      width: 65px;
+      height: 65px;
+      background: var(--primary);
+      border: 3px solid var(--accent);
+      border-radius: 50%;
+      color: white;
+      cursor: pointer;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      transition: all 0.3s ease;
+      box-shadow: 0 5px 25px rgba(0,64,128,0.5);
+      z-index: 100;
+    }
+    
+    .nav-arrow:hover:not(:disabled) {
+      background: var(--accent);
+      color: #000;
+      transform: translateY(-50%) scale(1.1);
+    }
+    
+    .nav-arrow:disabled {
+      opacity: 0.3;
+      cursor: not-allowed;
+    }
+    
+    .nav-arrow svg {
+      width: 30px;
+      height: 30px;
+    }
+    
+    .nav-prev { left: 30px; }
+    .nav-next { right: 30px; }
+    
+    /* Page Indicator */
+    .page-indicator {
+      position: absolute;
+      bottom: 30px;
+      left: 50%;
+      transform: translateX(-50%);
+      background: rgba(0,0,0,0.85);
+      color: white;
+      padding: 15px 30px;
+      border-radius: 30px;
+      font-size: 1rem;
+      display: flex;
+      align-items: center;
+      gap: 20px;
+      border: 2px solid var(--primary);
+    }
+    
+    .page-indicator strong {
+      color: var(--accent);
+    }
+    
+    .progress-bar {
+      width: 150px;
+      height: 6px;
+      background: rgba(255,255,255,0.2);
+      border-radius: 3px;
+      overflow: hidden;
+    }
+    
+    .progress-fill {
+      height: 100%;
+      background: var(--accent);
+      border-radius: 3px;
+      transition: width 0.3s ease;
+    }
+    
+    /* Thumbnails Sidebar */
+    .thumbnails-sidebar {
+      position: fixed;
+      right: -350px;
+      top: 0;
+      bottom: 0;
+      width: 350px;
+      background: rgba(20, 30, 50, 0.98);
+      z-index: 300;
+      transition: right 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+      display: flex;
+      flex-direction: column;
+      box-shadow: -10px 0 40px rgba(0,0,0,0.5);
+      border-left: 3px solid var(--primary);
+    }
+    
+    .thumbnails-sidebar.open {
+      right: 0;
+    }
+    
+    .thumbnails-header {
+      padding: 20px;
+      background: var(--primary);
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+    }
+    
+    .thumbnails-header h3 {
+      color: white;
+      font-size: 1.1rem;
+      font-weight: 700;
+      letter-spacing: 1px;
+      text-transform: uppercase;
+    }
+    
+    .thumbnails-grid {
+      flex: 1;
+      overflow-y: auto;
+      padding: 20px;
+      display: grid;
+      grid-template-columns: repeat(2, 1fr);
+      gap: 15px;
+    }
+    
+    .thumbnail {
+      background: white;
+      border-radius: 6px;
+      overflow: hidden;
+      cursor: pointer;
+      transition: all 0.3s ease;
+      aspect-ratio: 3/4;
+      position: relative;
+      border: 2px solid transparent;
+    }
+    
+    .thumbnail:hover {
+      transform: scale(1.05);
+      box-shadow: 0 8px 25px rgba(0,0,0,0.4);
+      border-color: var(--accent);
+    }
+    
+    .thumbnail.active {
+      border-color: var(--accent);
+      box-shadow: 0 0 0 3px var(--accent);
+    }
+    
+    .thumbnail canvas {
+      width: 100%;
+      height: 100%;
+      object-fit: contain;
+    }
+    
+    .thumbnail-num {
+      position: absolute;
+      bottom: 0;
+      left: 0;
+      right: 0;
+      background: rgba(0,64,128,0.9);
+      color: white;
+      padding: 6px;
+      text-align: center;
+      font-size: 0.8rem;
+      font-weight: 600;
+    }
+    
+    /* Click zones */
+    .page-click-zone {
+      position: absolute;
+      top: 0;
+      bottom: 0;
+      width: 120px;
+      cursor: pointer;
+      z-index: 10;
+    }
+    
+    .page-click-zone:hover {
+      background: rgba(0,0,0,0.03);
+    }
+    
+    .page-click-left { left: 0; cursor: w-resize; }
+    .page-click-right { right: 0; cursor: e-resize; }
+    
+    /* Loading */
+    .loading-overlay {
+      position: fixed;
+      top: 0;
+      left: 0;
+      right: 0;
+      bottom: 0;
+      background: rgba(0,0,0,0.9);
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      z-index: 500;
+      opacity: 0;
+      pointer-events: none;
+      transition: opacity 0.3s ease;
+    }
+    
+    .loading-overlay.active {
+      opacity: 1;
+      pointer-events: all;
+    }
+    
+    .loader {
+      width: 70px;
+      height: 70px;
+      border: 5px solid rgba(255,255,255,0.2);
+      border-top-color: var(--accent);
+      border-radius: 50%;
+      animation: spin 1s linear infinite;
+    }
+    
+    @keyframes spin {
+      to { transform: rotate(360deg); }
+    }
+    
+    .loading-text {
+      color: white;
+      margin-top: 25px;
+      font-size: 1.2rem;
+      font-weight: 500;
+      letter-spacing: 1px;
+    }
+    
+    /* Notification */
+    .notification {
+      position: fixed;
+      top: 100px;
+      left: 50%;
+      transform: translateX(-50%) translateY(-20px);
+      padding: 15px 30px;
+      border-radius: 8px;
+      font-weight: 600;
+      z-index: 600;
+      opacity: 0;
+      pointer-events: none;
+      transition: all 0.3s ease;
+      box-shadow: 0 5px 20px rgba(0,0,0,0.3);
+      border: 2px solid;
+    }
+    
+    .notification.show {
+      opacity: 1;
+      transform: translateX(-50%) translateY(0);
+    }
+    
+    .notification.success {
+      background: #d4edda;
+      color: #155724;
+      border-color: var(--success);
+    }
+    
+    .notification.error {
+      background: #f8d7da;
+      color: #721c24;
+      border-color: #dc3545;
+    }
+    
+    .notification.info {
+      background: #e7f3ff;
+      color: var(--primary);
+      border-color: var(--primary);
+    }
+    
+    /* Footer */
+    .footer {
+      background: var(--primary);
+      color: white;
+      padding: 20px 40px;
+      text-align: center;
+      font-size: 0.9rem;
+    }
+    
+    .footer p {
+      margin: 5px 0;
+      opacity: 0.9;
+    }
+    
+    /* Responsive */
+    @media (max-width: 950px) {
+      .flipbook-page { width: 320px; height: 430px; }
+      .page-flip-container { width: 320px; height: 430px; }
+      .stack-page { width: 320px; }
+      .header { padding: 15px 20px; }
+      .main { padding: 20px; }
+      .shelf-row { 
+        min-height: 260px; 
+        gap: 25px; 
+        padding: 30px 30px 50px; 
+      }
+      .shelf-row::after {
+        left: 40px;
+        right: 40px;
+      }
+    }
+    
+    @media (max-width: 780px) {
+      .flipbook-page-left, .book-spine-center, .page-stack-left { display: none; }
+      .flipbook-page { width: 90vw; max-width: 360px; height: auto; aspect-ratio: 3/4; }
+      .header-text h1 { font-size: 1.2rem; }
+      .header-text p { display: none; }
+      .shelf-row { 
+        gap: 20px; 
+        min-height: 220px; 
+        padding: 25px 20px 45px; 
+      }
+      .shelf-row::after {
+        left: 20px;
+        right: 20px;
+      }
+      .book-front { width: 100px !important; height: 150px !important; }
+      .book-pages-edge { width: 8px !important; }
+      .book-info { 
+        width: 160px; 
+        padding: 12px 14px;
+        top: -80px;
+      }
+      .book-info h4 { font-size: 0.8rem; }
+    }
+  </style>
+</head>
+<body>
+  <!-- Header -->
+  <header class="header">
+    <div class="header-brand">
+      <div class="logo-box">
+        <img src="https://github.com/mohamedsillahkanu/gdp-dashboard-2/raw/6c7463b0d5c3be150aafae695a4bcbbd8aeb1499/ICF-SL.jpg" alt="ICF-SL Logo">
+      </div>
+      <div class="header-text">
+        <h1>ICF-SL DIGITAL LIBRARY</h1>
+        <p>Driving Data-Driven Solutions for Health and Development</p>
+      </div>
+    </div>
+    <div class="header-actions">
+      <button class="btn btn-outline" id="soundToggle" onclick="toggleSound()">
+        <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" id="soundOnIcon">
+          <polygon points="11 5 6 9 2 9 2 15 6 15 11 19 11 5"/>
+          <path d="M15.54 8.46a5 5 0 0 1 0 7.07"/>
+          <path d="M19.07 4.93a10 10 0 0 1 0 14.14"/>
+        </svg>
+        <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" id="soundOffIcon" style="display:none;">
+          <polygon points="11 5 6 9 2 9 2 15 6 15 11 19 11 5"/>
+          <line x1="23" y1="9" x2="17" y2="15"/>
+          <line x1="17" y1="9" x2="23" y2="15"/>
+        </svg>
+        <span id="soundLabel">Sound</span>
+      </button>
+      <button class="btn btn-outline" onclick="toggleFullscreen()">
+        <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+          <path d="M8 3H5a2 2 0 0 0-2 2v3m18 0V5a2 2 0 0 0-2-2h-3m0 18h3a2 2 0 0 0 2-2v-3M3 16v3a2 2 0 0 0 2 2h3"/>
+        </svg>
+        Fullscreen
+      </button>
+    </div>
+  </header>
+
+  <!-- Main Content -->
+  <main class="main">
+    <!-- Upload Section -->
+    <div class="upload-section" id="uploadSection">
+      <div class="section-header">
+        <div class="section-icon">
+          <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+            <path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/>
+            <polyline points="17 8 12 3 7 8"/>
+            <line x1="12" y1="3" x2="12" y2="15"/>
+          </svg>
+        </div>
+        <div>
+          <div class="section-title">Upload Publications</div>
+          <div class="section-subtitle">Add PDF documents to your digital library</div>
+        </div>
+      </div>
+      
+      <div class="upload-zone" id="uploadZone" onclick="document.getElementById('fileInput').click()">
+        <div class="upload-icon">📚</div>
+        <div class="upload-text">Click or Drop PDF Files Here</div>
+        <div class="upload-hint">Supports multiple PDF files • First page becomes book cover</div>
+      </div>
+      <input type="file" id="fileInput" accept=".pdf" multiple style="display:none" onchange="handleFileSelect(event)">
+    </div>
+
+    <!-- Bookshelf Section -->
+    <div class="section-header">
+      <div class="section-icon">
+        <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+          <path d="M4 19.5A2.5 2.5 0 0 1 6.5 17H20"/>
+          <path d="M6.5 2H20v20H6.5A2.5 2.5 0 0 1 4 19.5v-15A2.5 2.5 0 0 1 6.5 2z"/>
+        </svg>
+      </div>
+      <div>
+        <div class="section-title">Publications Library</div>
+        <div class="section-subtitle" id="bookCount">0 publications</div>
+      </div>
+    </div>
+    
+    <div class="bookshelf-container">
+      <div class="bookshelf" id="bookshelf">
+        <div class="shelf-row">
+          <div class="empty-shelf-message">Upload PDF files to add books to your library</div>
+        </div>
+        <div class="shelf-row"></div>
+      </div>
+    </div>
+  </main>
+
+  <!-- Footer -->
+  <footer class="footer">
+    <p><strong>Informatics Consultancy Firm - Sierra Leone (ICF-SL)</strong></p>
+    <p>Health Information Systems • Data Analytics • Digital Solutions</p>
+  </footer>
+
+  <!-- Reader View -->
+  <div class="reader-view" id="readerView">
+    <div class="reader-header">
+      <div class="reader-title" id="readerTitle">Document</div>
+      <div class="reader-controls">
+        <button class="btn btn-outline" onclick="toggleThumbnails()">
+          <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+            <rect x="3" y="3" width="7" height="7" rx="1"/>
+            <rect x="14" y="3" width="7" height="7" rx="1"/>
+            <rect x="3" y="14" width="7" height="7" rx="1"/>
+            <rect x="14" y="14" width="7" height="7" rx="1"/>
+          </svg>
+          Pages
+        </button>
+        <button class="btn btn-gold" onclick="closeReader()">
+          <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+            <path d="M18 6L6 18M6 6l12 12"/>
+          </svg>
+          Close
+        </button>
+      </div>
+    </div>
+    
+    <div class="flipbook-container">
+      <button class="nav-arrow nav-prev" onclick="prevPage()" id="prevBtn">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5">
+          <path d="M15 18l-6-6 6-6"/>
+        </svg>
+      </button>
+      
+      <div class="book-3d-wrapper">
+        <div class="flipbook" id="flipbook">
+          <div class="page-stack-left" id="pageStackLeft"></div>
+          <div class="flipbook-page flipbook-page-left" id="leftPage">
+            <canvas id="leftCanvas"></canvas>
+            <div class="page-number" id="leftPageNum"></div>
+            <div class="page-click-zone page-click-left" onclick="prevPage()"></div>
+          </div>
+          <div class="book-spine-center"></div>
+          <div class="flipbook-page flipbook-page-right" id="rightPage">
+            <canvas id="rightCanvas"></canvas>
+            <div class="page-number" id="rightPageNum"></div>
+            <div class="page-click-zone page-click-right" onclick="nextPage()"></div>
+          </div>
+          <div class="page-stack-right" id="pageStackRight"></div>
+          
+          <div class="page-flip-container" id="pageFlipContainer">
+            <div class="flip-page-front"><canvas id="flipFrontCanvas"></canvas></div>
+            <div class="flip-page-back"><canvas id="flipBackCanvas"></canvas></div>
+          </div>
+        </div>
+      </div>
+      
+      <button class="nav-arrow nav-next" onclick="nextPage()" id="nextBtn">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5">
+          <path d="M9 18l6-6-6-6"/>
+        </svg>
+      </button>
+      
+      <div class="page-indicator">
+        <span>Page <strong id="currentPageDisplay">1-2</strong> of <span id="totalPagesDisplay">0</span></span>
+        <div class="progress-bar">
+          <div class="progress-fill" id="progressFill"></div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Thumbnails Sidebar -->
+  <div class="thumbnails-sidebar" id="thumbnailsSidebar">
+    <div class="thumbnails-header">
+      <h3>All Pages</h3>
+      <button class="btn btn-outline" onclick="toggleThumbnails()">
+        <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+          <path d="M18 6L6 18M6 6l12 12"/>
+        </svg>
+      </button>
+    </div>
+    <div class="thumbnails-grid" id="thumbnailsGrid"></div>
+  </div>
+
+  <!-- Loading Overlay -->
+  <div class="loading-overlay" id="loadingOverlay">
+    <div class="loader"></div>
+    <div class="loading-text" id="loadingText">Loading...</div>
+  </div>
+
+  <!-- Notification -->
+  <div class="notification" id="notification"></div>
+
+  <script>
+    // Configure PDF.js
+    pdfjsLib.GlobalWorkerOptions.workerSrc = 'https://cdnjs.cloudflare.com/ajax/libs/pdf.js/3.11.174/pdf.worker.min.js';
+
+    // ============================================
+    // AUDIO ENGINE
+    // ============================================
+    
+    class PageTurnAudio {
+      constructor() {
+        this.audioContext = null;
+        this.enabled = true;
+        this.initialized = false;
+      }
+      
+      init() {
+        if (this.initialized) return;
+        try {
+          this.audioContext = new (window.AudioContext || window.webkitAudioContext)();
+          this.initialized = true;
+        } catch (e) {
+          console.log('Web Audio API not supported');
+        }
+      }
+      
+      playPageTurn() {
+        if (!this.enabled || !this.audioContext) return;
+        if (this.audioContext.state === 'suspended') this.audioContext.resume();
+        
+        const now = this.audioContext.currentTime;
+        const duration = 0.35;
+        const bufferSize = this.audioContext.sampleRate * duration;
+        const noiseBuffer = this.audioContext.createBuffer(1, bufferSize, this.audioContext.sampleRate);
+        const output = noiseBuffer.getChannelData(0);
+        
+        for (let i = 0; i < bufferSize; i++) {
+          let noise = Math.random() * 2 - 1;
+          const t = i / bufferSize;
+          let envelope = t < 0.1 ? t / 0.1 : t < 0.4 ? 1.0 : 1.0 - ((t - 0.4) / 0.6);
+          const flap = Math.sin(t * (25 + Math.random() * 15) * Math.PI * 2) * 0.3;
+          output[i] = noise * envelope * (0.7 + flap);
+        }
+        
+        const noiseSource = this.audioContext.createBufferSource();
+        noiseSource.buffer = noiseBuffer;
+        
+        const highPass = this.audioContext.createBiquadFilter();
+        highPass.type = 'highpass';
+        highPass.frequency.value = 800;
+        
+        const lowPass = this.audioContext.createBiquadFilter();
+        lowPass.type = 'lowpass';
+        lowPass.frequency.value = 6000;
+        
+        const gainNode = this.audioContext.createGain();
+        gainNode.gain.setValueAtTime(0.25, now);
+        gainNode.gain.exponentialRampToValueAtTime(0.01, now + duration);
+        
+        noiseSource.connect(highPass);
+        highPass.connect(lowPass);
+        lowPass.connect(gainNode);
+        gainNode.connect(this.audioContext.destination);
+        
+        noiseSource.start(now);
+        noiseSource.stop(now + duration);
+        
+        // Page landing thump
+        setTimeout(() => {
+          const osc = this.audioContext.createOscillator();
+          const gain = this.audioContext.createGain();
+          osc.type = 'sine';
+          osc.frequency.setValueAtTime(80, this.audioContext.currentTime);
+          osc.frequency.exponentialRampToValueAtTime(40, this.audioContext.currentTime + 0.08);
+          gain.gain.setValueAtTime(0.12, this.audioContext.currentTime);
+          gain.gain.exponentialRampToValueAtTime(0.001, this.audioContext.currentTime + 0.08);
+          osc.connect(gain);
+          gain.connect(this.audioContext.destination);
+          osc.start();
+          osc.stop(this.audioContext.currentTime + 0.08);
+        }, 250);
+      }
+      
+      toggle() {
+        this.enabled = !this.enabled;
+        return this.enabled;
+      }
+    }
+    
+    const audioEngine = new PageTurnAudio();
+
+    // ============================================
+    // STATE
+    // ============================================
+    
+    let books = [];
+    let currentBook = null;
+    let currentPdf = null;
+    let currentPages = [];
+    let currentSpread = 0;
+    let totalPages = 0;
+    let isFlipping = false;
+    let thumbnailsOpen = false;
+
+    // ============================================
+    // FILE HANDLING
+    // ============================================
+    
+    const uploadZone = document.getElementById('uploadZone');
+    
+    uploadZone.addEventListener('dragover', (e) => {
+      e.preventDefault();
+      uploadZone.classList.add('dragover');
+    });
+    
+    uploadZone.addEventListener('dragleave', () => {
+      uploadZone.classList.remove('dragover');
+    });
+    
+    uploadZone.addEventListener('drop', (e) => {
+      e.preventDefault();
+      uploadZone.classList.remove('dragover');
+      const files = Array.from(e.dataTransfer.files).filter(f => f.type === 'application/pdf');
+      if (files.length > 0) processFiles(files);
+    });
+    
+    function handleFileSelect(event) {
+      const files = Array.from(event.target.files);
+      if (files.length > 0) processFiles(files);
+      event.target.value = '';
+    }
+    
+    async function processFiles(files) {
+      showLoading('Processing PDFs...');
+      
+      for (const file of files) {
+        try {
+          const arrayBuffer = await file.arrayBuffer();
+          const pdf = await pdfjsLib.getDocument({ data: arrayBuffer }).promise;
+          
+          // Render first page as cover
+          const coverPage = await pdf.getPage(1);
+          const coverCanvas = document.createElement('canvas');
+          const coverViewport = coverPage.getViewport({ scale: 0.5 });
+          coverCanvas.width = coverViewport.width;
+          coverCanvas.height = coverViewport.height;
+          await coverPage.render({
+            canvasContext: coverCanvas.getContext('2d'),
+            viewport: coverViewport
+          }).promise;
+          
+          // Render last page as back cover
+          const lastPage = await pdf.getPage(pdf.numPages);
+          const backCanvas = document.createElement('canvas');
+          const backViewport = lastPage.getViewport({ scale: 0.5 });
+          backCanvas.width = backViewport.width;
+          backCanvas.height = backViewport.height;
+          await lastPage.render({
+            canvasContext: backCanvas.getContext('2d'),
+            viewport: backViewport
+          }).promise;
+          
+          const book = {
+            id: Date.now() + Math.random(),
+            title: file.name.replace('.pdf', ''),
+            fileName: file.name,
+            pages: pdf.numPages,
+            data: arrayBuffer,
+            coverDataUrl: coverCanvas.toDataURL('image/jpeg', 0.8),
+            backDataUrl: backCanvas.toDataURL('image/jpeg', 0.8),
+            color: (books.length % 8) + 1
+          };
+          
+          books.push(book);
+        } catch (err) {
+          console.error('Error processing PDF:', err);
+          showNotification(`Error loading ${file.name}`, 'error');
+        }
+      }
+      
+      hideLoading();
+      renderBookshelf();
+      showNotification(`Added ${files.length} publication(s) to library`, 'success');
+    }
+
+    // ============================================
+    // BOOKSHELF RENDERING
+    // ============================================
+    
+    function renderBookshelf() {
+      const bookshelf = document.getElementById('bookshelf');
+      document.getElementById('bookCount').textContent = `${books.length} publication${books.length !== 1 ? 's' : ''}`;
+      
+      if (books.length === 0) {
+        bookshelf.innerHTML = `
+          <div class="shelf-row">
+            <div class="empty-shelf-message">Upload PDF files to add books to your library</div>
+          </div>
+          <div class="shelf-row"></div>
+        `;
+        return;
+      }
+      
+      // Organize books into rows (max 5 books per row)
+      const booksPerRow = 5;
+      const rows = [];
+      for (let i = 0; i < books.length; i += booksPerRow) {
+        rows.push(books.slice(i, i + booksPerRow));
+      }
+      
+      // Ensure at least 2 rows for visual effect
+      while (rows.length < 2) {
+        rows.push([]);
+      }
+      
+      bookshelf.innerHTML = rows.map((rowBooks, rowIndex) => {
+        const booksHtml = rowBooks.map((book, bookIndex) => {
+          const globalIndex = rowIndex * booksPerRow + bookIndex;
+          const height = 190;
+          const width = 130;
+          const depth = Math.min(25, 8 + (book.pages * 0.12));
+          
+          return `
+            <div class="book" onclick="openBook(${globalIndex})" style="animation-delay: ${globalIndex * 0.08}s">
+              <div class="book-3d">
+                <div class="book-front" style="width: ${width}px; height: ${height}px;">
+                  <img src="${book.coverDataUrl}" alt="${book.title}">
+                  <div class="book-front-overlay"></div>
+                </div>
+                <div class="book-pages-edge" style="height: ${height - 6}px; width: ${depth}px;"></div>
+              </div>
+              <div class="book-info">
+                <h4>${book.title}</h4>
+                <p>${book.pages} pages</p>
+                <div class="book-meta">
+                  <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                    <rect x="3" y="3" width="7" height="7" rx="1"/>
+                    <rect x="14" y="3" width="7" height="7" rx="1"/>
+                    <rect x="3" y="14" width="7" height="7" rx="1"/>
+                    <rect x="14" y="14" width="7" height="7" rx="1"/>
+                  </svg>
+                  Read
+                </div>
+              </div>
+            </div>
+          `;
+        }).join('');
+        
+        return `<div class="shelf-row">${booksHtml}</div>`;
+      }).join('');
+    }
+
+    // ============================================
+    // BOOK READER
+    // ============================================
+    
+    async function openBook(index) {
+      audioEngine.init();
+      showLoading('Opening book...');
+      
+      const book = books[index];
+      currentBook = book;
+      
+      try {
+        currentPdf = await pdfjsLib.getDocument({ data: book.data }).promise;
+        totalPages = currentPdf.numPages;
+        currentSpread = 0;
+        currentPages = [];
+        
+        // Pre-render all pages
+        for (let i = 1; i <= totalPages; i++) {
+          const page = await currentPdf.getPage(i);
+          currentPages.push(page);
+        }
+        
+        document.getElementById('readerTitle').innerHTML = `${book.title} <span>${book.pages} pages</span>`;
+        document.getElementById('totalPagesDisplay').textContent = totalPages;
+        
+        await generateThumbnails();
+        await renderSpread();
+        updatePageStacks();
+        
+        document.getElementById('readerView').classList.add('active');
+        hideLoading();
+      } catch (err) {
+        console.error('Error opening book:', err);
+        hideLoading();
+        showNotification('Error opening book', 'error');
+      }
+    }
+    
+    async function renderPage(page, canvas) {
+      const scale = 1.5;
+      const viewport = page.getViewport({ scale });
+      canvas.width = viewport.width;
+      canvas.height = viewport.height;
+      
+      await page.render({
+        canvasContext: canvas.getContext('2d'),
+        viewport
+      }).promise;
+    }
+    
+    async function renderSpread() {
+      const leftIdx = currentSpread * 2;
+      const rightIdx = currentSpread * 2 + 1;
+      
+      const leftPage = document.getElementById('leftPage');
+      const rightPage = document.getElementById('rightPage');
+      const leftCanvas = document.getElementById('leftCanvas');
+      const rightCanvas = document.getElementById('rightCanvas');
+      
+      // Left page
+      if (leftIdx < totalPages) {
+        leftPage.style.visibility = 'visible';
+        await renderPage(currentPages[leftIdx], leftCanvas);
+        document.getElementById('leftPageNum').textContent = leftIdx + 1;
+      } else {
+        leftPage.style.visibility = 'hidden';
+      }
+      
+      // Right page
+      if (rightIdx < totalPages) {
+        rightPage.style.visibility = 'visible';
+        await renderPage(currentPages[rightIdx], rightCanvas);
+        document.getElementById('rightPageNum').textContent = rightIdx + 1;
+      } else {
+        rightPage.style.visibility = 'hidden';
+      }
+      
+      // Update indicators
+      const displayLeft = Math.min(leftIdx + 1, totalPages);
+      const displayRight = Math.min(rightIdx + 1, totalPages);
+      document.getElementById('currentPageDisplay').textContent = 
+        rightIdx < totalPages ? `${displayLeft}-${displayRight}` : `${displayLeft}`;
+      
+      const progress = ((rightIdx + 1) / totalPages) * 100;
+      document.getElementById('progressFill').style.width = `${Math.min(progress, 100)}%`;
+      
+      document.getElementById('prevBtn').disabled = currentSpread === 0;
+      document.getElementById('nextBtn').disabled = (currentSpread + 1) * 2 >= totalPages;
+      
+      updateActiveThumbnail();
+      updatePageStacks();
+    }
+
+    // ============================================
+    // PAGE STACKS
+    // ============================================
+    
+    function updatePageStacks() {
+      const leftIdx = currentSpread * 2;
+      const rightIdx = currentSpread * 2 + 1;
+      
+      const pagesOnLeft = leftIdx;
+      const pagesOnRight = totalPages - rightIdx - 1;
+      
+      // Left stack
+      const leftStack = document.getElementById('pageStackLeft');
+      leftStack.innerHTML = '';
+      const maxLeft = Math.min(pagesOnLeft, 10);
+      for (let i = 0; i < maxLeft; i++) {
+        const page = document.createElement('div');
+        page.className = 'stack-page';
+        const offset = (maxLeft - i) * 1.2;
+        page.style.transform = `translateX(${offset}px)`;
+        page.style.zIndex = i;
+        leftStack.appendChild(page);
+      }
+      
+      // Right stack
+      const rightStack = document.getElementById('pageStackRight');
+      rightStack.innerHTML = '';
+      const maxRight = Math.min(pagesOnRight, 10);
+      for (let i = 0; i < maxRight; i++) {
+        const page = document.createElement('div');
+        page.className = 'stack-page';
+        const offset = (maxRight - i) * 1.2;
+        page.style.transform = `translateX(-${offset}px)`;
+        page.style.zIndex = i;
+        rightStack.appendChild(page);
+      }
+    }
+
+    // ============================================
+    // PAGE NAVIGATION
+    // ============================================
+    
+    async function nextPage() {
+      if (isFlipping || (currentSpread + 1) * 2 >= totalPages) return;
+      
+      isFlipping = true;
+      audioEngine.playPageTurn();
+      
+      const flipContainer = document.getElementById('pageFlipContainer');
+      const flipFrontCanvas = document.getElementById('flipFrontCanvas');
+      const flipBackCanvas = document.getElementById('flipBackCanvas');
+      
+      const rightIdx = currentSpread * 2 + 1;
+      const nextLeftIdx = (currentSpread + 1) * 2;
+      
+      if (rightIdx < totalPages) await renderPage(currentPages[rightIdx], flipFrontCanvas);
+      if (nextLeftIdx < totalPages) await renderPage(currentPages[nextLeftIdx], flipBackCanvas);
+      
+      flipContainer.classList.add('flipping-forward');
+      
+      setTimeout(async () => {
+        flipContainer.classList.remove('flipping-forward');
+        currentSpread++;
+        await renderSpread();
+        isFlipping = false;
+      }, 500);
+    }
+    
+    async function prevPage() {
+      if (isFlipping || currentSpread === 0) return;
+      
+      isFlipping = true;
+      audioEngine.playPageTurn();
+      
+      const flipContainer = document.getElementById('pageFlipContainer');
+      const flipFrontCanvas = document.getElementById('flipFrontCanvas');
+      const flipBackCanvas = document.getElementById('flipBackCanvas');
+      
+      const leftIdx = currentSpread * 2;
+      const prevRightIdx = (currentSpread - 1) * 2 + 1;
+      
+      if (leftIdx < totalPages) await renderPage(currentPages[leftIdx], flipBackCanvas);
+      if (prevRightIdx < totalPages) await renderPage(currentPages[prevRightIdx], flipFrontCanvas);
+      
+      flipContainer.style.transform = 'rotateY(-180deg)';
+      flipContainer.style.display = 'block';
+      
+      requestAnimationFrame(() => {
+        flipContainer.classList.add('flipping-backward');
+        
+        setTimeout(async () => {
+          flipContainer.classList.remove('flipping-backward');
+          flipContainer.style.transform = '';
+          flipContainer.style.display = 'none';
+          currentSpread--;
+          await renderSpread();
+          isFlipping = false;
+        }, 500);
+      });
+    }
+    
+    async function goToPage(pageIndex) {
+      if (isFlipping) return;
+      const newSpread = Math.floor(pageIndex / 2);
+      if (newSpread !== currentSpread) {
+        audioEngine.playPageTurn();
+        currentSpread = newSpread;
+        await renderSpread();
+      }
+      toggleThumbnails();
+    }
+
+    // ============================================
+    // THUMBNAILS
+    // ============================================
+    
+    async function generateThumbnails() {
+      const grid = document.getElementById('thumbnailsGrid');
+      grid.innerHTML = '';
+      
+      for (let i = 0; i < totalPages; i++) {
+        const thumb = document.createElement('div');
+        thumb.className = 'thumbnail';
+        thumb.dataset.page = i;
+        thumb.onclick = () => goToPage(i);
+        
+        const canvas = document.createElement('canvas');
+        thumb.appendChild(canvas);
+        
+        const numLabel = document.createElement('div');
+        numLabel.className = 'thumbnail-num';
+        numLabel.textContent = `Page ${i + 1}`;
+        thumb.appendChild(numLabel);
+        
+        grid.appendChild(thumb);
+        
+        const page = currentPages[i];
+        const viewport = page.getViewport({ scale: 0.25 });
+        canvas.width = viewport.width;
+        canvas.height = viewport.height;
+        
+        await page.render({
+          canvasContext: canvas.getContext('2d'),
+          viewport
+        }).promise;
+      }
+    }
+    
+    function updateActiveThumbnail() {
+      const thumbs = document.querySelectorAll('.thumbnail');
+      const leftIdx = currentSpread * 2;
+      const rightIdx = currentSpread * 2 + 1;
+      
+      thumbs.forEach((thumb, i) => {
+        thumb.classList.toggle('active', i === leftIdx || i === rightIdx);
+      });
+    }
+
+    // ============================================
+    // UI CONTROLS
+    // ============================================
+    
+    function closeReader() {
+      document.getElementById('readerView').classList.remove('active');
+      document.getElementById('thumbnailsSidebar').classList.remove('open');
+      thumbnailsOpen = false;
+      currentBook = null;
+      currentPdf = null;
+      currentPages = [];
+    }
+    
+    function toggleThumbnails() {
+      thumbnailsOpen = !thumbnailsOpen;
+      document.getElementById('thumbnailsSidebar').classList.toggle('open', thumbnailsOpen);
+    }
+    
+    function toggleSound() {
+      audioEngine.init();
+      const enabled = audioEngine.toggle();
+      document.getElementById('soundOnIcon').style.display = enabled ? 'block' : 'none';
+      document.getElementById('soundOffIcon').style.display = enabled ? 'none' : 'block';
+      document.getElementById('soundToggle').classList.toggle('active', enabled);
+    }
+    
+    function toggleFullscreen() {
+      if (!document.fullscreenElement) {
+        document.documentElement.requestFullscreen();
+      } else {
+        document.exitFullscreen();
+      }
+    }
+    
+    function showLoading(text) {
+      document.getElementById('loadingText').textContent = text;
+      document.getElementById('loadingOverlay').classList.add('active');
+    }
+    
+    function hideLoading() {
+      document.getElementById('loadingOverlay').classList.remove('active');
+    }
+    
+    function showNotification(message, type) {
+      const notif = document.getElementById('notification');
+      notif.textContent = message;
+      notif.className = `notification ${type} show`;
+      setTimeout(() => notif.classList.remove('show'), 3000);
+    }
+
+    // ============================================
+    // KEYBOARD NAVIGATION
+    // ============================================
+    
+    document.addEventListener('keydown', (e) => {
+      if (!document.getElementById('readerView').classList.contains('active')) return;
+      
+      switch(e.key) {
+        case 'ArrowRight':
+        case ' ':
+          e.preventDefault();
+          nextPage();
+          break;
+        case 'ArrowLeft':
+          e.preventDefault();
+          prevPage();
+          break;
+        case 'Escape':
+          thumbnailsOpen ? toggleThumbnails() : closeReader();
+          break;
+        case 'm':
+        case 'M':
+          toggleSound();
+          break;
+      }
+    });
+
+    // Initialize
+    renderBookshelf();
+  </script>
+</body>
+</html>
