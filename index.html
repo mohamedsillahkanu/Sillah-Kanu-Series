@@ -240,7 +240,18 @@
     .flipbook-page-left canvas { border-radius: 8px 0 0 8px; }
     .flipbook-page-right canvas { border-radius: 0 8px 8px 0; }
     .book-spine-center { width: 35px; background: linear-gradient(90deg, rgba(0,0,0,0.3) 0%, rgba(0,0,0,0.1) 15%, rgba(255,255,255,0.05) 50%, rgba(0,0,0,0.1) 85%, rgba(0,0,0,0.3) 100%); z-index: 6; }
-    .page-number { position: absolute; bottom: 15px; font-size: 0.85rem; color: var(--gray-600); font-weight: 500; }
+    .page-number { 
+      position: absolute; 
+      bottom: 20px; 
+      font-size: 0.9rem; 
+      color: #555; 
+      font-weight: 600; 
+      background: rgba(255,255,255,0.9);
+      padding: 6px 14px;
+      border-radius: 15px;
+      box-shadow: 0 2px 8px rgba(0,0,0,0.15);
+      z-index: 15;
+    }
     .flipbook-page-left .page-number { left: 20px; }
     .flipbook-page-right .page-number { right: 20px; }
     .page-stack-left, .page-stack-right { position: absolute; top: 0; bottom: 0; pointer-events: none; transition: width 0.3s ease; z-index: 1; }
@@ -268,9 +279,25 @@
     .nav-arrow svg { width: 28px; height: 28px; }
     .nav-prev { left: 25px; }
     .nav-next { right: 25px; }
-    .page-indicator { position: absolute; bottom: 25px; left: 50%; transform: translateX(-50%); background: rgba(0,0,0,0.85); color: white; padding: 12px 25px; border-radius: 25px; font-size: 0.95rem; display: flex; align-items: center; gap: 15px; border: 2px solid var(--primary); }
-    .page-indicator strong { color: var(--accent); }
-    .progress-bar { width: 120px; height: 5px; background: rgba(255,255,255,0.2); border-radius: 3px; }
+    .page-indicator { 
+      position: absolute; 
+      bottom: 25px; 
+      left: 50%; 
+      transform: translateX(-50%); 
+      background: rgba(0,0,0,0.9); 
+      color: white; 
+      padding: 14px 28px; 
+      border-radius: 30px; 
+      font-size: 1rem; 
+      display: flex; 
+      align-items: center; 
+      gap: 18px; 
+      border: 2px solid var(--accent);
+      box-shadow: 0 5px 25px rgba(0,0,0,0.4);
+    }
+    .page-indicator strong { color: var(--accent); font-size: 1.1rem; }
+    .page-indicator span { display: flex; align-items: center; gap: 5px; }
+    .progress-bar { width: 100px; height: 6px; background: rgba(255,255,255,0.2); border-radius: 3px; }
     .progress-fill { height: 100%; background: var(--accent); border-radius: 3px; transition: width 0.3s ease; }
     .page-click-zone { position: absolute; top: 0; bottom: 0; width: 25%; cursor: pointer; z-index: 10; }
     .page-click-left { left: 0; }
@@ -280,12 +307,42 @@
     .thumbnails-header { padding: 20px; background: var(--primary); display: flex; justify-content: space-between; align-items: center; }
     .thumbnails-header h3 { color: white; font-size: 1.1rem; }
     .close-thumbnails { background: transparent; border: none; color: white; cursor: pointer; }
-    .thumbnails-grid { flex: 1; overflow-y: auto; padding: 15px; display: grid; grid-template-columns: repeat(2, 1fr); gap: 15px; }
-    .thumbnail { cursor: pointer; border-radius: 6px; overflow: hidden; border: 3px solid transparent; transition: all 0.3s ease; background: white; }
+    .thumbnails-grid { 
+      flex: 1; 
+      overflow-y: auto; 
+      padding: 15px; 
+      display: grid; 
+      grid-template-columns: repeat(2, 1fr); 
+      gap: 12px;
+      align-content: start;
+    }
+    .thumbnail { 
+      cursor: pointer; 
+      border-radius: 6px; 
+      overflow: hidden; 
+      border: 3px solid transparent; 
+      transition: all 0.3s ease; 
+      background: white;
+      display: flex;
+      flex-direction: column;
+    }
     .thumbnail:hover { border-color: var(--accent); transform: scale(1.05); }
     .thumbnail.active { border-color: var(--accent); box-shadow: 0 0 15px rgba(255,193,7,0.5); }
-    .thumbnail canvas { width: 100%; display: block; }
-    .thumbnail-num { padding: 8px; text-align: center; font-size: 0.75rem; font-weight: 600; background: var(--gray-100); }
+    .thumbnail canvas { 
+      width: 100%; 
+      height: auto;
+      display: block; 
+      object-fit: contain;
+    }
+    .thumbnail-num { 
+      padding: 8px; 
+      text-align: center; 
+      font-size: 0.75rem; 
+      font-weight: 600; 
+      background: var(--gray-100); 
+      color: var(--gray-800);
+      border-top: 1px solid #ddd;
+    }
     
     @media (max-width: 1100px) { .flipbook-page { width: 380px; height: 510px; } .page-flip-container { width: 380px; height: 510px; } .page-flip-container.flip-forward { left: calc(380px + 17px); } }
     @media (max-width: 950px) { .flipbook-page { width: 320px; height: 430px; } .page-flip-container { width: 320px; height: 430px; } .page-flip-container.flip-forward { left: calc(320px + 17px); } .header { padding: 12px 15px; } .main { padding: 15px; } .shelf-row { min-height: 260px; gap: 25px; padding: 30px 30px 50px; } }
@@ -295,6 +352,7 @@
       .flipbook-page { width: 90vw; max-width: 400px; height: auto; aspect-ratio: 3/4; border-radius: 8px; }
       .flipbook-page-right { border-radius: 8px; box-shadow: 0 10px 40px rgba(0,0,0,0.5); }
       .flipbook-page-right canvas { border-radius: 8px; }
+      .flipbook-page-right .page-number { right: 50%; transform: translateX(50%); bottom: 15px; }
       .page-flip-container.flip-forward { left: 0; width: 90vw; max-width: 400px; height: auto; aspect-ratio: 3/4; }
       .page-flip-container .flip-page-front, .page-flip-container .flip-page-back { border-radius: 8px; }
       .header-text p { display: none; } 
@@ -311,6 +369,8 @@
       .reader-title { font-size: 0.95rem; flex: 100%; }
       .reader-controls { width: 100%; justify-content: space-between; }
       .btn { padding: 8px 12px; font-size: 0.8rem; }
+      .thumbnails-sidebar { width: 280px; right: -280px; }
+      .thumbnails-grid { grid-template-columns: repeat(2, 1fr); gap: 10px; padding: 10px; }
     }
   </style>
 </head>
@@ -370,7 +430,10 @@
         </div>
       </div>
       <button class="nav-arrow nav-next" onclick="nextPage()" id="nextBtn"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M9 18l6-6-6-6"/></svg></button>
-      <div class="page-indicator"><span>Page <strong id="currentPageDisplay">1</strong> of <span id="totalPagesDisplay">0</span></span><div class="progress-bar"><div class="progress-fill" id="progressFill"></div></div></div>
+      <div class="page-indicator">
+        <span>Page <strong id="currentPageDisplay">1</strong> of <strong id="totalPagesDisplay">0</strong></span>
+        <div class="progress-bar"><div class="progress-fill" id="progressFill"></div></div>
+      </div>
     </div>
   </div>
 
@@ -548,81 +611,122 @@
     function goToSection(i) { document.getElementById('searchResults').classList.remove('active'); document.getElementById('searchInput').value = ''; loadSection(i); }
     async function goToBook(si, bi) { document.getElementById('searchResults').classList.remove('active'); document.getElementById('searchInput').value = ''; await loadSection(si); setTimeout(() => openBook(bi), 300); }
     
-    // Convert GitHub URL to jsdelivr CDN URL (has proper CORS)
-    function githubToJsdelivr(url) {
-      // Decode first to handle already-encoded URLs, then we'll re-encode properly
-      let decodedUrl = url;
-      try { decodedUrl = decodeURIComponent(url); } catch(e) {}
+    // Generate a nice blue cover with book title
+    function generateCover(title, sectionIcon) {
+      const canvas = document.createElement('canvas');
+      canvas.width = 260;
+      canvas.height = 380;
+      const ctx = canvas.getContext('2d');
       
-      // https://raw.githubusercontent.com/user/repo/branch/path
-      let match = decodedUrl.match(/raw\.githubusercontent\.com\/([^\/]+)\/([^\/]+)\/([^\/]+)\/(.+)/);
-      if (match) {
-        const [, user, repo, branch, path] = match;
-        // Encode path components but keep slashes
-        const encodedPath = path.split('/').map(p => encodeURIComponent(p)).join('/');
-        return `https://cdn.jsdelivr.net/gh/${user}/${repo}@${branch}/${encodedPath}`;
+      // Blue gradient background
+      const gradient = ctx.createLinearGradient(0, 0, 260, 380);
+      gradient.addColorStop(0, '#004080');
+      gradient.addColorStop(0.5, '#003366');
+      gradient.addColorStop(1, '#002244');
+      ctx.fillStyle = gradient;
+      ctx.fillRect(0, 0, 260, 380);
+      
+      // Decorative top bar
+      ctx.fillStyle = '#ffc107';
+      ctx.fillRect(0, 0, 260, 8);
+      
+      // Decorative bottom bar
+      ctx.fillRect(0, 372, 260, 8);
+      
+      // Decorative lines
+      ctx.strokeStyle = 'rgba(255,255,255,0.1)';
+      ctx.lineWidth = 1;
+      for (let i = 0; i < 12; i++) {
+        ctx.beginPath();
+        ctx.moveTo(20, 50 + i * 25);
+        ctx.lineTo(240, 50 + i * 25);
+        ctx.stroke();
       }
       
-      // https://github.com/user/repo/raw/branch/path
-      match = decodedUrl.match(/github\.com\/([^\/]+)\/([^\/]+)\/raw\/([^\/]+)\/(.+)/);
-      if (match) {
-        const [, user, repo, branch, path] = match;
-        const encodedPath = path.split('/').map(p => encodeURIComponent(p)).join('/');
-        return `https://cdn.jsdelivr.net/gh/${user}/${repo}@${branch}/${encodedPath}`;
+      // Book icon
+      ctx.font = '50px Arial';
+      ctx.textAlign = 'center';
+      ctx.fillStyle = 'rgba(255,255,255,0.15)';
+      ctx.fillText('📖', 130, 100);
+      
+      // Title
+      ctx.fillStyle = 'white';
+      ctx.font = 'bold 22px Oswald, Arial, sans-serif';
+      ctx.textAlign = 'center';
+      
+      // Word wrap title
+      const words = title.split(' ');
+      const lines = [];
+      let currentLine = '';
+      const maxWidth = 220;
+      
+      for (const word of words) {
+        const testLine = currentLine + (currentLine ? ' ' : '') + word;
+        const metrics = ctx.measureText(testLine);
+        if (metrics.width > maxWidth && currentLine) {
+          lines.push(currentLine);
+          currentLine = word;
+        } else {
+          currentLine = testLine;
+        }
+      }
+      lines.push(currentLine);
+      
+      // Draw title lines centered
+      const lineHeight = 30;
+      const startY = 190 - ((lines.length - 1) * lineHeight) / 2;
+      
+      lines.forEach((line, i) => {
+        ctx.fillText(line, 130, startY + i * lineHeight);
+      });
+      
+      // Section icon at bottom
+      if (sectionIcon) {
+        ctx.font = '28px Arial';
+        ctx.fillText(sectionIcon, 130, 340);
       }
       
-      return null;
+      // ICF-SL text at very bottom
+      ctx.font = '12px Oswald, Arial, sans-serif';
+      ctx.fillStyle = 'rgba(255,255,255,0.6)';
+      ctx.fillText('ICF-SL Digital Library', 130, 362);
+      
+      return canvas.toDataURL('image/jpeg', 0.9);
     }
     
-    // CORS proxy to fetch GitHub files - multiple fallbacks
-    async function fetchPdf(url) {
-      let lastError;
+    async function renderShelf() {
+      const shelf = document.getElementById('bookshelf');
+      if (!currentBooks.length) { 
+        shelf.innerHTML = `<div class="shelf-row"><div class="empty-shelf-message">No books in this section</div></div><div class="shelf-row"></div>`; 
+        return; 
+      }
       
-      // Try jsdelivr first (best for GitHub files)
-      const jsdelivrUrl = githubToJsdelivr(url);
-      if (jsdelivrUrl) {
-        try {
-          console.log('Trying jsdelivr:', jsdelivrUrl);
-          const res = await fetch(jsdelivrUrl);
-          if (res.ok) {
-            const arr = await res.arrayBuffer();
-            if (arr.byteLength > 1000) {
-              console.log('Success with jsdelivr');
-              return arr;
-            }
-          }
-        } catch (e) { 
-          console.log('jsdelivr failed:', e.message);
-          lastError = e; 
+      // Generate covers for all books (no loading needed - instant!)
+      for (const book of currentBooks) {
+        if (!bookCovers[book.title]) {
+          bookCovers[book.title] = generateCover(book.title, book.sectionIcon);
         }
       }
       
-      // Fallback to CORS proxies
-      const corsProxies = [
-        u => 'https://api.codetabs.com/v1/proxy?quest=' + encodeURIComponent(u),
-        u => 'https://corsproxy.io/?' + encodeURIComponent(u),
-        u => 'https://api.allorigins.win/raw?url=' + encodeURIComponent(u)
-      ];
+      const rows = []; 
+      for (let i = 0; i < currentBooks.length; i += 5) rows.push(currentBooks.slice(i, i + 5));
+      while (rows.length < 2) rows.push([]);
       
-      for (const proxy of corsProxies) {
-        try {
-          const proxyUrl = proxy(url);
-          console.log('Trying proxy:', proxyUrl);
-          const res = await fetch(proxyUrl);
-          if (res.ok) {
-            const arr = await res.arrayBuffer();
-            if (arr.byteLength > 1000) {
-              console.log('Success with proxy');
-              return arr;
-            }
-          }
-        } catch (e) { 
-          console.log('Proxy failed:', e.message);
-          lastError = e; 
-        }
-      }
-      
-      throw lastError || new Error('All methods failed. Try renaming the file without spaces.');
+      shelf.innerHTML = rows.map((row, ri) => `<div class="shelf-row">${row.map((book, bi) => {
+        const cover = bookCovers[book.title];
+        const gi = ri * 5 + bi;
+        return `<div class="book" onclick="openBook(${gi})">
+          <div class="book-front">
+            <img src="${cover}" alt="${book.title}">
+            <div class="book-front-overlay"></div>
+          </div>
+          <div class="book-pages-edge"></div>
+          <div class="book-info">
+            <h4>${book.title}</h4>
+            <p>${book.sectionIcon} ${book.sectionName}</p>
+          </div>
+        </div>`;
+      }).join('')}</div>`).join('');
     }
     
     // Check if mobile
@@ -630,30 +734,35 @@
       return window.innerWidth <= 780;
     }
     
-    async function renderShelf() {
-      const shelf = document.getElementById('bookshelf');
-      if (!currentBooks.length) { shelf.innerHTML = `<div class="shelf-row"><div class="empty-shelf-message">No books in this section</div></div><div class="shelf-row"></div>`; return; }
-      showLoading('Loading book covers...');
-      for (const book of currentBooks) {
-        if (!bookCovers[book.url]) {
-          try {
-            const arr = await fetchPdf(book.url);
-            const pdf = await pdfjsLib.getDocument({data: arr}).promise;
-            const page = await pdf.getPage(1);
-            const vp = page.getViewport({scale: 0.5});
-            const canvas = document.createElement('canvas'); canvas.width = vp.width; canvas.height = vp.height;
-            await page.render({canvasContext: canvas.getContext('2d'), viewport: vp}).promise;
-            bookCovers[book.url] = canvas.toDataURL('image/jpeg', 0.85);
-          } catch (e) { console.error('Cover error:', book.title, e); bookCovers[book.url] = null; }
+    // CORS proxy to fetch PDF when opening book
+    async function fetchPdf(url) {
+      const corsProxies = [
+        u => 'https://api.codetabs.com/v1/proxy?quest=' + encodeURIComponent(u),
+        u => 'https://corsproxy.io/?' + encodeURIComponent(u),
+        u => 'https://api.allorigins.win/raw?url=' + encodeURIComponent(u)
+      ];
+      
+      // Try direct first
+      try {
+        const res = await fetch(url);
+        if (res.ok) {
+          const arr = await res.arrayBuffer();
+          if (arr.byteLength > 1000) return arr;
         }
+      } catch (e) {}
+      
+      // Try proxies
+      for (const proxy of corsProxies) {
+        try {
+          const res = await fetch(proxy(url));
+          if (res.ok) {
+            const arr = await res.arrayBuffer();
+            if (arr.byteLength > 1000) return arr;
+          }
+        } catch (e) {}
       }
-      hideLoading();
-      const rows = []; for (let i = 0; i < currentBooks.length; i += 5) rows.push(currentBooks.slice(i, i + 5));
-      while (rows.length < 2) rows.push([]);
-      shelf.innerHTML = rows.map((row, ri) => `<div class="shelf-row">${row.map((book, bi) => {
-        const cover = bookCovers[book.url], gi = ri * 5 + bi;
-        return `<div class="book" onclick="openBook(${gi})"><div class="book-front">${cover ? `<img src="${cover}">` : `<div style="padding:15px;color:white;font-size:0.8rem;height:100%;display:flex;align-items:center;text-align:center;">${book.title}</div>`}<div class="book-front-overlay"></div></div><div class="book-pages-edge"></div><div class="book-info"><h4>${book.title}</h4><p>${book.sectionIcon} ${book.sectionName}</p></div></div>`;
-      }).join('')}</div>`).join('');
+      
+      throw new Error('Could not load PDF');
     }
     
     async function openBook(i) {
@@ -712,7 +821,19 @@
       const li = v2a(currentSpread * 2), ri = v2a(currentSpread * 2 + 1);
       if (li >= 0 && li < totalPages) { await renderPage(currentPages[li], lc); ln.textContent = li + 1; ln.style.display = 'block'; } else { renderBlank(lc); ln.style.display = 'none'; }
       if (ri >= 0 && ri < totalPages) { await renderPage(currentPages[ri], rc); rn.textContent = ri + 1; rn.style.display = 'block'; } else { renderBlank(rc); rn.style.display = 'none'; }
-      document.getElementById('currentPageDisplay').textContent = currentSpread === 0 ? 'Cover' : li >= 0 && ri >= 0 ? `${li + 1}-${ri + 1}` : li >= 0 ? `${li + 1}` : '-';
+      
+      // Update page display
+      let displayPage = '';
+      if (currentSpread === 0) {
+        displayPage = 'Cover';
+      } else if (li >= 0 && ri >= 0) {
+        displayPage = `${li + 1} - ${ri + 1}`;
+      } else if (li >= 0) {
+        displayPage = `${li + 1}`;
+      } else if (ri >= 0) {
+        displayPage = `${ri + 1}`;
+      }
+      document.getElementById('currentPageDisplay').textContent = displayPage;
       document.getElementById('progressFill').style.width = `${Math.min(100, ((Math.max(li, ri) + 1) / totalPages) * 100)}%`;
       document.getElementById('prevBtn').disabled = currentSpread === 0;
       document.getElementById('nextBtn').disabled = currentSpread >= getMS();
@@ -811,11 +932,25 @@
       const g = document.getElementById('thumbnailsGrid'); g.innerHTML = '';
       for (let i = 0; i < totalPages; i++) {
         const t = document.createElement('div'); t.className = 'thumbnail'; t.onclick = () => goToPage(i);
-        const c = document.createElement('canvas'), p = currentPages[i], vp = p.getViewport({scale: 0.2});
-        c.width = vp.width; c.height = vp.height;
+        const c = document.createElement('canvas'), p = currentPages[i];
+        
+        // Calculate scale to fit thumbnail width while maintaining aspect ratio
+        const desiredWidth = 130;
+        const originalViewport = p.getViewport({scale: 1});
+        const scale = desiredWidth / originalViewport.width;
+        const vp = p.getViewport({scale: scale});
+        
+        c.width = vp.width; 
+        c.height = vp.height;
         await p.render({canvasContext: c.getContext('2d'), viewport: vp}).promise;
-        const l = document.createElement('div'); l.className = 'thumbnail-num'; l.textContent = i === 0 ? 'Cover' : `Page ${i + 1}`;
-        t.appendChild(c); t.appendChild(l); g.appendChild(t);
+        
+        const l = document.createElement('div'); 
+        l.className = 'thumbnail-num'; 
+        l.textContent = i === 0 ? 'Cover' : `Page ${i + 1}`;
+        
+        t.appendChild(c); 
+        t.appendChild(l); 
+        g.appendChild(t);
       }
     }
     
