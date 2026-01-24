@@ -230,38 +230,53 @@
     .reader-title { color: white; font-size: 1.1rem; font-weight: 700; }
     .reader-title span { font-weight: 400; opacity: 0.8; margin-left: 10px; font-size: 0.9rem; }
     .reader-controls { display: flex; gap: 10px; }
-    .flipbook-container { flex: 1; display: flex; align-items: center; justify-content: center; padding: 20px; position: relative; }
+    .flipbook-container { 
+      flex: 1; 
+      display: flex; 
+      align-items: center; 
+      justify-content: center; 
+      padding: 30px 20px 80px 20px; 
+      position: relative;
+      overflow: hidden;
+    }
     .book-3d-wrapper { perspective: 2500px; }
     .flipbook { display: flex; position: relative; transform-style: preserve-3d; transform: rotateX(3deg); }
-    .flipbook-page { width: 480px; height: 640px; background: white; position: relative; overflow: visible; z-index: 5; }
+    .flipbook-page { width: 520px; height: 700px; background: white; position: relative; overflow: hidden; z-index: 5; }
     .flipbook-page-left { border-radius: 8px 0 0 8px; box-shadow: inset -30px 0 60px rgba(0,0,0,0.1), -10px 15px 50px rgba(0,0,0,0.4); }
     .flipbook-page-right { border-radius: 0 8px 8px 0; box-shadow: inset 30px 0 60px rgba(0,0,0,0.05), 10px 15px 50px rgba(0,0,0,0.4); }
-    .flipbook-page canvas { width: 100%; height: 100%; object-fit: contain; background: white; }
+    .flipbook-page canvas { 
+      width: 100%; 
+      height: 100%; 
+      display: block;
+      object-fit: contain;
+      background: white;
+    }
     .flipbook-page-left canvas { border-radius: 8px 0 0 8px; }
     .flipbook-page-right canvas { border-radius: 0 8px 8px 0; }
-    .book-spine-center { width: 35px; background: linear-gradient(90deg, rgba(0,0,0,0.3) 0%, rgba(0,0,0,0.1) 15%, rgba(255,255,255,0.05) 50%, rgba(0,0,0,0.1) 85%, rgba(0,0,0,0.3) 100%); z-index: 6; }
+    .book-spine-center { width: 20px; background: linear-gradient(90deg, rgba(0,0,0,0.25) 0%, rgba(0,0,0,0.08) 20%, rgba(255,255,255,0.05) 50%, rgba(0,0,0,0.08) 80%, rgba(0,0,0,0.25) 100%); z-index: 6; box-shadow: inset 0 0 15px rgba(0,0,0,0.15); }
     .page-number { 
       position: absolute; 
-      bottom: 20px; 
-      font-size: 0.9rem; 
-      color: #555; 
+      bottom: 12px; 
+      font-size: 0.85rem; 
+      color: #333; 
       font-weight: 600; 
-      background: rgba(255,255,255,0.9);
-      padding: 6px 14px;
-      border-radius: 15px;
-      box-shadow: 0 2px 8px rgba(0,0,0,0.15);
+      background: rgba(255,255,255,0.95);
+      padding: 5px 12px;
+      border-radius: 12px;
+      box-shadow: 0 2px 6px rgba(0,0,0,0.1);
       z-index: 15;
+      border: 1px solid rgba(0,0,0,0.1);
     }
-    .flipbook-page-left .page-number { left: 20px; }
-    .flipbook-page-right .page-number { right: 20px; }
+    .flipbook-page-left .page-number { left: 15px; }
+    .flipbook-page-right .page-number { right: 15px; }
     .page-stack-left, .page-stack-right { position: absolute; top: 0; bottom: 0; pointer-events: none; transition: width 0.3s ease; z-index: 1; }
     .page-stack-left { right: 100%; }
     .page-stack-right { left: 100%; }
     .stack-edge { position: absolute; top: 3px; bottom: 3px; background: repeating-linear-gradient(180deg, #f8f8f5 0px, #f8f8f5 1px, #e8e8e3 1px, #e8e8e3 2px); z-index: 100; }
     .stack-edge-left { right: 0; box-shadow: inset 2px 0 4px rgba(0,0,0,0.15); }
     .stack-edge-right { left: 0; box-shadow: inset -2px 0 4px rgba(0,0,0,0.15); }
-    .page-flip-container { position: absolute; top: 0; width: 480px; height: 640px; transform-style: preserve-3d; z-index: 50; pointer-events: none; display: none; }
-    .page-flip-container.flip-forward { left: calc(480px + 17px); transform-origin: left center; }
+    .page-flip-container { position: absolute; top: 0; width: 520px; height: 700px; transform-style: preserve-3d; z-index: 50; pointer-events: none; display: none; }
+    .page-flip-container.flip-forward { left: calc(520px + 10px); transform-origin: left center; }
     .page-flip-container.flip-backward { left: 0; transform-origin: right center; }
     .page-flip-container.flipping-forward { display: block; animation: flipForward 0.6s cubic-bezier(0.4, 0.0, 0.2, 1) forwards; }
     .page-flip-container.flipping-backward { display: block; animation: flipBackward 0.6s cubic-bezier(0.4, 0.0, 0.2, 1) forwards; }
@@ -272,7 +287,12 @@
     .flip-page-back { transform: rotateY(180deg); border-radius: 8px 0 0 8px; box-shadow: 5px 0 30px rgba(0,0,0,0.2); }
     .flip-backward .flip-page-front { border-radius: 8px 0 0 8px; }
     .flip-backward .flip-page-back { transform: rotateY(-180deg); border-radius: 0 8px 8px 0; }
-    .flip-page-front canvas, .flip-page-back canvas { width: 100%; height: 100%; object-fit: contain; }
+    .flip-page-front canvas, .flip-page-back canvas { 
+      width: 100%; 
+      height: 100%; 
+      object-fit: contain;
+      display: block;
+    }
     .nav-arrow { position: absolute; top: 50%; transform: translateY(-50%); width: 60px; height: 60px; background: var(--primary); border: 3px solid var(--accent); border-radius: 50%; color: white; cursor: pointer; display: flex; align-items: center; justify-content: center; transition: all 0.3s ease; z-index: 20; }
     .nav-arrow:hover:not(:disabled) { background: var(--primary-light); transform: translateY(-50%) scale(1.1); }
     .nav-arrow:disabled { opacity: 0.4; cursor: not-allowed; }
@@ -281,23 +301,23 @@
     .nav-next { right: 25px; }
     .page-indicator { 
       position: absolute; 
-      bottom: 25px; 
+      bottom: 20px; 
       left: 50%; 
       transform: translateX(-50%); 
-      background: rgba(0,0,0,0.9); 
+      background: rgba(0,64,128,0.95); 
       color: white; 
-      padding: 14px 28px; 
+      padding: 12px 24px; 
       border-radius: 30px; 
-      font-size: 1rem; 
+      font-size: 0.95rem; 
       display: flex; 
       align-items: center; 
-      gap: 18px; 
+      gap: 15px; 
       border: 2px solid var(--accent);
       box-shadow: 0 5px 25px rgba(0,0,0,0.4);
     }
-    .page-indicator strong { color: var(--accent); font-size: 1.1rem; }
+    .page-indicator strong { color: var(--accent); font-size: 1rem; }
     .page-indicator span { display: flex; align-items: center; gap: 5px; }
-    .progress-bar { width: 100px; height: 6px; background: rgba(255,255,255,0.2); border-radius: 3px; }
+    .progress-bar { width: 80px; height: 5px; background: rgba(255,255,255,0.3); border-radius: 3px; }
     .progress-fill { height: 100%; background: var(--accent); border-radius: 3px; transition: width 0.3s ease; }
     .page-click-zone { position: absolute; top: 0; bottom: 0; width: 25%; cursor: pointer; z-index: 10; }
     .page-click-left { left: 0; }
@@ -306,54 +326,51 @@
     .thumbnails-sidebar.open { right: 0; }
     .thumbnails-header { padding: 20px; background: var(--primary); display: flex; justify-content: space-between; align-items: center; }
     .thumbnails-header h3 { color: white; font-size: 1.1rem; }
-    .close-thumbnails { background: transparent; border: none; color: white; cursor: pointer; }
+    .close-thumbnails { background: transparent; border: none; color: white; cursor: pointer; padding: 5px; }
     .thumbnails-grid { 
       flex: 1; 
       overflow-y: auto; 
-      padding: 15px; 
-      display: grid; 
-      grid-template-columns: repeat(2, 1fr); 
-      gap: 12px;
-      align-content: start;
-    }
-    .thumbnail { 
-      cursor: pointer; 
-      border-radius: 6px; 
-      overflow: hidden; 
-      border: 3px solid transparent; 
-      transition: all 0.3s ease; 
-      background: white;
+      padding: 20px; 
       display: flex;
-      flex-direction: column;
+      flex-wrap: wrap;
+      gap: 8px 12px;
+      align-content: start;
+      line-height: 1.8;
     }
-    .thumbnail:hover { border-color: var(--accent); transform: scale(1.05); }
-    .thumbnail.active { border-color: var(--accent); box-shadow: 0 0 15px rgba(255,193,7,0.5); }
-    .thumbnail canvas { 
-      width: 100%; 
-      height: auto;
-      display: block; 
-      object-fit: contain;
+    .page-link { 
+      cursor: pointer; 
+      color: rgba(255,255,255,0.7);
+      font-size: 1rem;
+      font-weight: 600;
+      padding: 4px 8px;
+      border-radius: 4px;
+      transition: all 0.2s ease;
     }
-    .thumbnail-num { 
-      padding: 8px; 
-      text-align: center; 
-      font-size: 0.75rem; 
-      font-weight: 600; 
-      background: var(--gray-100); 
-      color: var(--gray-800);
-      border-top: 1px solid #ddd;
+    .page-link:hover { 
+      color: var(--accent);
+      background: rgba(255,193,7,0.15);
+    }
+    .page-link.active { 
+      color: #000;
+      background: var(--accent);
     }
     
-    @media (max-width: 1100px) { .flipbook-page { width: 380px; height: 510px; } .page-flip-container { width: 380px; height: 510px; } .page-flip-container.flip-forward { left: calc(380px + 17px); } }
-    @media (max-width: 950px) { .flipbook-page { width: 320px; height: 430px; } .page-flip-container { width: 320px; height: 430px; } .page-flip-container.flip-forward { left: calc(320px + 17px); } .header { padding: 12px 15px; } .main { padding: 15px; } .shelf-row { min-height: 260px; gap: 25px; padding: 30px 30px 50px; } }
+    @media (max-width: 1200px) { 
+      .flipbook-page { width: 450px; height: 600px; } 
+      .page-flip-container { width: 450px; height: 600px; } 
+      .page-flip-container.flip-forward { left: calc(450px + 10px); } 
+    }
+    
+    @media (max-width: 1100px) { .flipbook-page { width: 380px; height: 510px; } .page-flip-container { width: 380px; height: 510px; } .page-flip-container.flip-forward { left: calc(380px + 10px); } }
+    @media (max-width: 950px) { .flipbook-page { width: 320px; height: 430px; } .page-flip-container { width: 320px; height: 430px; } .page-flip-container.flip-forward { left: calc(320px + 10px); } .header { padding: 12px 15px; } .main { padding: 15px; } .shelf-row { min-height: 260px; gap: 25px; padding: 30px 30px 50px; } }
     @media (max-width: 780px) { 
       .flipbook-page-left, .book-spine-center, .page-stack-left, .page-stack-right { display: none; } 
       .flip-backward { display: none !important; } 
-      .flipbook-page { width: 90vw; max-width: 400px; height: auto; aspect-ratio: 3/4; border-radius: 8px; }
+      .flipbook-page { width: 92vw; max-width: 420px; height: auto; aspect-ratio: 3/4; border-radius: 8px; }
       .flipbook-page-right { border-radius: 8px; box-shadow: 0 10px 40px rgba(0,0,0,0.5); }
       .flipbook-page-right canvas { border-radius: 8px; }
       .flipbook-page-right .page-number { right: 50%; transform: translateX(50%); bottom: 15px; }
-      .page-flip-container.flip-forward { left: 0; width: 90vw; max-width: 400px; height: auto; aspect-ratio: 3/4; }
+      .page-flip-container.flip-forward { left: 0; width: 92vw; max-width: 420px; height: auto; aspect-ratio: 3/4; }
       .page-flip-container .flip-page-front, .page-flip-container .flip-page-back { border-radius: 8px; }
       .header-text p { display: none; } 
       .header-text h1 { font-size: 1.1rem; } 
@@ -370,7 +387,9 @@
       .reader-controls { width: 100%; justify-content: space-between; }
       .btn { padding: 8px 12px; font-size: 0.8rem; }
       .thumbnails-sidebar { width: 280px; right: -280px; }
-      .thumbnails-grid { grid-template-columns: repeat(2, 1fr); gap: 10px; padding: 10px; }
+      .thumbnails-sidebar.open { right: 0; }
+      .thumbnails-grid { padding: 15px; gap: 6px 10px; }
+      .page-link { font-size: 0.9rem; padding: 3px 6px; }
     }
   </style>
 </head>
@@ -438,7 +457,7 @@
   </div>
 
   <div class="thumbnails-sidebar" id="thumbnailsSidebar">
-    <div class="thumbnails-header"><h3>Page Navigator</h3><button class="close-thumbnails" onclick="toggleThumbnails()"><svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M18 6L6 18M6 6l12 12"/></svg></button></div>
+    <div class="thumbnails-header"><h3>Go to Page</h3><button class="close-thumbnails" onclick="toggleThumbnails()"><svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M18 6L6 18M6 6l12 12"/></svg></button></div>
     <div class="thumbnails-grid" id="thumbnailsGrid"></div>
   </div>
 
@@ -460,9 +479,8 @@
           description: 'Language and literacy resources',
           books: [
             {
-              title: 'Mastering Standard Mathematics for JSS',
-              url: 'https://raw.githubusercontent.com/mohamedsillahkanu/book-shelf-v2/7387e0ca1b052291155be17905782d4b29f7abb1/SKS%20JHS%20FINAL.pdf'
-              
+              title: 'Colouring Book for Kids',
+              url: 'https://raw.githubusercontent.com/mohamedsillahkanu/book-shelf/c8b67ee6bd33025f8a9575008947d1ab97b12930/COLOURING%20BOOK%20FOR%20KIDS%20(2).pdf'
             }
           ]
         },
@@ -771,14 +789,57 @@
       audioEngine.init(); showLoading('Opening book...');
       try {
         const arr = await fetchPdf(book.url);
-        currentPdf = await pdfjsLib.getDocument({data: arr.slice(0)}).promise;
-        totalPages = currentPdf.numPages; currentSpread = 0; mobilePageIndex = 0; currentPages = []; currentBook = book;
-        for (let p = 1; p <= totalPages; p++) currentPages.push(await currentPdf.getPage(p));
+        currentPdf = await pdfjsLib.getDocument({data: arr}).promise;
+        totalPages = currentPdf.numPages; 
+        currentSpread = 0; 
+        mobilePageIndex = 0; 
+        currentPages = new Array(totalPages).fill(null); // Placeholder array
+        currentBook = book;
+        
         document.getElementById('readerTitle').innerHTML = `${book.title} <span>${totalPages} pages</span>`;
         document.getElementById('totalPagesDisplay').textContent = totalPages;
-        await genThumbs(); await renderSpread(); updateStacks();
-        document.getElementById('readerView').classList.add('active'); hideLoading();
+        
+        genThumbs(); // Generate page number thumbnails (instant)
+        await renderSpread(); // Only loads needed pages
+        updateStacks();
+        
+        document.getElementById('readerView').classList.add('active'); 
+        hideLoading();
       } catch (e) { console.error('Error:', e); hideLoading(); showNotification('Error loading book. Check the URL.', 'error'); }
+    }
+    
+    // Lazy load a page only when needed
+    async function getPage(pageIndex) {
+      if (pageIndex < 0 || pageIndex >= totalPages) return null;
+      if (!currentPages[pageIndex]) {
+        currentPages[pageIndex] = await currentPdf.getPage(pageIndex + 1);
+      }
+      return currentPages[pageIndex];
+    }
+    
+    // Preload adjacent pages in background for smoother navigation
+    function preloadAdjacentPages() {
+      if (isMobile()) {
+        // Preload next 2 and prev 1 pages
+        [mobilePageIndex - 1, mobilePageIndex + 1, mobilePageIndex + 2].forEach(idx => {
+          if (idx >= 0 && idx < totalPages && !currentPages[idx]) {
+            getPage(idx); // Fire and forget
+          }
+        });
+      } else {
+        // Preload next and previous spread
+        const pagesToPreload = [];
+        for (let offset = -2; offset <= 3; offset++) {
+          const vIdx = currentSpread * 2 + offset;
+          const actualIdx = v2a(vIdx);
+          if (actualIdx >= 0 && actualIdx < totalPages) {
+            pagesToPreload.push(actualIdx);
+          }
+        }
+        pagesToPreload.forEach(idx => {
+          if (!currentPages[idx]) getPage(idx); // Fire and forget
+        });
+      }
     }
     
     function getVT() { return totalPages + 2 + (totalPages % 2); }
@@ -789,8 +850,27 @@
     }
     function getMS() { return (getVT() / 2) - 1; }
     
-    async function renderPage(page, canvas) { const vp = page.getViewport({scale: 1.5}); canvas.width = vp.width; canvas.height = vp.height; await page.render({canvasContext: canvas.getContext('2d'), viewport: vp}).promise; }
-    function renderBlank(canvas) { canvas.width = 480; canvas.height = 640; canvas.getContext('2d').fillStyle = '#f8f8f8'; canvas.getContext('2d').fillRect(0, 0, 480, 640); }
+    async function renderPage(pageIndex, canvas) { 
+      const page = await getPage(pageIndex);
+      if (!page) { renderBlank(canvas); return; }
+      // Render at higher resolution for crisp display
+      const scale = 2.0;
+      const viewport = page.getViewport({scale: scale}); 
+      canvas.width = viewport.width; 
+      canvas.height = viewport.height;
+      canvas.style.width = '100%';
+      canvas.style.height = '100%';
+      await page.render({canvasContext: canvas.getContext('2d'), viewport: viewport}).promise; 
+    }
+    function renderBlank(canvas) { 
+      canvas.width = 520; 
+      canvas.height = 700; 
+      canvas.style.width = '100%';
+      canvas.style.height = '100%';
+      const ctx = canvas.getContext('2d');
+      ctx.fillStyle = '#fafafa'; 
+      ctx.fillRect(0, 0, canvas.width, canvas.height); 
+    }
     
     // Mobile uses single page view (currentSpread = page index directly)
     let mobilePageIndex = 0;
@@ -803,7 +883,7 @@
         // Mobile: single page view - show one page at a time
         const pageIdx = mobilePageIndex;
         if (pageIdx >= 0 && pageIdx < totalPages) {
-          await renderPage(currentPages[pageIdx], rc);
+          await renderPage(pageIdx, rc);
           rn.textContent = pageIdx + 1;
           rn.style.display = 'block';
         } else {
@@ -815,13 +895,14 @@
         document.getElementById('prevBtn').disabled = mobilePageIndex === 0;
         document.getElementById('nextBtn').disabled = mobilePageIndex >= totalPages - 1;
         updateActiveThumbnail();
+        preloadAdjacentPages();
         return;
       }
       
       // Desktop: spread view
       const li = v2a(currentSpread * 2), ri = v2a(currentSpread * 2 + 1);
-      if (li >= 0 && li < totalPages) { await renderPage(currentPages[li], lc); ln.textContent = li + 1; ln.style.display = 'block'; } else { renderBlank(lc); ln.style.display = 'none'; }
-      if (ri >= 0 && ri < totalPages) { await renderPage(currentPages[ri], rc); rn.textContent = ri + 1; rn.style.display = 'block'; } else { renderBlank(rc); rn.style.display = 'none'; }
+      if (li >= 0 && li < totalPages) { await renderPage(li, lc); ln.textContent = li + 1; ln.style.display = 'block'; } else { renderBlank(lc); ln.style.display = 'none'; }
+      if (ri >= 0 && ri < totalPages) { await renderPage(ri, rc); rn.textContent = ri + 1; rn.style.display = 'block'; } else { renderBlank(rc); rn.style.display = 'none'; }
       
       // Update page display
       let displayPage = '';
@@ -839,6 +920,7 @@
       document.getElementById('prevBtn').disabled = currentSpread === 0;
       document.getElementById('nextBtn').disabled = currentSpread >= getMS();
       updateActiveThumbnail(); updateStacks();
+      preloadAdjacentPages();
     }
     
     function updateStacks() {
@@ -860,8 +942,8 @@
         if (mobilePageIndex >= totalPages - 1) return;
         isFlipping = true; audioEngine.play();
         const fc = document.getElementById('flipForwardContainer'), ff = document.getElementById('flipForwardFront'), fb = document.getElementById('flipForwardBack');
-        await renderPage(currentPages[mobilePageIndex], ff);
-        if (mobilePageIndex + 1 < totalPages) await renderPage(currentPages[mobilePageIndex + 1], fb); else renderBlank(fb);
+        await renderPage(mobilePageIndex, ff);
+        if (mobilePageIndex + 1 < totalPages) await renderPage(mobilePageIndex + 1, fb); else renderBlank(fb);
         fc.classList.add('flipping-forward');
         setTimeout(async () => { fc.classList.remove('flipping-forward'); mobilePageIndex++; await renderSpread(); isFlipping = false; }, 600);
         return;
@@ -872,8 +954,8 @@
       isFlipping = true; audioEngine.play();
       const fc = document.getElementById('flipForwardContainer'), ff = document.getElementById('flipForwardFront'), fb = document.getElementById('flipForwardBack');
       const ri = v2a(currentSpread * 2 + 1), nli = v2a((currentSpread + 1) * 2);
-      if (ri >= 0) await renderPage(currentPages[ri], ff); else renderBlank(ff);
-      if (nli >= 0) await renderPage(currentPages[nli], fb); else renderBlank(fb);
+      if (ri >= 0) await renderPage(ri, ff); else renderBlank(ff);
+      if (nli >= 0) await renderPage(nli, fb); else renderBlank(fb);
       fc.classList.add('flipping-forward');
       setTimeout(async () => { fc.classList.remove('flipping-forward'); currentSpread++; await renderSpread(); isFlipping = false; }, 600);
     }
@@ -886,8 +968,8 @@
         if (mobilePageIndex <= 0) return;
         isFlipping = true; audioEngine.play();
         const fc = document.getElementById('flipForwardContainer'), ff = document.getElementById('flipForwardFront'), fb = document.getElementById('flipForwardBack');
-        await renderPage(currentPages[mobilePageIndex], ff);
-        await renderPage(currentPages[mobilePageIndex - 1], fb);
+        await renderPage(mobilePageIndex, ff);
+        await renderPage(mobilePageIndex - 1, fb);
         fc.style.transform = 'rotateY(-180deg)';
         fc.style.display = 'block';
         fc.style.animation = 'none';
@@ -911,55 +993,46 @@
       isFlipping = true; audioEngine.play();
       const fc = document.getElementById('flipBackwardContainer'), ff = document.getElementById('flipBackwardFront'), fb = document.getElementById('flipBackwardBack');
       const li = v2a(currentSpread * 2), pri = v2a((currentSpread - 1) * 2 + 1);
-      if (li >= 0) await renderPage(currentPages[li], ff); else renderBlank(ff);
-      if (pri >= 0) await renderPage(currentPages[pri], fb); else renderBlank(fb);
+      if (li >= 0) await renderPage(li, ff); else renderBlank(ff);
+      if (pri >= 0) await renderPage(pri, fb); else renderBlank(fb);
       fc.classList.add('flipping-backward');
       setTimeout(async () => { fc.classList.remove('flipping-backward'); currentSpread--; await renderSpread(); isFlipping = false; }, 600);
     }
     
     async function goToPage(pi) {
       if (isFlipping) return;
-      audioEngine.play();
       if (isMobile()) {
         mobilePageIndex = pi;
         await renderSpread();
       } else {
-        for (let s = 0; s <= getMS(); s++) { if (v2a(s * 2) === pi || v2a(s * 2 + 1) === pi) { currentSpread = s; await renderSpread(); break; } }
+        for (let s = 0; s <= getMS(); s++) { 
+          if (v2a(s * 2) === pi || v2a(s * 2 + 1) === pi) { 
+            currentSpread = s; 
+            await renderSpread(); 
+            break; 
+          } 
+        }
       }
-      toggleThumbnails();
+      // Sidebar stays open for quick page selection
     }
     
-    async function genThumbs() {
-      const g = document.getElementById('thumbnailsGrid'); g.innerHTML = '';
+    function genThumbs() {
+      const g = document.getElementById('thumbnailsGrid'); 
+      g.innerHTML = '';
       for (let i = 0; i < totalPages; i++) {
-        const t = document.createElement('div'); t.className = 'thumbnail'; t.onclick = () => goToPage(i);
-        const c = document.createElement('canvas'), p = currentPages[i];
-        
-        // Calculate scale to fit thumbnail width while maintaining aspect ratio
-        const desiredWidth = 130;
-        const originalViewport = p.getViewport({scale: 1});
-        const scale = desiredWidth / originalViewport.width;
-        const vp = p.getViewport({scale: scale});
-        
-        c.width = vp.width; 
-        c.height = vp.height;
-        await p.render({canvasContext: c.getContext('2d'), viewport: vp}).promise;
-        
-        const l = document.createElement('div'); 
-        l.className = 'thumbnail-num'; 
-        l.textContent = i === 0 ? 'Cover' : `Page ${i + 1}`;
-        
-        t.appendChild(c); 
-        t.appendChild(l); 
+        const t = document.createElement('span'); 
+        t.className = 'page-link' + (i === 0 ? ' active' : ''); 
+        t.onclick = () => goToPage(i);
+        t.textContent = i === 0 ? 'Cover' : i;
         g.appendChild(t);
       }
     }
     
     function updateActiveThumbnail() { 
       if (isMobile()) {
-        document.querySelectorAll('.thumbnail').forEach((t, i) => t.classList.toggle('active', i === mobilePageIndex));
+        document.querySelectorAll('.page-link').forEach((t, i) => t.classList.toggle('active', i === mobilePageIndex));
       } else {
-        document.querySelectorAll('.thumbnail').forEach((t, i) => t.classList.toggle('active', i === v2a(currentSpread * 2) || i === v2a(currentSpread * 2 + 1))); 
+        document.querySelectorAll('.page-link').forEach((t, i) => t.classList.toggle('active', i === v2a(currentSpread * 2) || i === v2a(currentSpread * 2 + 1))); 
       }
     }
     function closeReader() { document.getElementById('readerView').classList.remove('active'); document.getElementById('thumbnailsSidebar').classList.remove('open'); thumbnailsOpen = false; }
