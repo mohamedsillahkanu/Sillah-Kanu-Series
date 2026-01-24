@@ -13,12 +13,9 @@
       --primary-light: #0060a0;
       --accent: #ffc107;
       --accent-dark: #e0a800;
-      --white: #ffffff;
       --gray-100: #f0f4f8;
-      --gray-200: #e2e8f0;
       --gray-600: #475569;
       --gray-800: #1e293b;
-      --success: #28a745;
     }
     
     * { margin: 0; padding: 0; box-sizing: border-box; }
@@ -27,11 +24,8 @@
       font-family: 'Oswald', Arial, sans-serif;
       background: linear-gradient(180deg, #1a1a2e 0%, #16213e 100%);
       min-height: 100vh;
-      color: #000;
-      font-weight: 500;
     }
     
-    /* Header */
     .header {
       background: var(--primary);
       padding: 15px 30px;
@@ -46,57 +40,14 @@
       gap: 15px;
     }
     
-    .header-brand {
-      display: flex;
-      align-items: center;
-      gap: 15px;
-      color: white;
-    }
+    .header-brand { display: flex; align-items: center; gap: 15px; color: white; }
+    .logo-box { background: white; border-radius: 8px; padding: 6px; }
+    .logo-box img { width: 45px; height: 45px; border-radius: 6px; object-fit: cover; }
+    .header-text h1 { font-size: 1.4rem; font-weight: 700; letter-spacing: 1px; }
+    .header-text p { font-size: 0.75rem; opacity: 0.9; font-style: italic; }
     
-    .logo-box {
-      background: white;
-      border-radius: 8px;
-      padding: 6px;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-    }
-    
-    .logo-box img {
-      width: 45px;
-      height: 45px;
-      border-radius: 6px;
-      object-fit: cover;
-    }
-    
-    .header-text h1 {
-      font-size: 1.4rem;
-      font-weight: 700;
-      letter-spacing: 1px;
-    }
-    
-    .header-text p {
-      font-size: 0.75rem;
-      font-weight: 400;
-      opacity: 0.9;
-      font-style: italic;
-    }
-    
-    /* Search Bar */
-    .search-container {
-      display: flex;
-      align-items: center;
-      gap: 10px;
-      flex: 1;
-      max-width: 400px;
-      min-width: 200px;
-    }
-    
-    .search-box {
-      flex: 1;
-      position: relative;
-    }
-    
+    .search-container { display: flex; flex: 1; max-width: 400px; min-width: 200px; }
+    .search-box { flex: 1; position: relative; }
     .search-input {
       width: 100%;
       padding: 12px 45px 12px 18px;
@@ -107,1241 +58,306 @@
       font-family: 'Oswald', sans-serif;
       font-size: 0.95rem;
       outline: none;
-      transition: all 0.3s ease;
     }
-    
-    .search-input::placeholder {
-      color: rgba(255,255,255,0.6);
-    }
-    
-    .search-input:focus {
-      background: rgba(255,255,255,0.2);
-      border-color: var(--accent);
-    }
-    
+    .search-input::placeholder { color: rgba(255,255,255,0.6); }
+    .search-input:focus { background: rgba(255,255,255,0.2); border-color: var(--accent); }
     .search-btn {
-      position: absolute;
-      right: 8px;
-      top: 50%;
-      transform: translateY(-50%);
-      background: var(--accent);
-      border: none;
-      border-radius: 50%;
-      width: 32px;
-      height: 32px;
-      cursor: pointer;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      transition: all 0.3s ease;
+      position: absolute; right: 8px; top: 50%; transform: translateY(-50%);
+      background: var(--accent); border: none; border-radius: 50%;
+      width: 32px; height: 32px; cursor: pointer; display: flex; align-items: center; justify-content: center;
     }
+    .search-btn svg { width: 16px; height: 16px; stroke: #000; }
     
-    .search-btn:hover {
-      background: var(--accent-dark);
-      transform: translateY(-50%) scale(1.1);
-    }
-    
-    .search-btn svg {
-      width: 16px;
-      height: 16px;
-      stroke: #000;
-    }
-    
-    /* Search Results Dropdown */
     .search-results {
-      position: absolute;
-      top: 100%;
-      left: 0;
-      right: 0;
-      background: white;
-      border-radius: 12px;
-      margin-top: 8px;
-      max-height: 350px;
-      overflow-y: auto;
-      box-shadow: 0 10px 40px rgba(0,0,0,0.3);
-      display: none;
-      z-index: 200;
+      position: absolute; top: 100%; left: 0; right: 0;
+      background: white; border-radius: 12px; margin-top: 8px;
+      max-height: 350px; overflow-y: auto; box-shadow: 0 10px 40px rgba(0,0,0,0.3);
+      display: none; z-index: 200;
     }
+    .search-results.active { display: block; }
+    .search-result-item { padding: 12px 18px; cursor: pointer; border-bottom: 1px solid #eee; }
+    .search-result-item:hover { background: var(--gray-100); }
+    .result-title { font-weight: 600; color: var(--primary); }
+    .result-section { font-size: 0.8rem; color: var(--gray-600); margin-top: 2px; }
+    .result-type { display: inline-block; padding: 2px 8px; border-radius: 10px; font-size: 0.7rem; font-weight: 600; margin-left: 8px; }
+    .result-type.book { background: #e3f2fd; color: #1565c0; }
+    .result-type.section { background: #fff3e0; color: #e65100; }
+    .no-results { padding: 20px; text-align: center; color: var(--gray-600); }
     
-    .search-results.active {
-      display: block;
-    }
-    
-    .search-result-item {
-      padding: 12px 18px;
-      cursor: pointer;
-      border-bottom: 1px solid #eee;
-      transition: background 0.2s;
-    }
-    
-    .search-result-item:hover {
-      background: var(--gray-100);
-    }
-    
-    .search-result-item:last-child {
-      border-bottom: none;
-    }
-    
-    .result-title {
-      font-weight: 600;
-      color: var(--primary);
-      font-size: 0.95rem;
-    }
-    
-    .result-section {
-      font-size: 0.8rem;
-      color: var(--gray-600);
-      margin-top: 2px;
-    }
-    
-    .result-type {
-      display: inline-block;
-      padding: 2px 8px;
-      border-radius: 10px;
-      font-size: 0.7rem;
-      font-weight: 600;
-      margin-left: 8px;
-    }
-    
-    .result-type.book {
-      background: #e3f2fd;
-      color: #1565c0;
-    }
-    
-    .result-type.section {
-      background: #fff3e0;
-      color: #e65100;
-    }
-    
-    .no-results {
-      padding: 20px;
-      text-align: center;
-      color: var(--gray-600);
-    }
-    
-    .header-actions {
-      display: flex;
-      gap: 10px;
-      align-items: center;
-    }
-    
+    .header-actions { display: flex; gap: 10px; }
     .btn {
-      padding: 10px 16px;
-      border-radius: 6px;
-      font-size: 0.85rem;
-      font-weight: 600;
-      cursor: pointer;
-      font-family: 'Oswald', Arial, sans-serif;
-      text-transform: uppercase;
-      letter-spacing: 0.5px;
-      transition: all 0.3s ease;
-      display: flex;
-      align-items: center;
-      gap: 6px;
-      border: 2px solid transparent;
+      padding: 10px 16px; border-radius: 6px; font-size: 0.85rem; font-weight: 600;
+      cursor: pointer; font-family: 'Oswald', sans-serif; text-transform: uppercase;
+      transition: all 0.3s ease; display: flex; align-items: center; gap: 6px; border: 2px solid transparent;
     }
+    .btn-outline { background: transparent; border: 2px solid rgba(255,255,255,0.5); color: white; }
+    .btn-outline:hover { background: rgba(255,255,255,0.15); border-color: white; }
+    .btn-gold { background: var(--accent); border-color: var(--accent); color: #000; }
+    .btn-gold:hover { background: var(--accent-dark); }
     
-    .btn-outline {
-      background: transparent;
-      border: 2px solid rgba(255,255,255,0.5);
-      color: white;
-    }
+    .main { padding: 25px 30px; min-height: calc(100vh - 100px); }
     
-    .btn-outline:hover {
-      background: rgba(255,255,255,0.15);
-      border-color: white;
-    }
-    
-    .btn-gold {
-      background: var(--accent);
-      border-color: var(--accent);
-      color: #000;
-    }
-    
-    .btn-gold:hover {
-      background: var(--accent-dark);
-      border-color: var(--accent-dark);
-    }
-    
-    /* Main Content */
-    .main {
-      padding: 25px 30px;
-      min-height: calc(100vh - 100px);
-    }
-    
-    /* Section Navigation */
     .section-nav {
-      display: flex;
-      align-items: center;
-      gap: 15px;
-      margin-bottom: 25px;
-      background: rgba(0,64,128,0.3);
-      padding: 15px 20px;
-      border-radius: 12px;
-      border: 1px solid rgba(0,64,128,0.5);
+      display: flex; align-items: center; gap: 15px; margin-bottom: 25px;
+      background: rgba(0,64,128,0.3); padding: 15px 20px; border-radius: 12px; border: 1px solid rgba(0,64,128,0.5);
     }
-    
     .section-nav-btn {
-      width: 45px;
-      height: 45px;
-      border-radius: 50%;
-      background: var(--primary);
-      border: 2px solid var(--accent);
-      color: white;
-      cursor: pointer;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      transition: all 0.3s ease;
-      flex-shrink: 0;
+      width: 45px; height: 45px; border-radius: 50%; background: var(--primary);
+      border: 2px solid var(--accent); color: white; cursor: pointer;
+      display: flex; align-items: center; justify-content: center; transition: all 0.3s ease;
     }
-    
-    .section-nav-btn:hover:not(:disabled) {
-      background: var(--primary-light);
-      transform: scale(1.1);
-    }
-    
-    .section-nav-btn:disabled {
-      opacity: 0.4;
-      cursor: not-allowed;
-    }
-    
-    .section-nav-btn svg {
-      width: 20px;
-      height: 20px;
-    }
-    
-    .section-tabs {
-      display: flex;
-      gap: 10px;
-      flex: 1;
-      overflow-x: auto;
-      padding: 5px 0;
-      scrollbar-width: none;
-    }
-    
-    .section-tabs::-webkit-scrollbar {
-      display: none;
-    }
-    
+    .section-nav-btn:hover:not(:disabled) { background: var(--primary-light); transform: scale(1.1); }
+    .section-nav-btn:disabled { opacity: 0.4; cursor: not-allowed; }
+    .section-nav-btn svg { width: 20px; height: 20px; }
+    .section-tabs { display: flex; gap: 10px; flex: 1; overflow-x: auto; padding: 5px 0; scrollbar-width: none; }
+    .section-tabs::-webkit-scrollbar { display: none; }
     .section-tab {
-      padding: 12px 24px;
-      background: rgba(255,255,255,0.1);
-      border: 2px solid transparent;
-      border-radius: 25px;
-      color: white;
-      font-family: 'Oswald', sans-serif;
-      font-size: 0.95rem;
-      font-weight: 600;
-      cursor: pointer;
-      white-space: nowrap;
-      transition: all 0.3s ease;
-      display: flex;
-      align-items: center;
-      gap: 8px;
+      padding: 12px 24px; background: rgba(255,255,255,0.1); border: 2px solid transparent;
+      border-radius: 25px; color: white; font-family: 'Oswald', sans-serif; font-size: 0.95rem;
+      font-weight: 600; cursor: pointer; white-space: nowrap; transition: all 0.3s ease;
+      display: flex; align-items: center; gap: 8px;
     }
+    .section-tab:hover { background: rgba(255,255,255,0.2); }
+    .section-tab.active { background: var(--accent); color: #000; border-color: var(--accent); }
+    .tab-count { background: rgba(0,0,0,0.2); padding: 2px 8px; border-radius: 10px; font-size: 0.75rem; }
+    .section-tab.active .tab-count { background: rgba(0,0,0,0.15); }
     
-    .section-tab:hover {
-      background: rgba(255,255,255,0.2);
-    }
-    
-    .section-tab.active {
-      background: var(--accent);
-      color: #000;
-      border-color: var(--accent);
-    }
-    
-    .section-tab .tab-icon {
-      font-size: 1.1rem;
-    }
-    
-    .section-tab .tab-count {
-      background: rgba(0,0,0,0.2);
-      padding: 2px 8px;
-      border-radius: 10px;
-      font-size: 0.75rem;
-    }
-    
-    .section-tab.active .tab-count {
-      background: rgba(0,0,0,0.15);
-    }
-    
-    /* Section Header */
     .section-header {
-      background: var(--primary);
-      color: white;
-      padding: 15px 25px;
-      border-radius: 8px;
-      display: flex;
-      align-items: center;
-      gap: 15px;
-      margin-bottom: 20px;
+      background: var(--primary); color: white; padding: 15px 25px; border-radius: 8px;
+      display: flex; align-items: center; gap: 15px; margin-bottom: 20px;
     }
-    
-    .section-icon {
-      font-size: 2rem;
-    }
-    
-    .section-title {
-      font-size: 1.3rem;
-      font-weight: 700;
-      letter-spacing: 1px;
-      text-transform: uppercase;
-    }
-    
-    .section-subtitle {
-      font-size: 0.85rem;
-      font-weight: 400;
-      opacity: 0.9;
-    }
-    
-    /* Bookshelf */
-    .bookshelf-container {
-      perspective: 1500px;
-    }
+    .section-icon { font-size: 2rem; }
+    .section-title { font-size: 1.3rem; font-weight: 700; text-transform: uppercase; }
+    .section-subtitle { font-size: 0.85rem; opacity: 0.9; }
     
     .bookshelf {
-      background: 
-        radial-gradient(circle at center, #3a4050 1.5px, transparent 1.5px);
-      background-size: 10px 10px;
-      background-color: #1e2028;
-      border-radius: 16px;
-      padding: 0;
-      position: relative;
-      box-shadow: 
-        0 30px 80px rgba(0,0,0,0.8),
-        inset 0 1px 0 rgba(255,255,255,0.05);
-      border: 1px solid #2a2d35;
-      overflow: hidden;
+      background: radial-gradient(circle at center, #3a4050 1.5px, transparent 1.5px);
+      background-size: 10px 10px; background-color: #1e2028; border-radius: 16px;
+      position: relative; box-shadow: 0 30px 80px rgba(0,0,0,0.8); border: 1px solid #2a2d35;
     }
-    
-    .bookshelf::before {
-      content: '';
-      position: absolute;
-      top: 0;
-      left: 0;
-      right: 0;
-      bottom: 0;
-      background: radial-gradient(ellipse at 50% 0%, rgba(0,212,255,0.03) 0%, transparent 60%);
-      pointer-events: none;
-      z-index: 1;
-    }
-    
     .shelf-row {
-      display: flex;
-      gap: 35px;
-      padding: 40px 50px 55px;
-      min-height: 300px;
-      align-items: flex-end;
-      justify-content: flex-start;
-      position: relative;
-      flex-wrap: wrap;
-      z-index: 2;
+      display: flex; gap: 35px; padding: 40px 50px 55px; min-height: 300px;
+      align-items: flex-end; flex-wrap: wrap; position: relative; z-index: 2;
     }
-    
     .shelf-row::before {
-      content: '';
-      position: absolute;
-      bottom: 0;
-      left: 0;
-      right: 0;
-      height: 40px;
+      content: ''; position: absolute; bottom: 0; left: 0; right: 0; height: 40px;
       background: linear-gradient(180deg, #35393f 0%, #25282e 30%, #1a1c20 70%, #0f1012 100%);
       border-top: 1px solid #45494f;
-      box-shadow: inset 0 2px 4px rgba(255,255,255,0.08), 0 -15px 40px rgba(0,0,0,0.4);
     }
-    
     .shelf-row::after {
-      content: '';
-      position: absolute;
-      bottom: 2px;
-      left: 60px;
-      right: 60px;
-      height: 3px;
+      content: ''; position: absolute; bottom: 2px; left: 60px; right: 60px; height: 3px;
       background: linear-gradient(90deg, transparent 0%, #00ccff 10%, #00ffff 50%, #00ccff 90%, transparent 100%);
-      border-radius: 3px;
-      box-shadow: 0 0 8px #00ddff, 0 0 15px #00ddff, 0 0 30px rgba(0,221,255,0.6);
-      z-index: 10;
+      border-radius: 3px; box-shadow: 0 0 8px #00ddff, 0 0 15px #00ddff; z-index: 10;
     }
-    
     .empty-shelf-message {
-      width: 100%;
-      text-align: center;
-      color: rgba(0,200,255,0.5);
-      font-size: 1.1rem;
-      padding: 80px 40px;
-      font-style: italic;
+      width: 100%; text-align: center; color: rgba(0,200,255,0.5);
+      font-size: 1.1rem; padding: 80px 40px; font-style: italic;
     }
     
-    /* Book */
     .book {
-      position: relative;
-      cursor: pointer;
-      transition: all 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
-      transform-style: preserve-3d;
+      position: relative; cursor: pointer; transition: all 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
       filter: drop-shadow(0 8px 15px rgba(0,0,0,0.6));
-      animation: bookAppear 0.5s ease-out backwards;
     }
-    
-    @keyframes bookAppear {
-      from {
-        opacity: 0;
-        transform: translateY(30px) scale(0.9);
-      }
-      to {
-        opacity: 1;
-        transform: translateY(0) scale(1);
-      }
-    }
-    
-    .book:hover {
-      transform: translateY(-15px) scale(1.05);
-      z-index: 10;
-      filter: drop-shadow(0 20px 35px rgba(0,0,0,0.7));
-    }
-    
-    .book:hover .book-info {
-      opacity: 1;
-      transform: translateX(-50%) translateY(0);
-    }
-    
-    .book:hover .book-front {
-      box-shadow: 0 0 20px rgba(0,200,255,0.3), 0 0 40px rgba(0,200,255,0.15), 4px 4px 15px rgba(0,0,0,0.5);
-    }
-    
-    .book-3d {
-      position: relative;
-      transform-style: preserve-3d;
-    }
-    
+    .book:hover { transform: translateY(-15px) scale(1.05); z-index: 10; }
+    .book:hover .book-info { opacity: 1; transform: translateX(-50%) translateY(0); }
+    .book:hover .book-front { box-shadow: 0 0 20px rgba(0,200,255,0.3), 0 0 40px rgba(0,200,255,0.15); }
     .book-front {
-      border-radius: 4px;
-      overflow: hidden;
-      box-shadow: 4px 4px 15px rgba(0,0,0,0.4), inset 0 0 0 1px rgba(255,255,255,0.1);
-      background: var(--primary);
-      transition: box-shadow 0.3s ease;
-      position: relative;
+      width: 130px; height: 190px; border-radius: 4px; overflow: hidden;
+      box-shadow: 4px 4px 15px rgba(0,0,0,0.4); background: var(--primary); position: relative;
     }
-    
-    .book-front img {
-      display: block;
-      width: 100%;
-      height: 100%;
-      object-fit: cover;
-    }
-    
+    .book-front img { width: 100%; height: 100%; object-fit: cover; }
     .book-front-overlay {
-      position: absolute;
-      top: 0;
-      left: 0;
-      right: 0;
-      bottom: 0;
+      position: absolute; top: 0; left: 0; right: 0; bottom: 0;
       background: linear-gradient(90deg, rgba(0,0,0,0.3) 0%, transparent 15%, transparent 85%, rgba(0,0,0,0.15) 100%);
-      pointer-events: none;
     }
-    
     .book-pages-edge {
-      position: absolute;
-      top: 3px;
-      bottom: 3px;
-      right: -10px;
-      width: 10px;
-      background: linear-gradient(90deg, #f5f5f0 0%, #e8e8e3 30%, #f0f0eb 50%, #e5e5e0 80%, #d8d8d3 100%);
-      border-radius: 0 2px 2px 0;
-      box-shadow: 2px 0 4px rgba(0,0,0,0.2);
+      position: absolute; top: 3px; bottom: 3px; right: -12px; width: 12px;
+      background: linear-gradient(90deg, #f5f5f0, #e8e8e3, #f0f0eb, #e5e5e0, #d8d8d3);
+      border-radius: 0 2px 2px 0; box-shadow: 2px 0 4px rgba(0,0,0,0.2);
     }
-    
     .book-pages-edge::before {
-      content: '';
-      position: absolute;
-      top: 0;
-      left: 0;
-      right: 0;
-      bottom: 0;
+      content: ''; position: absolute; top: 0; left: 0; right: 0; bottom: 0;
       background: repeating-linear-gradient(0deg, transparent 0px, transparent 2px, rgba(0,0,0,0.03) 2px, rgba(0,0,0,0.03) 3px);
     }
-    
-    /* Book Info Tooltip */
     .book-info {
-      position: absolute;
-      top: -90px;
-      left: 50%;
-      transform: translateX(-50%) translateY(-10px);
-      background: #2a2d35;
-      color: white;
-      padding: 15px 18px;
-      border-radius: 8px;
-      width: 200px;
-      opacity: 0;
-      transition: all 0.3s ease;
-      pointer-events: none;
-      z-index: 20;
+      position: absolute; top: -85px; left: 50%; transform: translateX(-50%) translateY(-10px);
+      background: #2a2d35; color: white; padding: 12px 15px; border-radius: 8px; width: 180px;
+      opacity: 0; transition: all 0.3s ease; pointer-events: none; z-index: 20;
       box-shadow: 0 8px 25px rgba(0,0,0,0.5);
-      border: 1px solid #3a3d45;
     }
-    
-    .book-info h4 {
-      font-size: 0.9rem;
-      margin-bottom: 5px;
-      font-weight: 600;
-      color: #fff;
-      line-height: 1.3;
-    }
-    
-    .book-info p {
-      font-size: 0.75rem;
-      opacity: 0.7;
-      font-weight: 400;
-      color: #ccc;
-    }
-    
-    .book-info .book-meta {
-      margin-top: 8px;
-      padding-top: 8px;
-      border-top: 1px solid rgba(255,255,255,0.1);
-      font-size: 0.7rem;
-      color: rgba(0,200,255,0.8);
-      font-weight: 500;
-      display: flex;
-      align-items: center;
-      gap: 5px;
-    }
-    
+    .book-info h4 { font-size: 0.85rem; font-weight: 600; line-height: 1.3; }
+    .book-info p { font-size: 0.75rem; opacity: 0.7; margin-top: 5px; }
     .book-info::after {
-      content: '';
-      position: absolute;
-      bottom: -8px;
-      left: 50%;
-      transform: translateX(-50%);
-      border-left: 8px solid transparent;
-      border-right: 8px solid transparent;
-      border-top: 8px solid #2a2d35;
+      content: ''; position: absolute; bottom: -8px; left: 50%; transform: translateX(-50%);
+      border-left: 8px solid transparent; border-right: 8px solid transparent; border-top: 8px solid #2a2d35;
     }
     
-    /* Loading Overlay */
     .loading-overlay {
-      position: fixed;
-      top: 0;
-      left: 0;
-      right: 0;
-      bottom: 0;
-      background: rgba(0,0,0,0.85);
-      display: flex;
-      flex-direction: column;
-      align-items: center;
-      justify-content: center;
-      z-index: 500;
-      opacity: 0;
-      pointer-events: none;
-      transition: opacity 0.3s ease;
+      position: fixed; top: 0; left: 0; right: 0; bottom: 0; background: rgba(0,0,0,0.85);
+      display: flex; flex-direction: column; align-items: center; justify-content: center;
+      z-index: 500; opacity: 0; pointer-events: none; transition: opacity 0.3s ease;
     }
-    
-    .loading-overlay.active {
-      opacity: 1;
-      pointer-events: all;
-    }
-    
+    .loading-overlay.active { opacity: 1; pointer-events: all; }
     .loading-spinner {
-      width: 60px;
-      height: 60px;
-      border: 4px solid rgba(255,193,7,0.3);
-      border-top-color: var(--accent);
-      border-radius: 50%;
-      animation: spin 1s linear infinite;
+      width: 60px; height: 60px; border: 4px solid rgba(255,193,7,0.3);
+      border-top-color: var(--accent); border-radius: 50%; animation: spin 1s linear infinite;
     }
+    @keyframes spin { to { transform: rotate(360deg); } }
+    .loading-text { color: white; margin-top: 20px; font-size: 1.1rem; }
     
-    @keyframes spin {
-      to { transform: rotate(360deg); }
-    }
-    
-    .loading-text {
-      color: white;
-      margin-top: 20px;
-      font-size: 1.1rem;
-    }
-    
-    /* Notification */
     .notification {
-      position: fixed;
-      top: 100px;
-      left: 50%;
-      transform: translateX(-50%) translateY(-20px);
-      padding: 15px 30px;
-      border-radius: 8px;
-      font-weight: 600;
-      z-index: 600;
-      opacity: 0;
-      pointer-events: none;
-      transition: all 0.3s ease;
-      box-shadow: 0 5px 20px rgba(0,0,0,0.3);
-      border: 2px solid;
+      position: fixed; top: 100px; left: 50%; transform: translateX(-50%) translateY(-20px);
+      padding: 15px 30px; border-radius: 8px; font-weight: 600; z-index: 600;
+      opacity: 0; pointer-events: none; transition: all 0.3s ease; box-shadow: 0 5px 20px rgba(0,0,0,0.3);
     }
+    .notification.show { opacity: 1; transform: translateX(-50%) translateY(0); }
+    .notification.success { background: #d4edda; color: #155724; }
+    .notification.error { background: #f8d7da; color: #721c24; }
+    .notification.info { background: #e7f3ff; color: var(--primary); }
     
-    .notification.show {
-      opacity: 1;
-      transform: translateX(-50%) translateY(0);
-    }
+    .footer { background: var(--primary); color: white; padding: 20px 40px; text-align: center; font-size: 0.9rem; }
+    .footer p { margin: 5px 0; opacity: 0.9; }
     
-    .notification.success {
-      background: #d4edda;
-      color: #155724;
-      border-color: var(--success);
-    }
-    
-    .notification.error {
-      background: #f8d7da;
-      color: #721c24;
-      border-color: #dc3545;
-    }
-    
-    .notification.info {
-      background: #e7f3ff;
-      color: var(--primary);
-      border-color: var(--primary);
-    }
-    
-    /* Footer */
-    .footer {
-      background: var(--primary);
-      color: white;
-      padding: 20px 40px;
-      text-align: center;
-      font-size: 0.9rem;
-    }
-    
-    .footer p {
-      margin: 5px 0;
-      opacity: 0.9;
-    }
-    
-    /* ==================== READER STYLES ==================== */
+    /* Reader */
     .reader-view {
-      position: fixed;
-      top: 0;
-      left: 0;
-      right: 0;
-      bottom: 0;
+      position: fixed; top: 0; left: 0; right: 0; bottom: 0;
       background: linear-gradient(180deg, #1a1a2e 0%, #16213e 100%);
-      z-index: 200;
-      display: flex;
-      flex-direction: column;
-      opacity: 0;
-      pointer-events: none;
-      transition: opacity 0.4s ease;
+      z-index: 200; display: flex; flex-direction: column;
+      opacity: 0; pointer-events: none; transition: opacity 0.4s ease;
     }
-    
-    .reader-view.active {
-      opacity: 1;
-      pointer-events: all;
-    }
-    
-    .reader-header {
-      background: var(--primary);
-      padding: 12px 25px;
-      display: flex;
-      align-items: center;
-      justify-content: space-between;
-      box-shadow: 0 4px 20px rgba(0,0,0,0.3);
-    }
-    
-    .reader-title {
-      color: white;
-      font-size: 1.1rem;
-      font-weight: 700;
-    }
-    
-    .reader-title span {
-      font-weight: 400;
-      opacity: 0.8;
-      margin-left: 10px;
-      font-size: 0.9rem;
-    }
-    
-    .reader-controls {
-      display: flex;
-      gap: 10px;
-    }
-    
-    .flipbook-container {
-      flex: 1;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      padding: 20px;
-      position: relative;
-      overflow: visible;
-    }
-    
-    .book-3d-wrapper {
-      perspective: 2500px;
-      overflow: visible;
-    }
-    
-    .flipbook {
-      display: flex;
-      position: relative;
-      transform-style: preserve-3d;
-      transform: rotateX(3deg);
-      overflow: visible;
-    }
-    
-    .flipbook-page {
-      width: 480px;
-      height: 640px;
-      background: white;
-      position: relative;
-      overflow: visible;
-      z-index: 5;
-    }
-    
-    .flipbook-page-left {
-      border-radius: 8px 0 0 8px;
-      box-shadow: inset -30px 0 60px rgba(0,0,0,0.1), -10px 15px 50px rgba(0,0,0,0.4);
-    }
-    
+    .reader-view.active { opacity: 1; pointer-events: all; }
+    .reader-header { background: var(--primary); padding: 12px 25px; display: flex; align-items: center; justify-content: space-between; }
+    .reader-title { color: white; font-size: 1.1rem; font-weight: 700; }
+    .reader-title span { font-weight: 400; opacity: 0.8; margin-left: 10px; font-size: 0.9rem; }
+    .reader-controls { display: flex; gap: 10px; }
+    .flipbook-container { flex: 1; display: flex; align-items: center; justify-content: center; padding: 20px; position: relative; }
+    .book-3d-wrapper { perspective: 2500px; }
+    .flipbook { display: flex; position: relative; transform-style: preserve-3d; transform: rotateX(3deg); }
+    .flipbook-page { width: 480px; height: 640px; background: white; position: relative; overflow: visible; z-index: 5; }
+    .flipbook-page-left { border-radius: 8px 0 0 8px; box-shadow: inset -30px 0 60px rgba(0,0,0,0.1), -10px 15px 50px rgba(0,0,0,0.4); }
+    .flipbook-page-right { border-radius: 0 8px 8px 0; box-shadow: inset 30px 0 60px rgba(0,0,0,0.05), 10px 15px 50px rgba(0,0,0,0.4); }
+    .flipbook-page canvas { width: 100%; height: 100%; object-fit: contain; background: white; }
     .flipbook-page-left canvas { border-radius: 8px 0 0 8px; }
-    
-    .flipbook-page-right {
-      border-radius: 0 8px 8px 0;
-      box-shadow: inset 30px 0 60px rgba(0,0,0,0.05), 10px 15px 50px rgba(0,0,0,0.4);
-    }
-    
     .flipbook-page-right canvas { border-radius: 0 8px 8px 0; }
-    
-    .flipbook-page canvas {
-      width: 100%;
-      height: 100%;
-      object-fit: contain;
-      background: white;
-      position: relative;
-      z-index: 2;
-    }
-    
-    .book-spine-center {
-      width: 35px;
-      background: linear-gradient(90deg, rgba(0,0,0,0.3) 0%, rgba(0,0,0,0.1) 15%, rgba(255,255,255,0.05) 50%, rgba(0,0,0,0.1) 85%, rgba(0,0,0,0.3) 100%);
-      box-shadow: inset 0 0 25px rgba(0,0,0,0.25);
-      position: relative;
-      z-index: 6;
-      align-self: stretch;
-    }
-    
-    .page-number {
-      position: absolute;
-      bottom: 15px;
-      font-size: 0.85rem;
-      color: var(--gray-600);
-      font-weight: 500;
-    }
-    
+    .book-spine-center { width: 35px; background: linear-gradient(90deg, rgba(0,0,0,0.3) 0%, rgba(0,0,0,0.1) 15%, rgba(255,255,255,0.05) 50%, rgba(0,0,0,0.1) 85%, rgba(0,0,0,0.3) 100%); z-index: 6; }
+    .page-number { position: absolute; bottom: 15px; font-size: 0.85rem; color: var(--gray-600); font-weight: 500; }
     .flipbook-page-left .page-number { left: 20px; }
     .flipbook-page-right .page-number { right: 20px; }
-    
-    /* Page Stacks */
-    .page-stack-left, .page-stack-right {
-      position: absolute;
-      top: 0;
-      bottom: 0;
-      pointer-events: none;
-      transition: width 0.3s ease;
-      z-index: 1;
-    }
-    
+    .page-stack-left, .page-stack-right { position: absolute; top: 0; bottom: 0; pointer-events: none; transition: width 0.3s ease; z-index: 1; }
     .page-stack-left { right: 100%; }
     .page-stack-right { left: 100%; }
-    
-    .stack-page {
-      position: absolute;
-      top: 0;
-      width: 100%;
-      height: 100%;
-      background: linear-gradient(90deg, #f5f5f0, #fff, #f8f8f5);
-      box-shadow: 0 0 1px rgba(0,0,0,0.1);
-    }
-    
-    .page-stack-left .stack-page {
-      right: 0;
-      left: auto;
-      border-radius: 4px 0 0 4px;
-      border-left: 1px solid #e0e0dc;
-    }
-    
-    .page-stack-right .stack-page {
-      left: 0;
-      right: auto;
-      border-radius: 0 4px 4px 0;
-      border-right: 1px solid #e0e0dc;
-    }
-    
-    .stack-edge {
-      position: absolute;
-      top: 3px;
-      bottom: 3px;
-      background: repeating-linear-gradient(180deg, #f8f8f5 0px, #f8f8f5 1px, #e8e8e3 1px, #e8e8e3 2px);
-      z-index: 100;
-    }
-    
-    .stack-edge-left {
-      right: 0;
-      border-radius: 2px 0 0 2px;
-      box-shadow: inset 2px 0 4px rgba(0,0,0,0.15), -2px 0 8px rgba(0,0,0,0.1);
-    }
-    
-    .stack-edge-right {
-      left: 0;
-      border-radius: 0 2px 2px 0;
-      box-shadow: inset -2px 0 4px rgba(0,0,0,0.15), 2px 0 8px rgba(0,0,0,0.1);
-    }
-    
-    /* Page Flip Animation */
-    .page-flip-container {
-      position: absolute;
-      top: 0;
-      width: 480px;
-      height: 640px;
-      transform-style: preserve-3d;
-      z-index: 50;
-      pointer-events: none;
-      display: none;
-    }
-    
-    .page-flip-container.flip-forward {
-      left: calc(480px + 17px);
-      transform-origin: left center;
-    }
-    
-    .page-flip-container.flip-backward {
-      left: 0;
-      transform-origin: right center;
-    }
-    
-    .page-flip-container.flipping-forward {
-      display: block;
-      animation: flipForward 0.6s cubic-bezier(0.4, 0.0, 0.2, 1) forwards;
-    }
-    
-    .page-flip-container.flipping-backward {
-      display: block;
-      animation: flipBackward 0.6s cubic-bezier(0.4, 0.0, 0.2, 1) forwards;
-    }
-    
-    @keyframes flipForward {
-      0% { transform: rotateY(0deg) scale(1); }
-      40% { transform: rotateY(-70deg) scale(1.02); }
-      100% { transform: rotateY(-180deg) scale(1); }
-    }
-    
-    @keyframes flipBackward {
-      0% { transform: rotateY(0deg) scale(1); }
-      40% { transform: rotateY(70deg) scale(1.02); }
-      100% { transform: rotateY(180deg) scale(1); }
-    }
-    
-    .flip-page-front, .flip-page-back {
-      position: absolute;
-      width: 100%;
-      height: 100%;
-      backface-visibility: hidden;
-      background: white;
-      overflow: hidden;
-    }
-    
-    .flip-page-front {
-      border-radius: 0 8px 8px 0;
-      box-shadow: -5px 0 30px rgba(0,0,0,0.2);
-    }
-    
-    .flip-page-back {
-      transform: rotateY(180deg);
-      border-radius: 8px 0 0 8px;
-      box-shadow: 5px 0 30px rgba(0,0,0,0.2);
-    }
-    
-    .flip-backward .flip-page-front {
-      border-radius: 8px 0 0 8px;
-      box-shadow: 5px 0 30px rgba(0,0,0,0.2);
-    }
-    
-    .flip-backward .flip-page-back {
-      transform: rotateY(-180deg);
-      border-radius: 0 8px 8px 0;
-      box-shadow: -5px 0 30px rgba(0,0,0,0.2);
-    }
-    
-    .flip-page-front canvas, .flip-page-back canvas {
-      width: 100%;
-      height: 100%;
-      object-fit: contain;
-    }
-    
-    /* Navigation Arrows */
-    .nav-arrow {
-      position: absolute;
-      top: 50%;
-      transform: translateY(-50%);
-      width: 60px;
-      height: 60px;
-      background: var(--primary);
-      border: 3px solid var(--accent);
-      border-radius: 50%;
-      color: white;
-      cursor: pointer;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      transition: all 0.3s ease;
-      box-shadow: 0 5px 25px rgba(0,64,128,0.5);
-      z-index: 20;
-    }
-    
-    .nav-arrow:hover:not(:disabled) {
-      background: var(--primary-light);
-      transform: translateY(-50%) scale(1.1);
-    }
-    
-    .nav-arrow:disabled {
-      opacity: 0.4;
-      cursor: not-allowed;
-    }
-    
+    .stack-edge { position: absolute; top: 3px; bottom: 3px; background: repeating-linear-gradient(180deg, #f8f8f5 0px, #f8f8f5 1px, #e8e8e3 1px, #e8e8e3 2px); z-index: 100; }
+    .stack-edge-left { right: 0; box-shadow: inset 2px 0 4px rgba(0,0,0,0.15); }
+    .stack-edge-right { left: 0; box-shadow: inset -2px 0 4px rgba(0,0,0,0.15); }
+    .page-flip-container { position: absolute; top: 0; width: 480px; height: 640px; transform-style: preserve-3d; z-index: 50; pointer-events: none; display: none; }
+    .page-flip-container.flip-forward { left: calc(480px + 17px); transform-origin: left center; }
+    .page-flip-container.flip-backward { left: 0; transform-origin: right center; }
+    .page-flip-container.flipping-forward { display: block; animation: flipForward 0.6s cubic-bezier(0.4, 0.0, 0.2, 1) forwards; }
+    .page-flip-container.flipping-backward { display: block; animation: flipBackward 0.6s cubic-bezier(0.4, 0.0, 0.2, 1) forwards; }
+    @keyframes flipForward { 0% { transform: rotateY(0deg); } 40% { transform: rotateY(-70deg); } 100% { transform: rotateY(-180deg); } }
+    @keyframes flipBackward { 0% { transform: rotateY(0deg); } 40% { transform: rotateY(70deg); } 100% { transform: rotateY(180deg); } }
+    .flip-page-front, .flip-page-back { position: absolute; width: 100%; height: 100%; backface-visibility: hidden; background: white; }
+    .flip-page-front { border-radius: 0 8px 8px 0; box-shadow: -5px 0 30px rgba(0,0,0,0.2); }
+    .flip-page-back { transform: rotateY(180deg); border-radius: 8px 0 0 8px; box-shadow: 5px 0 30px rgba(0,0,0,0.2); }
+    .flip-backward .flip-page-front { border-radius: 8px 0 0 8px; }
+    .flip-backward .flip-page-back { transform: rotateY(-180deg); border-radius: 0 8px 8px 0; }
+    .flip-page-front canvas, .flip-page-back canvas { width: 100%; height: 100%; object-fit: contain; }
+    .nav-arrow { position: absolute; top: 50%; transform: translateY(-50%); width: 60px; height: 60px; background: var(--primary); border: 3px solid var(--accent); border-radius: 50%; color: white; cursor: pointer; display: flex; align-items: center; justify-content: center; transition: all 0.3s ease; z-index: 20; }
+    .nav-arrow:hover:not(:disabled) { background: var(--primary-light); transform: translateY(-50%) scale(1.1); }
+    .nav-arrow:disabled { opacity: 0.4; cursor: not-allowed; }
     .nav-arrow svg { width: 28px; height: 28px; }
     .nav-prev { left: 25px; }
     .nav-next { right: 25px; }
-    
-    /* Page Indicator */
-    .page-indicator {
-      position: absolute;
-      bottom: 25px;
-      left: 50%;
-      transform: translateX(-50%);
-      background: rgba(0,0,0,0.85);
-      color: white;
-      padding: 12px 25px;
-      border-radius: 25px;
-      font-size: 0.95rem;
-      display: flex;
-      align-items: center;
-      gap: 15px;
-      border: 2px solid var(--primary);
-    }
-    
+    .page-indicator { position: absolute; bottom: 25px; left: 50%; transform: translateX(-50%); background: rgba(0,0,0,0.85); color: white; padding: 12px 25px; border-radius: 25px; font-size: 0.95rem; display: flex; align-items: center; gap: 15px; border: 2px solid var(--primary); }
     .page-indicator strong { color: var(--accent); }
-    
-    .progress-bar {
-      width: 120px;
-      height: 5px;
-      background: rgba(255,255,255,0.2);
-      border-radius: 3px;
-      overflow: hidden;
-    }
-    
-    .progress-fill {
-      height: 100%;
-      background: var(--accent);
-      border-radius: 3px;
-      transition: width 0.3s ease;
-    }
-    
-    /* Page Click Zones */
-    .page-click-zone {
-      position: absolute;
-      top: 0;
-      bottom: 0;
-      width: 25%;
-      cursor: pointer;
-      z-index: 10;
-    }
-    
+    .progress-bar { width: 120px; height: 5px; background: rgba(255,255,255,0.2); border-radius: 3px; }
+    .progress-fill { height: 100%; background: var(--accent); border-radius: 3px; transition: width 0.3s ease; }
+    .page-click-zone { position: absolute; top: 0; bottom: 0; width: 25%; cursor: pointer; z-index: 10; }
     .page-click-left { left: 0; }
     .page-click-right { right: 0; }
-    
-    /* Thumbnails Sidebar */
-    .thumbnails-sidebar {
-      position: fixed;
-      right: -320px;
-      top: 0;
-      bottom: 0;
-      width: 320px;
-      background: rgba(20, 30, 50, 0.98);
-      z-index: 300;
-      transition: right 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
-      display: flex;
-      flex-direction: column;
-      box-shadow: -10px 0 40px rgba(0,0,0,0.5);
-      border-left: 3px solid var(--primary);
-    }
-    
+    .thumbnails-sidebar { position: fixed; right: -320px; top: 0; bottom: 0; width: 320px; background: rgba(20, 30, 50, 0.98); z-index: 300; transition: right 0.4s ease; display: flex; flex-direction: column; box-shadow: -10px 0 40px rgba(0,0,0,0.5); }
     .thumbnails-sidebar.open { right: 0; }
-    
-    .thumbnails-header {
-      padding: 20px;
-      background: var(--primary);
-      display: flex;
-      justify-content: space-between;
-      align-items: center;
-    }
-    
-    .thumbnails-header h3 {
-      color: white;
-      font-size: 1.1rem;
-    }
-    
-    .close-thumbnails {
-      background: transparent;
-      border: none;
-      color: white;
-      cursor: pointer;
-      padding: 5px;
-    }
-    
-    .thumbnails-grid {
-      flex: 1;
-      overflow-y: auto;
-      padding: 15px;
-      display: grid;
-      grid-template-columns: repeat(2, 1fr);
-      gap: 15px;
-    }
-    
-    .thumbnail {
-      cursor: pointer;
-      border-radius: 6px;
-      overflow: hidden;
-      border: 3px solid transparent;
-      transition: all 0.3s ease;
-      background: white;
-    }
-    
+    .thumbnails-header { padding: 20px; background: var(--primary); display: flex; justify-content: space-between; align-items: center; }
+    .thumbnails-header h3 { color: white; font-size: 1.1rem; }
+    .close-thumbnails { background: transparent; border: none; color: white; cursor: pointer; }
+    .thumbnails-grid { flex: 1; overflow-y: auto; padding: 15px; display: grid; grid-template-columns: repeat(2, 1fr); gap: 15px; }
+    .thumbnail { cursor: pointer; border-radius: 6px; overflow: hidden; border: 3px solid transparent; transition: all 0.3s ease; background: white; }
     .thumbnail:hover { border-color: var(--accent); transform: scale(1.05); }
     .thumbnail.active { border-color: var(--accent); box-shadow: 0 0 15px rgba(255,193,7,0.5); }
+    .thumbnail canvas { width: 100%; display: block; }
+    .thumbnail-num { padding: 8px; text-align: center; font-size: 0.75rem; font-weight: 600; background: var(--gray-100); }
     
-    .thumbnail canvas {
-      width: 100%;
-      display: block;
-    }
-    
-    .thumbnail-num {
-      padding: 8px;
-      text-align: center;
-      font-size: 0.75rem;
-      font-weight: 600;
-      background: var(--gray-100);
-      color: var(--gray-800);
-    }
-    
-    /* Responsive */
-    @media (max-width: 1100px) {
-      .flipbook-page { width: 380px; height: 510px; }
-      .page-flip-container { width: 380px; height: 510px; }
-      .page-flip-container.flip-forward { left: calc(380px + 17px); }
-    }
-    
-    @media (max-width: 950px) {
-      .flipbook-page { width: 320px; height: 430px; }
-      .page-flip-container { width: 320px; height: 430px; }
-      .page-flip-container.flip-forward { left: calc(320px + 17px); }
-      .header { padding: 12px 15px; }
-      .main { padding: 15px; }
-      .section-nav { padding: 10px 15px; }
-      .section-tab { padding: 10px 16px; font-size: 0.85rem; }
-      .shelf-row { min-height: 260px; gap: 25px; padding: 30px 30px 50px; }
-      .shelf-row::after { left: 30px; right: 30px; }
-      .search-container { max-width: 300px; }
-    }
-    
-    @media (max-width: 780px) {
-      .flipbook-page-left, .book-spine-center, .page-stack-left, .page-stack-right { display: none; }
-      .flip-backward { display: none !important; }
-      .flipbook-page { width: 90vw; max-width: 360px; height: auto; aspect-ratio: 3/4; }
-      .page-flip-container.flip-forward { left: 0; width: 90vw; max-width: 360px; }
-      .header-text p { display: none; }
-      .header-text h1 { font-size: 1.1rem; }
-      .search-container { order: 3; flex: 100%; max-width: 100%; }
-      .section-nav { flex-wrap: wrap; }
-      .section-tabs { flex: 100%; order: 3; }
-      .shelf-row { gap: 20px; min-height: 220px; padding: 25px 20px 45px; }
-      .shelf-row::after { left: 20px; right: 20px; }
-      .book-front { width: 100px !important; height: 150px !important; }
-      .book-pages-edge { width: 8px !important; }
-      .book-info { width: 160px; padding: 12px 14px; top: -80px; }
-      .book-info h4 { font-size: 0.8rem; }
-    }
+    @media (max-width: 1100px) { .flipbook-page { width: 380px; height: 510px; } .page-flip-container { width: 380px; height: 510px; } .page-flip-container.flip-forward { left: calc(380px + 17px); } }
+    @media (max-width: 950px) { .flipbook-page { width: 320px; height: 430px; } .page-flip-container { width: 320px; height: 430px; } .page-flip-container.flip-forward { left: calc(320px + 17px); } .header { padding: 12px 15px; } .main { padding: 15px; } .shelf-row { min-height: 260px; gap: 25px; padding: 30px 30px 50px; } }
+    @media (max-width: 780px) { .flipbook-page-left, .book-spine-center, .page-stack-left, .page-stack-right { display: none; } .flip-backward { display: none !important; } .flipbook-page { width: 90vw; max-width: 360px; height: auto; aspect-ratio: 3/4; } .page-flip-container.flip-forward { left: 0; width: 90vw; max-width: 360px; } .header-text p { display: none; } .header-text h1 { font-size: 1.1rem; } .search-container { order: 3; flex: 100%; max-width: 100%; margin-top: 10px; } .shelf-row { gap: 20px; min-height: 220px; padding: 25px 20px 45px; } .book-front { width: 100px !important; height: 150px !important; } }
   </style>
 </head>
 <body>
-  <!-- Header -->
   <header class="header">
     <div class="header-brand">
-      <div class="logo-box">
-        <img src="https://github.com/mohamedsillahkanu/gdp-dashboard-2/raw/6c7463b0d5c3be150aafae695a4bcbbd8aeb1499/ICF-SL.jpg" alt="ICF-SL Logo">
-      </div>
-      <div class="header-text">
-        <h1>ICF-SL DIGITAL LIBRARY</h1>
-        <p>Driving Data-Driven Solutions for Health and Development</p>
-      </div>
+      <div class="logo-box"><img src="https://github.com/mohamedsillahkanu/gdp-dashboard-2/raw/6c7463b0d5c3be150aafae695a4bcbbd8aeb1499/ICF-SL.jpg" alt="ICF-SL"></div>
+      <div class="header-text"><h1>ICF-SL DIGITAL LIBRARY</h1><p>Driving Data-Driven Solutions for Health and Development</p></div>
     </div>
-    
     <div class="search-container">
       <div class="search-box">
-        <input type="text" class="search-input" id="searchInput" placeholder="Search books or sections..." oninput="handleSearch(this.value)" onfocus="showSearchResults()">
-        <button class="search-btn" onclick="performSearch()">
-          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5">
-            <circle cx="11" cy="11" r="8"/>
-            <path d="M21 21l-4.35-4.35"/>
-          </svg>
-        </button>
+        <input type="text" class="search-input" id="searchInput" placeholder="Search books or sections..." oninput="handleSearch(this.value)">
+        <button class="search-btn"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><circle cx="11" cy="11" r="8"/><path d="M21 21l-4.35-4.35"/></svg></button>
         <div class="search-results" id="searchResults"></div>
       </div>
     </div>
-    
     <div class="header-actions">
-      <button class="btn btn-outline" id="soundToggle" onclick="toggleSound()">
-        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" id="soundOnIcon">
-          <polygon points="11 5 6 9 2 9 2 15 6 15 11 19 11 5"/>
-          <path d="M15.54 8.46a5 5 0 0 1 0 7.07"/>
-        </svg>
+      <button class="btn btn-outline" onclick="toggleSound()">
+        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polygon points="11 5 6 9 2 9 2 15 6 15 11 19 11 5"/><path d="M15.54 8.46a5 5 0 0 1 0 7.07"/></svg>
         <span id="soundLabel">Sound</span>
       </button>
     </div>
   </header>
 
-  <!-- Main Content -->
   <main class="main">
-    <!-- Section Navigation -->
     <div class="section-nav">
-      <button class="section-nav-btn" id="prevSectionBtn" onclick="prevSection()">
-        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5">
-          <path d="M15 18l-6-6 6-6"/>
-        </svg>
-      </button>
-      
+      <button class="section-nav-btn" id="prevSectionBtn" onclick="prevSection()"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M15 18l-6-6 6-6"/></svg></button>
       <div class="section-tabs" id="sectionTabs"></div>
-      
-      <button class="section-nav-btn" id="nextSectionBtn" onclick="nextSection()">
-        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5">
-          <path d="M9 18l6-6-6-6"/>
-        </svg>
-      </button>
+      <button class="section-nav-btn" id="nextSectionBtn" onclick="nextSection()"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M9 18l6-6-6-6"/></svg></button>
     </div>
-    
-    <!-- Section Header -->
-    <div class="section-header" id="currentSectionHeader">
+    <div class="section-header">
       <div class="section-icon" id="sectionIcon">📚</div>
-      <div>
-        <div class="section-title" id="sectionTitle">All Books</div>
-        <div class="section-subtitle" id="sectionSubtitle">0 publications</div>
-      </div>
+      <div><div class="section-title" id="sectionTitle">All Books</div><div class="section-subtitle" id="sectionSubtitle">Loading...</div></div>
     </div>
-    
-    <!-- Bookshelf -->
-    <div class="bookshelf-container">
-      <div class="bookshelf" id="bookshelf">
-        <div class="shelf-row">
-          <div class="empty-shelf-message">Loading library...</div>
-        </div>
-      </div>
-    </div>
+    <div class="bookshelf" id="bookshelf"><div class="shelf-row"><div class="empty-shelf-message">Loading library...</div></div></div>
   </main>
 
-  <!-- Footer -->
-  <footer class="footer">
-    <p><strong>Informatics Consultancy Firm - Sierra Leone (ICF-SL)</strong></p>
-    <p>Health Information Systems | Data Analytics | Digital Solutions</p>
-  </footer>
+  <footer class="footer"><p><strong>Informatics Consultancy Firm - Sierra Leone (ICF-SL)</strong></p><p>Health Information Systems | Data Analytics | Digital Solutions</p></footer>
 
-  <!-- Reader View -->
   <div class="reader-view" id="readerView">
     <div class="reader-header">
       <div class="reader-title" id="readerTitle">Book Title</div>
       <div class="reader-controls">
-        <button class="btn btn-outline" onclick="toggleThumbnails()">
-          <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-            <rect x="3" y="3" width="7" height="7" rx="1"/>
-            <rect x="14" y="3" width="7" height="7" rx="1"/>
-            <rect x="3" y="14" width="7" height="7" rx="1"/>
-            <rect x="14" y="14" width="7" height="7" rx="1"/>
-          </svg>
-          Pages
-        </button>
-        <button class="btn btn-gold" onclick="closeReader()">
-          <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-            <path d="M18 6L6 18M6 6l12 12"/>
-          </svg>
-          Close
-        </button>
+        <button class="btn btn-outline" onclick="toggleThumbnails()"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="3" width="7" height="7" rx="1"/><rect x="14" y="3" width="7" height="7" rx="1"/><rect x="3" y="14" width="7" height="7" rx="1"/><rect x="14" y="14" width="7" height="7" rx="1"/></svg>Pages</button>
+        <button class="btn btn-gold" onclick="closeReader()"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M18 6L6 18M6 6l12 12"/></svg>Close</button>
       </div>
     </div>
-    
     <div class="flipbook-container">
-      <button class="nav-arrow nav-prev" onclick="prevPage()" id="prevBtn">
-        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5">
-          <path d="M15 18l-6-6 6-6"/>
-        </svg>
-      </button>
-      
+      <button class="nav-arrow nav-prev" onclick="prevPage()" id="prevBtn"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M15 18l-6-6 6-6"/></svg></button>
       <div class="book-3d-wrapper">
         <div class="flipbook" id="flipbook">
-          <div class="page-flip-container flip-backward" id="flipBackwardContainer">
-            <div class="flip-page-front"><canvas id="flipBackwardFront"></canvas></div>
-            <div class="flip-page-back"><canvas id="flipBackwardBack"></canvas></div>
-          </div>
-          
-          <div class="flipbook-page flipbook-page-left" id="leftPage">
-            <div class="page-stack-left" id="pageStackLeft"></div>
-            <canvas id="leftCanvas"></canvas>
-            <div class="page-number" id="leftPageNum"></div>
-            <div class="page-click-zone page-click-left" onclick="prevPage()"></div>
-          </div>
+          <div class="page-flip-container flip-backward" id="flipBackwardContainer"><div class="flip-page-front"><canvas id="flipBackwardFront"></canvas></div><div class="flip-page-back"><canvas id="flipBackwardBack"></canvas></div></div>
+          <div class="flipbook-page flipbook-page-left" id="leftPage"><div class="page-stack-left" id="pageStackLeft"></div><canvas id="leftCanvas"></canvas><div class="page-number" id="leftPageNum"></div><div class="page-click-zone page-click-left" onclick="prevPage()"></div></div>
           <div class="book-spine-center"></div>
-          <div class="flipbook-page flipbook-page-right" id="rightPage">
-            <canvas id="rightCanvas"></canvas>
-            <div class="page-number" id="rightPageNum"></div>
-            <div class="page-click-zone page-click-right" onclick="nextPage()"></div>
-            <div class="page-stack-right" id="pageStackRight"></div>
-          </div>
-          
-          <div class="page-flip-container flip-forward" id="flipForwardContainer">
-            <div class="flip-page-front"><canvas id="flipForwardFront"></canvas></div>
-            <div class="flip-page-back"><canvas id="flipForwardBack"></canvas></div>
-          </div>
+          <div class="flipbook-page flipbook-page-right" id="rightPage"><canvas id="rightCanvas"></canvas><div class="page-number" id="rightPageNum"></div><div class="page-click-zone page-click-right" onclick="nextPage()"></div><div class="page-stack-right" id="pageStackRight"></div></div>
+          <div class="page-flip-container flip-forward" id="flipForwardContainer"><div class="flip-page-front"><canvas id="flipForwardFront"></canvas></div><div class="flip-page-back"><canvas id="flipForwardBack"></canvas></div></div>
         </div>
       </div>
-      
-      <button class="nav-arrow nav-next" onclick="nextPage()" id="nextBtn">
-        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5">
-          <path d="M9 18l6-6-6-6"/>
-        </svg>
-      </button>
-      
-      <div class="page-indicator">
-        <span>Page <strong id="currentPageDisplay">1</strong> of <span id="totalPagesDisplay">0</span></span>
-        <div class="progress-bar">
-          <div class="progress-fill" id="progressFill"></div>
-        </div>
-      </div>
+      <button class="nav-arrow nav-next" onclick="nextPage()" id="nextBtn"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M9 18l6-6-6-6"/></svg></button>
+      <div class="page-indicator"><span>Page <strong id="currentPageDisplay">1</strong> of <span id="totalPagesDisplay">0</span></span><div class="progress-bar"><div class="progress-fill" id="progressFill"></div></div></div>
     </div>
   </div>
 
-  <!-- Thumbnails Sidebar -->
   <div class="thumbnails-sidebar" id="thumbnailsSidebar">
-    <div class="thumbnails-header">
-      <h3>Page Navigator</h3>
-      <button class="close-thumbnails" onclick="toggleThumbnails()">
-        <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-          <path d="M18 6L6 18M6 6l12 12"/>
-        </svg>
-      </button>
-    </div>
+    <div class="thumbnails-header"><h3>Page Navigator</h3><button class="close-thumbnails" onclick="toggleThumbnails()"><svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M18 6L6 18M6 6l12 12"/></svg></button></div>
     <div class="thumbnails-grid" id="thumbnailsGrid"></div>
   </div>
 
-  <!-- Loading Overlay -->
-  <div class="loading-overlay" id="loadingOverlay">
-    <div class="loading-spinner"></div>
-    <div class="loading-text" id="loadingText">Loading...</div>
-  </div>
-
-  <!-- Notification -->
+  <div class="loading-overlay" id="loadingOverlay"><div class="loading-spinner"></div><div class="loading-text" id="loadingText">Loading...</div></div>
   <div class="notification" id="notification"></div>
 
   <script>
@@ -1351,171 +367,98 @@
     
     const libraryData = {
       sections: [
-        {
-          id: 'all',
-          name: 'All Books',
-          icon: '📚',
-          description: 'Browse all publications'
-        },
-        {
-          id: 'health',
-          name: 'Health & Medicine',
-          icon: '🏥',
-          description: 'Health informatics and medical resources',
-          books: [
-            {
-              title: 'Malaria Prevention Guide',
-              url: 'https://github.com/mohamedsillahkanu/book-shelf/raw/c8b67ee6bd33025f8a9575008947d1ab97b12930/COLOURING%20BOOK%20FOR%20KIDS%20(2).pdf',
-              pages: 45
-            },
-            {
-              title: 'DHIS2 Implementation Manual',
-              url: 'https://github.com/user/repo/raw/main/books/dhis2-manual.pdf',
-              pages: 120
-            }
-          ]
-        },
-        {
-          id: 'data',
-          name: 'Data Science',
-          icon: '📊',
-          description: 'Data analytics and statistics',
-          books: [
-            {
-              title: 'R Programming Basics',
-              url: 'https://github.com/user/repo/raw/main/books/r-basics.pdf',
-              pages: 80
-            },
-            {
-              title: 'Data Visualization Guide',
-              url: 'https://github.com/user/repo/raw/main/books/data-viz.pdf',
-              pages: 65
-            }
-          ]
-        },
-        {
-          id: 'mathematics',
-          name: 'Mathematics',
-          icon: '📐',
-          description: 'Mathematical concepts and tutorials',
-          books: [
-            {
-              title: 'Statistics Fundamentals',
-              url: 'https://github.com/user/repo/raw/main/books/statistics.pdf',
-              pages: 95
-            }
-          ]
-        },
+        { id: 'all', name: 'All Books', icon: '📚', description: 'Browse all publications' },
         {
           id: 'english',
           name: 'English',
           icon: '📖',
-          description: 'Language and communication resources',
+          description: 'Language and literacy resources',
           books: [
             {
-              title: 'Technical Writing Guide',
-              url: 'https://github.com/user/repo/raw/main/books/tech-writing.pdf',
-              pages: 55
+              title: 'Colouring Book for Kids',
+              url: 'https://raw.githubusercontent.com/mohamedsillahkanu/book-shelf/c8b67ee6bd33025f8a9575008947d1ab97b12930/COLOURING%20BOOK%20FOR%20KIDS%20(2).pdf'
             }
           ]
         },
-        {
-          id: 'technology',
-          name: 'Technology',
-          icon: '💻',
-          description: 'IT and software resources',
-          books: [
-            {
-              title: 'Web Development Basics',
-              url: 'https://github.com/user/repo/raw/main/books/web-dev.pdf',
-              pages: 110
-            }
-          ]
-        }
+        { id: 'mathematics', name: 'Mathematics', icon: '📐', description: 'Math concepts and exercises', books: [] },
+        { id: 'science', name: 'Science', icon: '🔬', description: 'Science and experiments', books: [] },
+        { id: 'health', name: 'Health', icon: '🏥', description: 'Health education resources', books: [] },
+        { id: 'technology', name: 'Technology', icon: '💻', description: 'IT and digital skills', books: [] }
       ]
     };
     
-    // ============================================
-    // STATE VARIABLES
-    // ============================================
-    
-    let currentSectionIndex = 0;
-    let currentBooks = [];
-    let loadedBooks = {};
-    let currentBook = null;
-    let currentPdf = null;
-    let currentPages = [];
-    let totalPages = 0;
-    let currentSpread = 0;
-    let isFlipping = false;
-    let thumbnailsOpen = false;
-    let soundEnabled = true;
+    // STATE
+    let currentSectionIndex = 0, currentBooks = [], bookCovers = {}, currentBook = null, currentPdf = null;
+    let currentPages = [], totalPages = 0, currentSpread = 0, isFlipping = false, thumbnailsOpen = false, soundEnabled = true;
     
     pdfjsLib.GlobalWorkerOptions.workerSrc = 'https://cdnjs.cloudflare.com/ajax/libs/pdf.js/3.11.174/pdf.worker.min.js';
     
-    // ============================================
-    // AUDIO ENGINE
-    // ============================================
-    
     const audioEngine = {
       ctx: null,
-      initialized: false,
-      
-      init() {
-        if (this.initialized) return;
-        this.ctx = new (window.AudioContext || window.webkitAudioContext)();
-        this.initialized = true;
-      },
-      
-      playPageTurn() {
+      init() { if (!this.ctx) this.ctx = new (window.AudioContext || window.webkitAudioContext)(); },
+      play() {
         if (!soundEnabled || !this.ctx) return;
+        if (this.ctx.state === 'suspended') this.ctx.resume();
         
         const now = this.ctx.currentTime;
+        const duration = 0.35;
+        const bufferSize = this.ctx.sampleRate * duration;
+        const noiseBuffer = this.ctx.createBuffer(1, bufferSize, this.ctx.sampleRate);
+        const output = noiseBuffer.getChannelData(0);
         
-        // Whoosh sound
-        const noise = this.ctx.createBufferSource();
-        const buffer = this.ctx.createBuffer(1, this.ctx.sampleRate * 0.3, this.ctx.sampleRate);
-        const data = buffer.getChannelData(0);
-        for (let i = 0; i < buffer.length; i++) {
-          data[i] = (Math.random() * 2 - 1) * Math.exp(-i / (buffer.length * 0.15));
+        // Create paper rustling sound with flap effect
+        for (let i = 0; i < bufferSize; i++) {
+          let noise = Math.random() * 2 - 1;
+          const t = i / bufferSize;
+          let envelope = t < 0.1 ? t / 0.1 : t < 0.4 ? 1.0 : 1.0 - ((t - 0.4) / 0.6);
+          const flap = Math.sin(t * (25 + Math.random() * 15) * Math.PI * 2) * 0.3;
+          output[i] = noise * envelope * (0.7 + flap);
         }
-        noise.buffer = buffer;
         
-        const filter = this.ctx.createBiquadFilter();
-        filter.type = 'bandpass';
-        filter.frequency.setValueAtTime(800, now);
-        filter.frequency.exponentialRampToValueAtTime(2000, now + 0.15);
-        filter.Q.value = 1;
+        const noiseSource = this.ctx.createBufferSource();
+        noiseSource.buffer = noiseBuffer;
         
-        const gain = this.ctx.createGain();
-        gain.gain.setValueAtTime(0.15, now);
-        gain.gain.exponentialRampToValueAtTime(0.01, now + 0.3);
+        const highPass = this.ctx.createBiquadFilter();
+        highPass.type = 'highpass';
+        highPass.frequency.value = 800;
         
-        noise.connect(filter);
-        filter.connect(gain);
-        gain.connect(this.ctx.destination);
-        noise.start(now);
-        noise.stop(now + 0.3);
+        const lowPass = this.ctx.createBiquadFilter();
+        lowPass.type = 'lowpass';
+        lowPass.frequency.value = 6000;
+        
+        const gainNode = this.ctx.createGain();
+        gainNode.gain.setValueAtTime(0.25, now);
+        gainNode.gain.exponentialRampToValueAtTime(0.01, now + duration);
+        
+        noiseSource.connect(highPass);
+        highPass.connect(lowPass);
+        lowPass.connect(gainNode);
+        gainNode.connect(this.ctx.destination);
+        
+        noiseSource.start(now);
+        noiseSource.stop(now + duration);
+        
+        // Page landing thump
+        setTimeout(() => {
+          const osc = this.ctx.createOscillator();
+          const gain = this.ctx.createGain();
+          osc.type = 'sine';
+          osc.frequency.setValueAtTime(80, this.ctx.currentTime);
+          osc.frequency.exponentialRampToValueAtTime(40, this.ctx.currentTime + 0.08);
+          gain.gain.setValueAtTime(0.12, this.ctx.currentTime);
+          gain.gain.exponentialRampToValueAtTime(0.001, this.ctx.currentTime + 0.08);
+          osc.connect(gain);
+          gain.connect(this.ctx.destination);
+          osc.start();
+          osc.stop(this.ctx.currentTime + 0.08);
+        }, 250);
       }
     };
     
-    // ============================================
-    // INITIALIZATION
-    // ============================================
-    
-    document.addEventListener('DOMContentLoaded', () => {
-      initLibrary();
-      
-      // Click outside search to close
-      document.addEventListener('click', (e) => {
-        const searchBox = document.querySelector('.search-box');
-        if (!searchBox.contains(e.target)) {
-          document.getElementById('searchResults').classList.remove('active');
-        }
-      });
-      
-      // Keyboard navigation
-      document.addEventListener('keydown', (e) => {
+    document.addEventListener('DOMContentLoaded', async () => {
+      renderTabs(); await loadSection(0); updateNav();
+      document.addEventListener('click', e => { if (!document.querySelector('.search-box').contains(e.target)) document.getElementById('searchResults').classList.remove('active'); });
+      document.addEventListener('keydown', e => {
         if (document.getElementById('readerView').classList.contains('active')) {
           if (e.key === 'ArrowRight' || e.key === ' ') nextPage();
           if (e.key === 'ArrowLeft') prevPage();
@@ -1524,710 +467,188 @@
       });
     });
     
-    function initLibrary() {
-      renderSectionTabs();
-      loadSection(0);
-      updateSectionNavButtons();
+    function renderTabs() {
+      document.getElementById('sectionTabs').innerHTML = libraryData.sections.map((s, i) => 
+        `<button class="section-tab ${i === 0 ? 'active' : ''}" onclick="loadSection(${i})"><span>${s.icon}</span><span>${s.name}</span><span class="tab-count">${getCount(s)}</span></button>`
+      ).join('');
     }
     
-    // ============================================
-    // SECTION MANAGEMENT
-    // ============================================
+    function getCount(s) { return s.id === 'all' ? libraryData.sections.reduce((n, x) => n + (x.books?.length || 0), 0) : (s.books?.length || 0); }
     
-    function renderSectionTabs() {
-      const container = document.getElementById('sectionTabs');
-      container.innerHTML = libraryData.sections.map((section, index) => `
-        <button class="section-tab ${index === 0 ? 'active' : ''}" onclick="loadSection(${index})">
-          <span class="tab-icon">${section.icon}</span>
-          <span>${section.name}</span>
-          <span class="tab-count">${getSectionBookCount(section)}</span>
-        </button>
-      `).join('');
+    async function loadSection(i) {
+      currentSectionIndex = i;
+      const s = libraryData.sections[i];
+      document.querySelectorAll('.section-tab').forEach((t, j) => t.classList.toggle('active', j === i));
+      document.getElementById('sectionIcon').textContent = s.icon;
+      document.getElementById('sectionTitle').textContent = s.name;
+      currentBooks = s.id === 'all' ? libraryData.sections.flatMap(x => (x.books || []).map(b => ({...b, sectionName: x.name, sectionIcon: x.icon}))) : (s.books || []).map(b => ({...b, sectionName: s.name, sectionIcon: s.icon}));
+      document.getElementById('sectionSubtitle').textContent = `${currentBooks.length} publication${currentBooks.length !== 1 ? 's' : ''}`;
+      await renderShelf(); updateNav();
     }
     
-    function getSectionBookCount(section) {
-      if (section.id === 'all') {
-        return libraryData.sections.reduce((sum, s) => sum + (s.books ? s.books.length : 0), 0);
-      }
-      return section.books ? section.books.length : 0;
-    }
+    function prevSection() { if (currentSectionIndex > 0) loadSection(currentSectionIndex - 1); }
+    function nextSection() { if (currentSectionIndex < libraryData.sections.length - 1) loadSection(currentSectionIndex + 1); }
+    function updateNav() { document.getElementById('prevSectionBtn').disabled = currentSectionIndex === 0; document.getElementById('nextSectionBtn').disabled = currentSectionIndex === libraryData.sections.length - 1; }
     
-    function loadSection(index) {
-      currentSectionIndex = index;
-      const section = libraryData.sections[index];
-      
-      // Update tabs
-      document.querySelectorAll('.section-tab').forEach((tab, i) => {
-        tab.classList.toggle('active', i === index);
+    function handleSearch(q) {
+      if (!q.trim()) { document.getElementById('searchResults').classList.remove('active'); return; }
+      const results = [], ql = q.toLowerCase();
+      libraryData.sections.forEach((s, si) => {
+        if (s.name.toLowerCase().includes(ql)) results.push({type: 'section', title: s.name, icon: s.icon, index: si});
+        (s.books || []).forEach((b, bi) => { if (b.title.toLowerCase().includes(ql)) results.push({type: 'book', title: b.title, section: s.name, si, bi, icon: s.icon}); });
       });
-      
-      // Update header
-      document.getElementById('sectionIcon').textContent = section.icon;
-      document.getElementById('sectionTitle').textContent = section.name;
-      
-      // Get books for section
-      if (section.id === 'all') {
-        currentBooks = [];
-        libraryData.sections.forEach(s => {
-          if (s.books) {
-            s.books.forEach(book => {
-              currentBooks.push({ ...book, section: s.name, sectionIcon: s.icon });
-            });
-          }
-        });
-      } else {
-        currentBooks = (section.books || []).map(book => ({
-          ...book,
-          section: section.name,
-          sectionIcon: section.icon
-        }));
-      }
-      
-      document.getElementById('sectionSubtitle').textContent = 
-        `${currentBooks.length} publication${currentBooks.length !== 1 ? 's' : ''}`;
-      
-      renderBookshelf();
-      updateSectionNavButtons();
-      
-      // Scroll tabs to show active
-      const activeTab = document.querySelector('.section-tab.active');
-      if (activeTab) {
-        activeTab.scrollIntoView({ behavior: 'smooth', inline: 'center', block: 'nearest' });
-      }
+      const c = document.getElementById('searchResults');
+      c.innerHTML = results.length ? results.map(r => r.type === 'section' 
+        ? `<div class="search-result-item" onclick="goToSection(${r.index})"><span class="result-title">${r.icon} ${r.title}</span><span class="result-type section">Section</span></div>`
+        : `<div class="search-result-item" onclick="goToBook(${r.si},${r.bi})"><div class="result-title">${r.title}<span class="result-type book">Book</span></div><div class="result-section">${r.icon} ${r.section}</div></div>`
+      ).join('') : `<div class="no-results">No results for "${q}"</div>`;
+      c.classList.add('active');
     }
     
-    function prevSection() {
-      if (currentSectionIndex > 0) {
-        loadSection(currentSectionIndex - 1);
-      }
+    function goToSection(i) { document.getElementById('searchResults').classList.remove('active'); document.getElementById('searchInput').value = ''; loadSection(i); }
+    async function goToBook(si, bi) { document.getElementById('searchResults').classList.remove('active'); document.getElementById('searchInput').value = ''; await loadSection(si); setTimeout(() => openBook(bi), 300); }
+    
+    // CORS proxy to fetch GitHub files
+    function proxyUrl(url) {
+      return 'https://corsproxy.io/?' + encodeURIComponent(url);
     }
     
-    function nextSection() {
-      if (currentSectionIndex < libraryData.sections.length - 1) {
-        loadSection(currentSectionIndex + 1);
-      }
-    }
-    
-    function updateSectionNavButtons() {
-      document.getElementById('prevSectionBtn').disabled = currentSectionIndex === 0;
-      document.getElementById('nextSectionBtn').disabled = currentSectionIndex === libraryData.sections.length - 1;
-    }
-    
-    // ============================================
-    // SEARCH FUNCTIONALITY
-    // ============================================
-    
-    function handleSearch(query) {
-      if (!query.trim()) {
-        document.getElementById('searchResults').classList.remove('active');
-        return;
-      }
-      
-      const results = [];
-      const q = query.toLowerCase();
-      
-      // Search sections
-      libraryData.sections.forEach((section, sIndex) => {
-        if (section.name.toLowerCase().includes(q)) {
-          results.push({
-            type: 'section',
-            title: section.name,
-            icon: section.icon,
-            index: sIndex
-          });
-        }
-        
-        // Search books
-        if (section.books) {
-          section.books.forEach((book, bIndex) => {
-            if (book.title.toLowerCase().includes(q)) {
-              results.push({
-                type: 'book',
-                title: book.title,
-                section: section.name,
-                sectionIndex: sIndex,
-                bookIndex: bIndex,
-                icon: section.icon
-              });
-            }
-          });
-        }
-      });
-      
-      renderSearchResults(results, query);
-    }
-    
-    function renderSearchResults(results, query) {
-      const container = document.getElementById('searchResults');
-      
-      if (results.length === 0) {
-        container.innerHTML = `<div class="no-results">No results found for "${query}"</div>`;
-      } else {
-        container.innerHTML = results.map(result => {
-          if (result.type === 'section') {
-            return `
-              <div class="search-result-item" onclick="goToSection(${result.index})">
-                <span class="result-title">${result.icon} ${result.title}</span>
-                <span class="result-type section">Section</span>
-              </div>
-            `;
-          } else {
-            return `
-              <div class="search-result-item" onclick="goToBook(${result.sectionIndex}, ${result.bookIndex})">
-                <div class="result-title">${result.title}<span class="result-type book">Book</span></div>
-                <div class="result-section">${result.icon} ${result.section}</div>
-              </div>
-            `;
-          }
-        }).join('');
-      }
-      
-      container.classList.add('active');
-    }
-    
-    function showSearchResults() {
-      const query = document.getElementById('searchInput').value;
-      if (query.trim()) {
-        handleSearch(query);
-      }
-    }
-    
-    function performSearch() {
-      const query = document.getElementById('searchInput').value;
-      handleSearch(query);
-    }
-    
-    function goToSection(index) {
-      document.getElementById('searchResults').classList.remove('active');
-      document.getElementById('searchInput').value = '';
-      loadSection(index);
-    }
-    
-    function goToBook(sectionIndex, bookIndex) {
-      document.getElementById('searchResults').classList.remove('active');
-      document.getElementById('searchInput').value = '';
-      loadSection(sectionIndex);
-      
-      // Wait for render then open book
-      setTimeout(() => {
-        openBook(bookIndex);
-      }, 300);
-    }
-    
-    // ============================================
-    // BOOKSHELF RENDERING
-    // ============================================
-    
-    function renderBookshelf() {
-      const bookshelf = document.getElementById('bookshelf');
-      
-      if (currentBooks.length === 0) {
-        bookshelf.innerHTML = `
-          <div class="shelf-row">
-            <div class="empty-shelf-message">No books in this section yet</div>
-          </div>
-          <div class="shelf-row"></div>
-        `;
-        return;
-      }
-      
-      // Organize books into rows
-      const booksPerRow = 5;
-      const rows = [];
-      for (let i = 0; i < currentBooks.length; i += booksPerRow) {
-        rows.push(currentBooks.slice(i, i + booksPerRow));
-      }
-      
-      while (rows.length < 2) rows.push([]);
-      
-      bookshelf.innerHTML = rows.map((rowBooks, rowIndex) => {
-        const booksHtml = rowBooks.map((book, bookIndex) => {
-          const globalIndex = rowIndex * booksPerRow + bookIndex;
-          const height = 190;
-          const width = 130;
-          const depth = Math.min(25, 8 + ((book.pages || 50) * 0.12));
-          
-          // Generate cover color based on title
-          const hue = (book.title.charCodeAt(0) * 15) % 360;
-          const coverStyle = book.coverUrl 
-            ? `background-image: url('${book.coverUrl}'); background-size: cover;`
-            : `background: linear-gradient(135deg, hsl(${hue}, 60%, 40%) 0%, hsl(${hue}, 70%, 25%) 100%);`;
-          
-          return `
-            <div class="book" onclick="openBook(${globalIndex})" style="animation-delay: ${globalIndex * 0.08}s">
-              <div class="book-3d">
-                <div class="book-front" style="width: ${width}px; height: ${height}px; ${coverStyle}">
-                  ${!book.coverUrl ? `<div style="padding: 15px; color: white; font-size: 0.85rem; font-weight: 600; line-height: 1.3; height: 100%; display: flex; align-items: center; text-align: center;">${book.title}</div>` : ''}
-                  <div class="book-front-overlay"></div>
-                </div>
-                <div class="book-pages-edge" style="height: ${height - 6}px; width: ${depth}px;"></div>
-              </div>
-              <div class="book-info">
-                <h4>${book.title}</h4>
-                <p>${book.sectionIcon} ${book.section}</p>
-                <div class="book-meta">
-                  <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-                    <rect x="3" y="3" width="7" height="7" rx="1"/>
-                    <rect x="14" y="3" width="7" height="7" rx="1"/>
-                    <rect x="3" y="14" width="7" height="7" rx="1"/>
-                    <rect x="14" y="14" width="7" height="7" rx="1"/>
-                  </svg>
-                  Click to read
-                </div>
-              </div>
-            </div>
-          `;
-        }).join('');
-        
-        return `<div class="shelf-row">${booksHtml}</div>`;
-      }).join('');
-    }
-    
-    // ============================================
-    // BOOK READER
-    // ============================================
-    
-    async function openBook(index) {
-      const book = currentBooks[index];
-      if (!book || !book.url) {
-        showNotification('Book URL not configured', 'error');
-        return;
-      }
-      
-      audioEngine.init();
-      showLoading('Loading book...');
-      
+    async function fetchPdf(url) {
+      // Try direct fetch first, then proxy
       try {
-        // Fetch PDF from GitHub
-        const response = await fetch(book.url);
-        if (!response.ok) throw new Error('Failed to fetch PDF');
-        
-        const arrayBuffer = await response.arrayBuffer();
-        const dataCopy = arrayBuffer.slice(0);
-        
-        currentPdf = await pdfjsLib.getDocument({ data: dataCopy }).promise;
-        totalPages = currentPdf.numPages;
-        currentSpread = 0;
-        currentPages = [];
-        currentBook = book;
-        
-        // Pre-render all pages
-        for (let i = 1; i <= totalPages; i++) {
-          const page = await currentPdf.getPage(i);
-          currentPages.push(page);
+        const res = await fetch(url);
+        if (res.ok) return await res.arrayBuffer();
+      } catch (e) {}
+      
+      // Use CORS proxy
+      const proxyRes = await fetch(proxyUrl(url));
+      if (!proxyRes.ok) throw new Error('Failed to fetch PDF');
+      return await proxyRes.arrayBuffer();
+    }
+    
+    async function renderShelf() {
+      const shelf = document.getElementById('bookshelf');
+      if (!currentBooks.length) { shelf.innerHTML = `<div class="shelf-row"><div class="empty-shelf-message">No books in this section</div></div><div class="shelf-row"></div>`; return; }
+      showLoading('Loading book covers...');
+      for (const book of currentBooks) {
+        if (!bookCovers[book.url]) {
+          try {
+            const arr = await fetchPdf(book.url);
+            const pdf = await pdfjsLib.getDocument({data: arr}).promise;
+            const page = await pdf.getPage(1);
+            const vp = page.getViewport({scale: 0.5});
+            const canvas = document.createElement('canvas'); canvas.width = vp.width; canvas.height = vp.height;
+            await page.render({canvasContext: canvas.getContext('2d'), viewport: vp}).promise;
+            bookCovers[book.url] = canvas.toDataURL('image/jpeg', 0.85);
+          } catch (e) { console.error('Cover error:', book.title, e); bookCovers[book.url] = null; }
         }
-        
+      }
+      hideLoading();
+      const rows = []; for (let i = 0; i < currentBooks.length; i += 5) rows.push(currentBooks.slice(i, i + 5));
+      while (rows.length < 2) rows.push([]);
+      shelf.innerHTML = rows.map((row, ri) => `<div class="shelf-row">${row.map((book, bi) => {
+        const cover = bookCovers[book.url], gi = ri * 5 + bi;
+        return `<div class="book" onclick="openBook(${gi})"><div class="book-front">${cover ? `<img src="${cover}">` : `<div style="padding:15px;color:white;font-size:0.8rem;height:100%;display:flex;align-items:center;text-align:center;">${book.title}</div>`}<div class="book-front-overlay"></div></div><div class="book-pages-edge"></div><div class="book-info"><h4>${book.title}</h4><p>${book.sectionIcon} ${book.sectionName}</p></div></div>`;
+      }).join('')}</div>`).join('');
+    }
+    
+    async function openBook(i) {
+      const book = currentBooks[i]; if (!book) return;
+      audioEngine.init(); showLoading('Opening book...');
+      try {
+        const arr = await fetchPdf(book.url);
+        currentPdf = await pdfjsLib.getDocument({data: arr.slice(0)}).promise;
+        totalPages = currentPdf.numPages; currentSpread = 0; currentPages = []; currentBook = book;
+        for (let p = 1; p <= totalPages; p++) currentPages.push(await currentPdf.getPage(p));
         document.getElementById('readerTitle').innerHTML = `${book.title} <span>${totalPages} pages</span>`;
         document.getElementById('totalPagesDisplay').textContent = totalPages;
-        
-        await generateThumbnails();
-        await renderSpread();
-        updatePageStacks();
-        
-        document.getElementById('readerView').classList.add('active');
-        hideLoading();
-      } catch (err) {
-        console.error('Error opening book:', err);
-        hideLoading();
-        showNotification('Error loading book. Check URL configuration.', 'error');
-      }
+        await genThumbs(); await renderSpread(); updateStacks();
+        document.getElementById('readerView').classList.add('active'); hideLoading();
+      } catch (e) { console.error('Error:', e); hideLoading(); showNotification('Error loading book. Check the URL.', 'error'); }
     }
     
-    // ============================================
-    // VIRTUAL PAGE MAPPING
-    // ============================================
-    
-    function getVirtualTotal() {
-      return totalPages + 2 + (totalPages % 2);
+    function getVT() { return totalPages + 2 + (totalPages % 2); }
+    function v2a(v) {
+      if (v === 0) return -1; // blank before cover
+      if (v >= 1 && v <= totalPages) return v - 1; // actual pages (1 to N maps to 0 to N-1)
+      return -1; // blank padding at end
     }
+    function getMS() { return (getVT() / 2) - 1; }
     
-    function virtualToActual(vPos) {
-      const N = totalPages;
-      if (vPos === 0) return -1;
-      if (vPos === 1) return 0;
-      
-      if (N % 2 === 0) {
-        if (vPos <= N) return vPos - 1;
-        return -1;
-      } else {
-        if (vPos <= N - 1) return vPos - 1;
-        if (vPos === N) return -1;
-        if (vPos === N + 1) return N - 1;
-        return -1;
-      }
-    }
-    
-    function getMaxSpread() {
-      return (getVirtualTotal() / 2) - 1;
-    }
-    
-    // ============================================
-    // PAGE RENDERING
-    // ============================================
-    
-    async function renderPage(page, canvas) {
-      const scale = 1.5;
-      const viewport = page.getViewport({ scale });
-      canvas.width = viewport.width;
-      canvas.height = viewport.height;
-      
-      await page.render({
-        canvasContext: canvas.getContext('2d'),
-        viewport
-      }).promise;
-    }
-    
-    function renderBlankPage(canvas) {
-      canvas.width = 480;
-      canvas.height = 640;
-      const ctx = canvas.getContext('2d');
-      const gradient = ctx.createLinearGradient(0, 0, 480, 640);
-      gradient.addColorStop(0, '#fafafa');
-      gradient.addColorStop(0.5, '#f5f5f5');
-      gradient.addColorStop(1, '#efefef');
-      ctx.fillStyle = gradient;
-      ctx.fillRect(0, 0, 480, 640);
-      ctx.strokeStyle = 'rgba(0,0,0,0.02)';
-      for (let y = 20; y < 640; y += 25) {
-        ctx.beginPath();
-        ctx.moveTo(40, y);
-        ctx.lineTo(440, y);
-        ctx.stroke();
-      }
-      canvas.style.display = 'block';
-    }
+    async function renderPage(page, canvas) { const vp = page.getViewport({scale: 1.5}); canvas.width = vp.width; canvas.height = vp.height; await page.render({canvasContext: canvas.getContext('2d'), viewport: vp}).promise; }
+    function renderBlank(canvas) { canvas.width = 480; canvas.height = 640; canvas.getContext('2d').fillStyle = '#f8f8f8'; canvas.getContext('2d').fillRect(0, 0, 480, 640); }
     
     async function renderSpread() {
-      const leftPage = document.getElementById('leftPage');
-      const rightPage = document.getElementById('rightPage');
-      const leftCanvas = document.getElementById('leftCanvas');
-      const rightCanvas = document.getElementById('rightCanvas');
-      const leftPageNum = document.getElementById('leftPageNum');
-      const rightPageNum = document.getElementById('rightPageNum');
-      
-      const leftVirtual = currentSpread * 2;
-      const rightVirtual = currentSpread * 2 + 1;
-      
-      const leftIdx = virtualToActual(leftVirtual);
-      const rightIdx = virtualToActual(rightVirtual);
-      
-      // Left page
-      if (leftIdx >= 0 && leftIdx < totalPages) {
-        leftPage.style.visibility = 'visible';
-        leftCanvas.style.display = 'block';
-        await renderPage(currentPages[leftIdx], leftCanvas);
-        leftPageNum.textContent = leftIdx + 1;
-        leftPageNum.style.display = 'block';
-      } else {
-        leftPage.style.visibility = 'visible';
-        renderBlankPage(leftCanvas);
-        leftPageNum.style.display = 'none';
-      }
-      
-      // Right page
-      if (rightIdx >= 0 && rightIdx < totalPages) {
-        rightPage.style.visibility = 'visible';
-        rightCanvas.style.display = 'block';
-        await renderPage(currentPages[rightIdx], rightCanvas);
-        rightPageNum.textContent = rightIdx + 1;
-        rightPageNum.style.display = 'block';
-      } else {
-        rightPage.style.visibility = 'visible';
-        renderBlankPage(rightCanvas);
-        rightPageNum.style.display = 'none';
-      }
-      
-      // Update indicators
-      let displayText;
-      if (currentSpread === 0) {
-        displayText = 'Cover';
-      } else if (leftIdx >= 0 && rightIdx < 0) {
-        displayText = `${leftIdx + 1}`;
-      } else if (leftIdx >= 0 && rightIdx >= 0) {
-        displayText = `${leftIdx + 1}-${rightIdx + 1}`;
-      } else {
-        displayText = '-';
-      }
-      document.getElementById('currentPageDisplay').textContent = displayText;
-      
-      const maxActualShown = Math.max(leftIdx, rightIdx);
-      const progress = ((maxActualShown + 1) / totalPages) * 100;
-      document.getElementById('progressFill').style.width = `${Math.min(Math.max(progress, 0), 100)}%`;
-      
+      const lc = document.getElementById('leftCanvas'), rc = document.getElementById('rightCanvas');
+      const ln = document.getElementById('leftPageNum'), rn = document.getElementById('rightPageNum');
+      const li = v2a(currentSpread * 2), ri = v2a(currentSpread * 2 + 1);
+      if (li >= 0 && li < totalPages) { await renderPage(currentPages[li], lc); ln.textContent = li + 1; ln.style.display = 'block'; } else { renderBlank(lc); ln.style.display = 'none'; }
+      if (ri >= 0 && ri < totalPages) { await renderPage(currentPages[ri], rc); rn.textContent = ri + 1; rn.style.display = 'block'; } else { renderBlank(rc); rn.style.display = 'none'; }
+      document.getElementById('currentPageDisplay').textContent = currentSpread === 0 ? 'Cover' : li >= 0 && ri >= 0 ? `${li + 1}-${ri + 1}` : li >= 0 ? `${li + 1}` : '-';
+      document.getElementById('progressFill').style.width = `${Math.min(100, ((Math.max(li, ri) + 1) / totalPages) * 100)}%`;
       document.getElementById('prevBtn').disabled = currentSpread === 0;
-      document.getElementById('nextBtn').disabled = currentSpread >= getMaxSpread();
-      
-      updateActiveThumbnail();
-      updatePageStacks();
+      document.getElementById('nextBtn').disabled = currentSpread >= getMS();
+      updateActiveThumbnail(); updateStacks();
     }
     
-    // ============================================
-    // PAGE STACKS
-    // ============================================
-    
-    function updatePageStacks() {
-      const leftVirtual = currentSpread * 2;
-      const rightVirtual = currentSpread * 2 + 1;
-      
-      let pagesOnLeft = 0;
-      let pagesOnRight = 0;
-      
-      for (let v = 0; v < leftVirtual; v++) {
-        if (virtualToActual(v) >= 0) pagesOnLeft++;
-      }
-      
-      const virtualTotal = getVirtualTotal();
-      for (let v = rightVirtual + 1; v < virtualTotal; v++) {
-        if (virtualToActual(v) >= 0) pagesOnRight++;
-      }
-      
-      const pageThickness = 2;
-      const maxStackWidth = 80;
-      
-      // Left stack
-      const leftStack = document.getElementById('pageStackLeft');
-      const leftThickness = Math.min(pagesOnLeft * pageThickness, maxStackWidth);
-      leftStack.innerHTML = '';
-      leftStack.style.width = leftThickness + 'px';
-      
-      if (pagesOnLeft > 0) {
-        const numLayers = Math.min(Math.ceil(pagesOnLeft / 3), 15);
-        for (let i = 0; i < numLayers; i++) {
-          const page = document.createElement('div');
-          page.className = 'stack-page';
-          const offset = (numLayers - i - 1) * (leftThickness / numLayers);
-          page.style.transform = `translateX(${offset}px)`;
-          page.style.zIndex = i;
-          const shade = 250 - (i % 3) * 3;
-          page.style.background = `linear-gradient(90deg, rgb(${shade-5},${shade-5},${shade-10}) 0%, rgb(${shade},${shade},${shade}) 50%, rgb(${shade-3},${shade-3},${shade-8}) 100%)`;
-          leftStack.appendChild(page);
-        }
-        
-        const edgeDiv = document.createElement('div');
-        edgeDiv.className = 'stack-edge stack-edge-left';
-        edgeDiv.style.width = leftThickness + 'px';
-        leftStack.appendChild(edgeDiv);
-      }
-      
-      // Right stack
-      const rightStack = document.getElementById('pageStackRight');
-      const rightThickness = Math.min(pagesOnRight * pageThickness, maxStackWidth);
-      rightStack.innerHTML = '';
-      rightStack.style.width = rightThickness + 'px';
-      
-      if (pagesOnRight > 0) {
-        const numLayers = Math.min(Math.ceil(pagesOnRight / 3), 15);
-        for (let i = 0; i < numLayers; i++) {
-          const page = document.createElement('div');
-          page.className = 'stack-page';
-          const offset = (numLayers - i - 1) * (rightThickness / numLayers);
-          page.style.transform = `translateX(-${offset}px)`;
-          page.style.zIndex = i;
-          const shade = 250 - (i % 3) * 3;
-          page.style.background = `linear-gradient(90deg, rgb(${shade-3},${shade-3},${shade-8}) 0%, rgb(${shade},${shade},${shade}) 50%, rgb(${shade-5},${shade-5},${shade-10}) 100%)`;
-          rightStack.appendChild(page);
-        }
-        
-        const edgeDiv = document.createElement('div');
-        edgeDiv.className = 'stack-edge stack-edge-right';
-        edgeDiv.style.width = rightThickness + 'px';
-        rightStack.appendChild(edgeDiv);
-      }
+    function updateStacks() {
+      let pl = 0, pr = 0;
+      for (let v = 0; v < currentSpread * 2; v++) if (v2a(v) >= 0) pl++;
+      for (let v = currentSpread * 2 + 2; v < getVT(); v++) if (v2a(v) >= 0) pr++;
+      const ls = document.getElementById('pageStackLeft'), rs = document.getElementById('pageStackRight');
+      const lw = Math.min(pl * 2, 80), rw = Math.min(pr * 2, 80);
+      ls.style.width = lw + 'px'; rs.style.width = rw + 'px';
+      ls.innerHTML = pl > 0 ? `<div class="stack-edge stack-edge-left" style="width:${lw}px"></div>` : '';
+      rs.innerHTML = pr > 0 ? `<div class="stack-edge stack-edge-right" style="width:${rw}px"></div>` : '';
     }
-    
-    // ============================================
-    // PAGE NAVIGATION
-    // ============================================
     
     async function nextPage() {
-      if (isFlipping || currentSpread >= getMaxSpread()) return;
-      
-      isFlipping = true;
-      audioEngine.playPageTurn();
-      
-      const flipContainer = document.getElementById('flipForwardContainer');
-      const flipFront = document.getElementById('flipForwardFront');
-      const flipBack = document.getElementById('flipForwardBack');
-      
-      const currentRightVirtual = currentSpread * 2 + 1;
-      const nextLeftVirtual = (currentSpread + 1) * 2;
-      
-      const currentRightIdx = virtualToActual(currentRightVirtual);
-      const nextLeftIdx = virtualToActual(nextLeftVirtual);
-      
-      if (currentRightIdx >= 0 && currentRightIdx < totalPages) {
-        await renderPage(currentPages[currentRightIdx], flipFront);
-      } else {
-        renderBlankPage(flipFront);
-      }
-      
-      if (nextLeftIdx >= 0 && nextLeftIdx < totalPages) {
-        await renderPage(currentPages[nextLeftIdx], flipBack);
-      } else {
-        renderBlankPage(flipBack);
-      }
-      
-      flipContainer.classList.add('flipping-forward');
-      
-      setTimeout(async () => {
-        flipContainer.classList.remove('flipping-forward');
-        currentSpread++;
-        await renderSpread();
-        isFlipping = false;
-      }, 600);
+      if (isFlipping || currentSpread >= getMS()) return;
+      isFlipping = true; audioEngine.play();
+      const fc = document.getElementById('flipForwardContainer'), ff = document.getElementById('flipForwardFront'), fb = document.getElementById('flipForwardBack');
+      const ri = v2a(currentSpread * 2 + 1), nli = v2a((currentSpread + 1) * 2);
+      if (ri >= 0) await renderPage(currentPages[ri], ff); else renderBlank(ff);
+      if (nli >= 0) await renderPage(currentPages[nli], fb); else renderBlank(fb);
+      fc.classList.add('flipping-forward');
+      setTimeout(async () => { fc.classList.remove('flipping-forward'); currentSpread++; await renderSpread(); isFlipping = false; }, 600);
     }
     
     async function prevPage() {
       if (isFlipping || currentSpread === 0) return;
-      
-      isFlipping = true;
-      audioEngine.playPageTurn();
-      
-      const flipContainer = document.getElementById('flipBackwardContainer');
-      const flipFront = document.getElementById('flipBackwardFront');
-      const flipBack = document.getElementById('flipBackwardBack');
-      
-      const currentLeftVirtual = currentSpread * 2;
-      const prevRightVirtual = (currentSpread - 1) * 2 + 1;
-      
-      const currentLeftIdx = virtualToActual(currentLeftVirtual);
-      const prevRightIdx = virtualToActual(prevRightVirtual);
-      
-      if (currentLeftIdx >= 0 && currentLeftIdx < totalPages) {
-        await renderPage(currentPages[currentLeftIdx], flipFront);
-      } else {
-        renderBlankPage(flipFront);
-      }
-      
-      if (prevRightIdx >= 0 && prevRightIdx < totalPages) {
-        await renderPage(currentPages[prevRightIdx], flipBack);
-      } else {
-        renderBlankPage(flipBack);
-      }
-      
-      flipContainer.classList.add('flipping-backward');
-      
-      setTimeout(async () => {
-        flipContainer.classList.remove('flipping-backward');
-        currentSpread--;
-        await renderSpread();
-        isFlipping = false;
-      }, 600);
+      isFlipping = true; audioEngine.play();
+      const fc = document.getElementById('flipBackwardContainer'), ff = document.getElementById('flipBackwardFront'), fb = document.getElementById('flipBackwardBack');
+      const li = v2a(currentSpread * 2), pri = v2a((currentSpread - 1) * 2 + 1);
+      if (li >= 0) await renderPage(currentPages[li], ff); else renderBlank(ff);
+      if (pri >= 0) await renderPage(currentPages[pri], fb); else renderBlank(fb);
+      fc.classList.add('flipping-backward');
+      setTimeout(async () => { fc.classList.remove('flipping-backward'); currentSpread--; await renderSpread(); isFlipping = false; }, 600);
     }
     
-    async function goToPage(pageIndex) {
+    async function goToPage(pi) {
       if (isFlipping) return;
-      
-      let targetSpread = 0;
-      
-      for (let s = 0; s <= getMaxSpread(); s++) {
-        const leftIdx = virtualToActual(s * 2);
-        const rightIdx = virtualToActual(s * 2 + 1);
-        if (leftIdx === pageIndex || rightIdx === pageIndex) {
-          targetSpread = s;
-          break;
-        }
-      }
-      
-      if (targetSpread !== currentSpread) {
-        audioEngine.playPageTurn();
-        currentSpread = targetSpread;
-        await renderSpread();
-      }
+      for (let s = 0; s <= getMS(); s++) { if (v2a(s * 2) === pi || v2a(s * 2 + 1) === pi) { audioEngine.play(); currentSpread = s; await renderSpread(); break; } }
       toggleThumbnails();
     }
     
-    // ============================================
-    // THUMBNAILS
-    // ============================================
-    
-    async function generateThumbnails() {
-      const grid = document.getElementById('thumbnailsGrid');
-      grid.innerHTML = '';
-      
+    async function genThumbs() {
+      const g = document.getElementById('thumbnailsGrid'); g.innerHTML = '';
       for (let i = 0; i < totalPages; i++) {
-        const thumb = document.createElement('div');
-        thumb.className = 'thumbnail';
-        thumb.dataset.page = i;
-        thumb.onclick = () => goToPage(i);
-        
-        const canvas = document.createElement('canvas');
-        thumb.appendChild(canvas);
-        
-        const numLabel = document.createElement('div');
-        numLabel.className = 'thumbnail-num';
-        if (i === 0) {
-          numLabel.textContent = 'Cover';
-        } else if (i === totalPages - 1) {
-          numLabel.textContent = `Page ${i + 1} (Last)`;
-        } else {
-          numLabel.textContent = `Page ${i + 1}`;
-        }
-        thumb.appendChild(numLabel);
-        
-        grid.appendChild(thumb);
-        
-        const page = currentPages[i];
-        const viewport = page.getViewport({ scale: 0.2 });
-        canvas.width = viewport.width;
-        canvas.height = viewport.height;
-        
-        await page.render({
-          canvasContext: canvas.getContext('2d'),
-          viewport
-        }).promise;
+        const t = document.createElement('div'); t.className = 'thumbnail'; t.onclick = () => goToPage(i);
+        const c = document.createElement('canvas'), p = currentPages[i], vp = p.getViewport({scale: 0.2});
+        c.width = vp.width; c.height = vp.height;
+        await p.render({canvasContext: c.getContext('2d'), viewport: vp}).promise;
+        const l = document.createElement('div'); l.className = 'thumbnail-num'; l.textContent = i === 0 ? 'Cover' : `Page ${i + 1}`;
+        t.appendChild(c); t.appendChild(l); g.appendChild(t);
       }
     }
     
-    function updateActiveThumbnail() {
-      const thumbs = document.querySelectorAll('.thumbnail');
-      const leftIdx = virtualToActual(currentSpread * 2);
-      const rightIdx = virtualToActual(currentSpread * 2 + 1);
-      
-      thumbs.forEach((thumb, i) => {
-        thumb.classList.toggle('active', i === leftIdx || i === rightIdx);
-      });
-    }
-    
-    // ============================================
-    // UI CONTROLS
-    // ============================================
-    
-    function closeReader() {
-      document.getElementById('readerView').classList.remove('active');
-      document.getElementById('thumbnailsSidebar').classList.remove('open');
-      thumbnailsOpen = false;
-      currentBook = null;
-      currentPdf = null;
-      currentPages = [];
-    }
-    
-    function toggleThumbnails() {
-      thumbnailsOpen = !thumbnailsOpen;
-      document.getElementById('thumbnailsSidebar').classList.toggle('open', thumbnailsOpen);
-    }
-    
-    function toggleSound() {
-      soundEnabled = !soundEnabled;
-      document.getElementById('soundOnIcon').style.display = soundEnabled ? 'block' : 'none';
-      document.getElementById('soundLabel').textContent = soundEnabled ? 'Sound' : 'Muted';
-    }
-    
-    function showLoading(text) {
-      document.getElementById('loadingText').textContent = text;
-      document.getElementById('loadingOverlay').classList.add('active');
-    }
-    
-    function hideLoading() {
-      document.getElementById('loadingOverlay').classList.remove('active');
-    }
-    
-    function showNotification(message, type = 'info') {
-      const notif = document.getElementById('notification');
-      notif.textContent = message;
-      notif.className = `notification ${type} show`;
-      setTimeout(() => notif.classList.remove('show'), 3000);
-    }
+    function updateActiveThumbnail() { document.querySelectorAll('.thumbnail').forEach((t, i) => t.classList.toggle('active', i === v2a(currentSpread * 2) || i === v2a(currentSpread * 2 + 1))); }
+    function closeReader() { document.getElementById('readerView').classList.remove('active'); document.getElementById('thumbnailsSidebar').classList.remove('open'); thumbnailsOpen = false; }
+    function toggleThumbnails() { thumbnailsOpen = !thumbnailsOpen; document.getElementById('thumbnailsSidebar').classList.toggle('open', thumbnailsOpen); }
+    function toggleSound() { soundEnabled = !soundEnabled; document.getElementById('soundLabel').textContent = soundEnabled ? 'Sound' : 'Muted'; }
+    function showLoading(t) { document.getElementById('loadingText').textContent = t; document.getElementById('loadingOverlay').classList.add('active'); }
+    function hideLoading() { document.getElementById('loadingOverlay').classList.remove('active'); }
+    function showNotification(m, type = 'info') { const n = document.getElementById('notification'); n.textContent = m; n.className = `notification ${type} show`; setTimeout(() => n.classList.remove('show'), 3000); }
   </script>
 </body>
 </html>
