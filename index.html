@@ -1365,6 +1365,8 @@
       for (const file of files) {
         try {
           const arrayBuffer = await file.arrayBuffer();
+          // Store a copy of the data since ArrayBuffer gets detached after use
+          const dataCopy = arrayBuffer.slice(0);
           const pdf = await pdfjsLib.getDocument({ data: arrayBuffer }).promise;
           
           // Render first page as cover
@@ -1394,7 +1396,7 @@
             title: file.name.replace('.pdf', ''),
             fileName: file.name,
             pages: pdf.numPages,
-            data: arrayBuffer,
+            data: dataCopy,
             coverDataUrl: coverCanvas.toDataURL('image/jpeg', 0.8),
             backDataUrl: backCanvas.toDataURL('image/jpeg', 0.8),
             color: (books.length % 8) + 1
@@ -1491,7 +1493,9 @@
       currentBook = book;
       
       try {
-        currentPdf = await pdfjsLib.getDocument({ data: book.data }).promise;
+        // Create a copy of the data for loading (ArrayBuffer can only be used once)
+        const dataCopy = book.data.slice(0);
+        currentPdf = await pdfjsLib.getDocument({ data: dataCopy }).promise;
         totalPages = currentPdf.numPages;
         currentSpread = 0;
         currentPages = [];
