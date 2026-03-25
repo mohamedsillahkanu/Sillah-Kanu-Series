@@ -3,7 +3,7 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>ICF-SL Digital Library</title>
+  <title>Sillah Kanu Series</title>
   <link href="https://fonts.googleapis.com/css2?family=Oswald:wght@400;500;600;700&display=swap" rel="stylesheet">
   <script src="https://cdnjs.cloudflare.com/ajax/libs/pdf.js/3.11.174/pdf.min.js"></script>
   <style>
@@ -41,7 +41,7 @@
     }
     
     .header-brand { display: flex; align-items: center; gap: 15px; color: white; }
-    .logo-box { background: white; border-radius: 8px; padding: 6px; }
+    .logo-box { background: transparent; border-radius: 8px; padding: 0; line-height: 0; }
     .logo-box img { width: 45px; height: 45px; border-radius: 6px; object-fit: cover; }
     .header-text h1 { font-size: 1.4rem; font-weight: 700; letter-spacing: 1px; }
     .header-text p { font-size: 0.75rem; opacity: 0.9; font-style: italic; }
@@ -424,8 +424,31 @@
 <body>
   <header class="header">
     <div class="header-brand">
-      <div class="logo-box"><img src="https://github.com/mohamedsillahkanu/gdp-dashboard-2/raw/6c7463b0d5c3be150aafae695a4bcbbd8aeb1499/ICF-SL.jpg" alt="ICF-SL"></div>
-      <div class="header-text"><h1>ICF-SL DIGITAL LIBRARY</h1><p>Driving Data-Driven Solutions for Health and Development</p></div>
+      <div class="logo-box">
+        <svg width="52" height="52" viewBox="0 0 52 52" xmlns="http://www.w3.org/2000/svg" style="display:block;border-radius:8px;">
+          <defs>
+            <linearGradient id="sksBg" x1="0%" y1="0%" x2="100%" y2="100%">
+              <stop offset="0%" stop-color="#002244"/>
+              <stop offset="100%" stop-color="#004080"/>
+            </linearGradient>
+            <linearGradient id="sksGold" x1="0%" y1="0%" x2="100%" y2="100%">
+              <stop offset="0%" stop-color="#ffd966"/>
+              <stop offset="100%" stop-color="#ffc107"/>
+            </linearGradient>
+          </defs>
+          <!-- Background -->
+          <rect width="52" height="52" fill="url(#sksBg)" rx="8"/>
+          <!-- Gold top & bottom accent bars -->
+          <rect x="0" y="0" width="52" height="3" fill="url(#sksGold)" rx="2"/>
+          <rect x="0" y="49" width="52" height="3" fill="url(#sksGold)" rx="2"/>
+          <!-- SKS letters using elegant path drawing -->
+          <!-- S -->
+          <text x="5" y="36" font-family="Georgia, 'Times New Roman', serif" font-size="19" font-weight="700" font-style="italic" fill="url(#sksGold)" letter-spacing="-1">SKS</text>
+          <!-- Thin underline rule -->
+          <line x1="5" y1="40" x2="47" y2="40" stroke="url(#sksGold)" stroke-width="0.8" opacity="0.5"/>
+        </svg>
+      </div>
+      <div class="header-text"><h1>SILLAH KANU SERIES</h1><p>A Curated Collection of Knowledge & Insight</p></div>
     </div>
     <div class="search-container">
       <div class="search-box">
@@ -455,7 +478,7 @@
     <div class="bookshelf" id="bookshelf"><div class="shelf-row"><div class="empty-shelf-message">Loading library...</div></div></div>
   </main>
 
-  <footer class="footer"><p><strong>Informatics Consultancy Firm - Sierra Leone (ICF-SL)</strong></p><p>Health Information Systems | Data Analytics | Digital Solutions</p></footer>
+  <footer class="footer"><p><strong>Sillah Kanu Series (SKS)</strong></p><p>A Curated Collection of Knowledge, Research & Digital Solutions</p></footer>
 
   <div class="reader-view" id="readerView">
     <div class="reader-header">
